@@ -1,12 +1,28 @@
 <!-- Who am I (before the first section: no bubble in the top bar) -->
 <style>
-.s-who .photo{right:0;top:calc(var(--navH) + var(--titleH));bottom:var(--footH);width:556px;background:url(assets/who_I_am.jpg) center/cover}
+.s-who .photo{right:0;top:calc(var(--navH) + var(--titleH));bottom:var(--footH);width:556px;background:url(assets/who_I_am_noplane.jpg) center/cover}
+.s-who .route{right:0;top:calc(var(--navH) + var(--titleH));bottom:var(--footH);width:556px;height:auto}
+.s-who .plane{transition:opacity .9s ease}
+.s-who .route path.trace{fill:none;stroke:#fff;stroke-width:7;opacity:.85}
 .s-who .txt{left:44px;top:calc(var(--navH) + var(--titleH) + 22px);width:620px;font-size:25px;line-height:1.4}
 .s-who .txt img{height:1.5em;vertical-align:middle}
 .s-who .small{font-size:21px}
 </style>
 <section class="slide s-who" data-title="Who am I?" data-layout="free">
   <div class="photo"></div>
+  <!-- flight La Rochelle -> Curitiba drawn over the photo (image coordinates, same framing as background-size:cover) -->
+  <svg class="route" viewBox="0 0 2549 2712" preserveAspectRatio="xMidYMid slice">
+    <path class="trace" d="M1827.9,353 L1767.9,437 L1683.9,557 L1601.8,677 L1521.8,797 L1443.6,917 L1367.4,1037 L1293.2,1157 L1220.9,1277 L1150.5,1397 L1082.1,1517 L1015.5,1637 L950.9,1757 L888.2,1877 L827.4,1997 L768.5,2117 L711.5,2237 L656.4,2357 L603.1,2477 L551.8,2597"/>
+    <circle cx="1828" cy="353" r="13" fill="#fff"/><circle cx="552" cy="2597" r="17" fill="#fff"/>
+    <g class="plane"><g transform="scale(2.1)">
+      <path d="M0,-100C12,-100 14,-80 14,-60L14,70C14,90 8,100 0,104C-8,100 -14,90 -14,70L-14,-60C-14,-80 -12,-100 0,-100Z
+               M14,-12L100,30L100,46L14,24Z M-14,-12L-100,30L-100,46L-14,24Z
+               M10,70L46,90L46,100L8,94Z M-10,70L-46,90L-46,100L-8,94Z" fill="#f2f6fa" stroke="#222" stroke-width="5" stroke-linejoin="round"/>
+      <rect x="38" y="8" width="13" height="28" rx="5" fill="#5aaee0" stroke="#222" stroke-width="4"/>
+      <rect x="-51" y="8" width="13" height="28" rx="5" fill="#5aaee0" stroke="#222" stroke-width="4"/>
+      <path d="M-7,-78 Q0,-84 7,-78" fill="none" stroke="#222" stroke-width="4"/>
+    </g></g>
+  </svg>
   <div class="txt">
     I am William DUMONTAUD and I have been a <img src="assets/logoCNRS.png" alt="CNRS"> PhD student since 1<sup>st</sup> November 2024 at LaSIE.
     <ul class="small">
@@ -16,3 +32,23 @@
     <p><span class="purple">Funding:</span> <a href="https://anr.fr/Projet-ANR-23-CE22-0008" target="_blank"><b>ANR JCJC 2023 TOPS</b></a> (Optimisation topologique et de forme des parois opaques de bâtiments) project.</p>
   </div>
 </section>
+<script>
+// plane flying La Rochelle -> Curitiba, the route being drawn behind it
+(function(){
+  const s=document.currentScript.previousElementSibling, tr=s.querySelector('.trace'), pl=s.querySelector('.plane');
+  const L=tr.getTotalLength(); tr.style.strokeDasharray=L;
+  let raf=0;
+  function place(f){                       // f in [0,1]: fraction of the flight
+    const p=tr.getPointAtLength(f*L), q=tr.getPointAtLength(Math.min(L,f*L+5)), r=tr.getPointAtLength(Math.max(0,f*L-5));
+    const a=Math.atan2(q.x-r.x,-(q.y-r.y))*180/Math.PI;
+    pl.setAttribute('transform',`translate(${p.x},${p.y}) rotate(${a})`);
+    tr.style.strokeDashoffset=L*(1-f);
+  }
+  function fly(){ cancelAnimationFrame(raf); pl.style.opacity=1; const t0=performance.now(), T=4200;
+    (function step(t){ const u=Math.min(1,(t-t0)/T), f=u<.5?2*u*u:1-2*(1-u)*(1-u);   // ease in-out
+      place(f); if(u<1) raf=requestAnimationFrame(step); else pl.style.opacity=0; })(t0); }   // landed: the plane fades out
+  s.addEventListener('step',()=>{ if(document.body.classList.contains('print')) { place(.55); tr.style.strokeDashoffset=0; } else fly(); });
+  s.addEventListener('leave',()=>{ cancelAnimationFrame(raf); place(0); });
+  place(0);
+})();
+</script>

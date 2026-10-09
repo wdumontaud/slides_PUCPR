@@ -7,6 +7,7 @@
 //     data-layout="free"   children are positioned freely (no .content wrapper)
 //     data-layout="title"  title slide (no header / footer)
 //     data-auto="toc"      the slide content is the automatic table of contents
+//                          (+ data-toc-style="cards": one card per section, icons from <template data-icon="name">)
 //     data-steps="2"       2 extra steps inside the slide (like beamer \pause): → reveals them one by one
 //       <div data-from="1">  shown from step 1 on      <div data-until="0">  shown up to step 0 only
 //       the slide also gets data-step="k" (for CSS) and receives a 'step' event {detail:{step,instant}} (for JS),
@@ -42,7 +43,14 @@ slides.forEach(s=>{
   }
   if(s.dataset.auto==='toc'){
     s.classList.add('s-toc');
-    s.querySelector('.content').innerHTML='<ol>'+toc.map(t=>
+    const c=s.querySelector('.content');
+    if(s.dataset.tocStyle==='cards'){      // one card per section; icon from <template data-icon="Section name">
+      const icon=n=>{const t=c.querySelector(`template[data-icon="${n}"]`)||c.querySelector('template[data-icon="*"]');return t?t.innerHTML:''};
+      c.innerHTML='<div class="cards">'+toc.map((t,n)=>
+        `<div class="card" style="--k:${n}"><div class="num">${String(n+1).padStart(2,'0')}</div><div class="ico">${icon(t.name)}</div>`+
+        `<div class="name">${t.name}</div>`+(t.subs.length?'<ul>'+t.subs.map(x=>`<li>${x}</li>`).join('')+'</ul>':'')+'</div>').join('')+'</div>';
+    } else
+    c.innerHTML='<ol>'+toc.map(t=>
       `<li>${t.name}`+(t.subs.length?'<ol>'+t.subs.map(x=>`<li>${x}</li>`).join('')+'</ol>':'')+'</li>').join('')+'</ol>';
   }
 });
@@ -70,15 +78,15 @@ grp.forEach((G,gi)=>{ if(gi){ const A=grp[gi-1];
     x+=Math.max(INTER_MIN,LAB_GAP+(A.w-A.span)/2+(G.w-G.span)/2); }
   G.g.forEach((d,n)=>{d.x=x+n*INTRA_PX;}); x+=G.span; });
 const kx=Math.min(1,(NW-2*PAD)/Math.max(x,1)), X0=(NW-x*kx)/2;
-dots.forEach((d,n)=>{ d.x=X0+d.x*kx; d.y=(n%2?29:41)+(rnd()-.5)*4; });
+dots.forEach((d,n)=>{ d.x=X0+d.x*kx; d.y=(n%2?34:41)+(rnd()-.5)*2.5; });
 // irregular wave through the bubbles (Catmull-Rom through extra control points)
 const pts=[]; let sign=1; const first=[];
 dots.forEach((d,n)=>{ first.push(pts.length); pts.push(d);
   if(n<dots.length-1){ const e=dots[n+1], long=e.sec!==d.sec, m=long?2:1;
     for(let j=1;j<=m;j++){
       if(rnd()<.8) sign=-sign;
-      const t=(j-.5+(rnd()-.5)*.5)/m, amp=(long?8:6)+rnd()*7;
-      pts.push({x:d.x+(e.x-d.x)*t, y:Math.max(26,Math.min(47,d.y+(e.y-d.y)*t+sign*amp))}); } } });
+      const t=(j-.5+(rnd()-.5)*.5)/m, amp=(long?5:4)+rnd()*4.5;
+      pts.push({x:d.x+(e.x-d.x)*t, y:Math.max(31,Math.min(45.5,d.y+(e.y-d.y)*t+sign*amp))}); } } });
 const P=i=>pts[Math.max(0,Math.min(pts.length-1,i))];
 const seg=i=>{const a=P(i),b=P(i+1),p0=P(i-1),p3=P(i+2);
   return `C${a.x+(b.x-p0.x)/6},${a.y+(b.y-p0.y)/6} ${b.x-(p3.x-a.x)/6},${b.y-(p3.y-a.y)/6} ${b.x},${b.y}`};
