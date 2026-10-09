@@ -1,0 +1,15 @@
+{
+  "title": "Seminar presentation – PUCPR",
+  "short_title": "Seminar presentation – PUCPR",
+  "author": "William DUMONTAUD",
+  "parts": [
+    "parts/01-title.html",
+    "parts/02-who.html",
+    "parts/03-contents.html",
+    "parts/04-introduction.html",
+    "parts/05-physical.html",
+    "parts/06-insulation.html",
+    "parts/07-shape.html",
+    "parts/08-why.html"
+  ]
+}

@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Seminar presentation – PUCPR</title>
+<!-- Computer Modern Sans (beamer default font); needs an internet connection -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/cmu-sans-serif.css">
+<style>
+/* theme/style.css — global look of the presentation (equivalent of config/presentation.sty) */
+:root{
+  --blueCNRS:#00294B; --purple:#4D0DAB; --yellowCNRS:#FEEA6D;
+  --navH:50px; --titleH:36px; --footH:22px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#111;overflow:hidden;
+  font-family:"CMU Sans Serif","Latin Modern Sans","Computer Modern Sans",Arial,sans-serif;font-weight:500}
+b,strong,h1{font-weight:700}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center}
+.slide{position:absolute;inset:0;background:#fff;color:#111;display:none;overflow:hidden;font-size:27px}
+.slide.active{display:block}
+.slide>*{position:absolute}
+.slide>*:not(.field){z-index:2}
+.field{left:0;top:0;width:100%;height:100%;z-index:0}   /* animated contour background (canvas, or <img> when printing) */
+.s-title{background:var(--blueCNRS);color:#fff;text-align:center}
+
+/* ---- header : navigation wave + slide title, one solid blue band ---- */
+.nav{position:absolute;left:0;right:0;top:0;height:var(--navH);background:var(--blueCNRS);color:#fff;z-index:10;transition:opacity .4s}
+.nav svg{display:block;width:100%;height:100%;overflow:visible}
+.nav .lab{font-size:14px;fill:#fff;text-anchor:middle;opacity:.8}
+.nav .lab.cur{opacity:1;font-weight:700}
+.nav .seg{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;transition:stroke-dashoffset .6s ease}
+/* bubbles are fully opaque so the wave line never shows through them */
+.nav circle{cursor:pointer;transition:fill .35s ease,stroke .35s ease,r .35s ease;fill:var(--blueCNRS);stroke:#8c9fae;stroke-width:1.6}
+.nav circle.past{fill:#8c9fae}
+.nav circle.cur{fill:#fff;stroke:#fff;filter:drop-shadow(0 0 4px rgba(255,255,255,.8))}
+.noanim,.noanim *{transition:none!important}
+.frametitle{left:0;right:0;top:calc(var(--navH) - 1px);height:calc(var(--titleH) + 1px);background:var(--blueCNRS);color:#fff;
+  padding:0 26px;display:flex;align-items:center;font-size:24px}
+.content{left:44px;right:44px;top:calc(var(--navH) + var(--titleH) + 22px);bottom:calc(var(--footH) + 18px)}
+
+/* ---- footer : thin light bar with a purple progress line ---- */
+.foot{position:absolute;left:0;right:0;bottom:0;z-index:10;height:var(--footH);display:flex;align-items:center;
+  font-size:12px;color:#556;background:rgba(255,255,255,.92);border-top:1px solid #d5d9e0;padding:0 22px;transition:opacity .4s}
+.foot span{flex:1}
+.foot .a{text-align:left}.foot .t{text-align:center}.foot .n{text-align:right}
+.foot .prog{position:absolute;left:0;top:-1px;height:2px;width:0;background:var(--purple);transition:width .6s ease}
+
+/* ---- generic helpers ---- */
+.purple{color:var(--purple)} .yellow{color:var(--yellowCNRS)}
+a{color:var(--purple)}
+ul{margin:.4em 0;padding-left:1.1em} li{margin:.35em 0}
+ul li::marker{color:var(--purple)}
+.todo{color:#888;font-size:24px;margin-top:40px;text-align:center}
+
+/* ---- automatic table of contents ---- */
+.s-toc ol{font-size:30px;line-height:1.5;margin-top:10px;padding-left:1.3em}
+.s-toc ol ol{font-size:24px;line-height:1.4;list-style:none;padding-left:1em}
+.s-toc li::marker{color:var(--purple);font-weight:700}
+.s-toc ol ol li::before{content:"▸ ";color:var(--purple)}
+
+/* ---- viewer UI ---- */
+.hint{position:fixed;left:10px;bottom:6px;color:#aaa;font:12px sans-serif;z-index:5;transition:opacity 1s;pointer-events:none}
+#tools{position:fixed;right:10px;top:10px;z-index:20;display:flex;gap:6px;opacity:0;transition:opacity .4s}
+#tools.show{opacity:1}
+#tools button{background:rgba(0,0,0,.55);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:6px;
+  font:13px sans-serif;padding:6px 10px;cursor:pointer}
+#tools button:hover{background:rgba(0,0,0,.8)}
+
+/* ---- print / PDF export (?print) : one 1280x720 page per slide ---- */
+@page{size:1280px 720px;margin:0}
+body.print{overflow:visible;height:auto;background:#fff}
+body.print #stage,body.print .hint,body.print #tools{display:none}
+body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;break-after:page;page-break-after:always;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+</style>
+</head>
+<body>
+<div id="stage">
+<!-- ==== parts/01-title.html ==== -->
+<!-- Title slide: animated contour background, logos and text stay still -->
+<style>
+.s-title .box{left:0;right:0;top:300px}
+.s-title .l1{font-size:25px;line-height:1.5}
+.s-title h1{font-size:38px;margin:26px 80px 0}
+.s-title .logo{height:auto}
+</style>
+<section class="slide" data-layout="title">
+  <canvas class="field" data-line="255,255,255" data-alpha="0.5"></canvas>
+  <img class="logo" src="assets/logo_cnrs.png"  alt="CNRS"  style="left:7.92%;top:17.24%;width:8.2%">
+  <img class="logo" src="assets/logo_anr.png"   alt="ANR"   style="left:22.98%;top:20.71%;width:13.58%">
+  <img class="logo" src="assets/logo_lr.png"    alt="La Rochelle Université" style="left:43.2%;top:16.62%;width:8.85%">
+  <img class="logo" src="assets/logo_lasie.png" alt="LaSIE" style="left:58.95%;top:17.73%;width:12.52%">
+  <img class="logo" src="assets/logo_iusti.png" alt="IUSTI" style="left:77.25%;top:20.09%;width:15.2%">
+  <div class="box">
+    <div class="l1">Seminar presentation - Pontifícia Universidade Católica do Paraná<br>20 August 2026</div>
+    <h1>Shape and insulation domain optimization regarding wall energy efficiency</h1>
+  </div>
+</section>
+
+<!-- ==== parts/02-who.html ==== -->
+<!-- Who I am (before the first section: no bubble in the top bar) -->
+<style>
+.s-who .photo{right:0;top:calc(var(--navH) + var(--titleH));bottom:var(--footH);width:556px;background:url(assets/who_I_am.jpg) center/cover}
+.s-who .txt{left:44px;top:calc(var(--navH) + var(--titleH) + 22px);width:620px;font-size:25px;line-height:1.4}
+.s-who .txt img{height:1.5em;vertical-align:middle}
+.s-who .small{font-size:21px}
+</style>
+<section class="slide s-who" data-title="Who I am ?" data-layout="free">
+  <div class="photo"></div>
+  <div class="txt">
+    I am William DUMONTAUD and I have been a <img src="assets/logoCNRS.png" alt="CNRS"> PhD student since 1<sup>st</sup> November 2024 at LaSIE.
+    <ul class="small">
+      <li>Supervisor :<br>Julien BERGER, CNRS researcher for LaSIE, UMR 7356.</li>
+      <li>Co-Supervisor :<br>Benjamin KADOCH, teacher-researcher for IUSTI, UMR 7343.</li>
+    </ul>
+    <p><span class="purple">Funding:</span> <a href="https://anr.fr/Projet-ANR-23-CE22-0008" target="_blank"><b>ANR JCJC 2023 TOPS</b></a> (Optimisation topologique et de forme des parois opaques de bâtiments) project.</p>
+  </div>
+</section>
+
+<!-- ==== parts/03-contents.html ==== -->
+<!-- Table of contents: generated automatically from the section / subsection comments of all parts -->
+<section class="slide" data-title="Table of Contents" data-auto="toc">
+  <canvas class="field" data-line="0,0,0" data-alpha="0.55"></canvas>
+  <div class="content"></div>
+</section>
+
+<!-- ==== parts/04-introduction.html ==== -->
+<!-- section: Introduction -->
+<style>
+.topic .lead{text-align:center;font-weight:700;margin:4px 0 14px}
+.topic .row{display:flex;gap:24px;align-items:center;height:400px}
+.topic .row img{height:100%;width:auto;max-width:300px;object-fit:cover;border-radius:4px}
+.topic figure{margin:0;flex:1;text-align:center}
+.topic figcaption{font-size:15px;color:#444;margin-top:6px}
+.topic svg text{font-family:inherit}
+</style>
+
+<section class="slide topic" data-title="My research topic">
+  <p class="lead">Shape and insulation domain optimization regarding wall energy efficiency.</p>
+  <div class="row">
+    <img src="assets/context3.png" alt="context">
+    <figure>
+      <svg viewBox="-5.6 -0.3 9.6 3.9" width="100%" height="340" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(0,3.3) scale(1,-1)" id="fig-wall"></g>
+      </svg>
+      <figcaption>Figure 1: Illustration of non-uniform boundary conditions [Rocha 2017; McAdams 1954].</figcaption>
+    </figure>
+  </div>
+</section>
+<script>
+// ---- wall figure (port of the TikZ drawing; y axis up like TikZ) ----
+(function(){
+  const g=document.getElementById('fig-wall'),ns='http://www.w3.org/2000/svg',Y='#FEEA6D';
+  const add=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt)e.textContent=txt;g.appendChild(e);return e};
+  const defs=document.createElementNS(ns,'defs');
+  defs.innerHTML=`<linearGradient id="gy"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="${Y}"/></linearGradient>
+  <linearGradient id="gg"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="gray"/></linearGradient>
+  <marker id="ar" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6z" fill="#000"/></marker>`;
+  g.parentNode.insertBefore(defs,g);
+  const sw=.03;
+  add('rect',{x:0,y:0,width:1,height:3,fill:'#bfbfbf'});
+  add('rect',{x:1,y:0,width:1,height:3,fill:'#fef6b6'});
+  add('rect',{x:0,y:0,width:2,height:3,fill:'none',stroke:'#000','stroke-width':sw*1.5});
+  add('line',{x1:1,y1:0,x2:1,y2:3,stroke:'#000','stroke-width':sw*1.5,'stroke-dasharray':'.1 .08'});
+  add('rect',{x:-.5,y:1.5,width:.5,height:1.5,fill:'url(#gy)'});
+  add('rect',{x:-.5,y:0,width:.5,height:1.5,fill:'url(#gg)'});
+  const T=(x,y,s,fill,size,rot)=>add('text',{x:0,y:0,fill,'font-size':size,'text-anchor':'middle',
+    transform:`translate(${x},${y}) scale(1,-1)${rot?' rotate(90)':''}`},s);
+  T(-.6,2.2,'sunlit','#c9b400',.2,true);
+  T(-.6,.8,'shadow','gray',.2,true);
+  T(.5,2.4,'Ω₁','#000',.3); T(1.5,2.4,'Ω₂','#000',.3);
+  T(-2,.95,'outside','blue',.28); T(3,.95,'inside','red',.28);
+  [[0,-4.3],[.5,-3.9],[1,-3.4],[1.5,-3.15],[2,-3],[2.5,-2.9],[3,-2.9]].forEach(([y,x])=>
+    add('line',{x1:-4.5,y1:y,x2:x,y2:y,stroke:'#000','stroke-width':sw*1.2,'marker-end':'url(#ar)'}));
+  add('path',{d:'M-2.9,3 C-3,2.3 -3.1,1.8 -3.15,1.5 S-3.4,1 -3.4,1 L-3.9,.5 L-4.3,0',fill:'none',stroke:'#000','stroke-width':sw*1.2});
+  T(-5,2.5,'v∞','#000',.3); T(-3.8,3.2,'wind velocity','#000',.2);
+})();
+</script>
+
+<section class="slide" data-title="Global strategy : stage 1"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Global strategy : stage 2"><div class="todo">to be written</div></section>
+
+<!-- ==== parts/05-physical.html ==== -->
+<!-- section: Physical problem -->
+<!-- subsection: Governing equation -->
+<section class="slide" data-title="Governing equation"><div class="todo">to be written</div></section>
+<!-- subsection: Boundary conditions -->
+<section class="slide" data-title="Boundary conditions"><div class="todo">to be written</div></section>
+
+<!-- ==== parts/06-insulation.html ==== -->
+<!-- section: Insulation domain optimization -->
+<section class="slide" data-title="Insulation domain optimization"><div class="todo">to be written</div></section>
+
+<!-- ==== parts/07-shape.html ==== -->
+<!-- section: Shape optimization -->
+<section class="slide" data-title="Shape optimization"><div class="todo">to be written</div></section>
+
+<!-- ==== parts/08-why.html ==== -->
+<!-- section: Why do I come here ? -->
+<section class="slide" data-title="Why do I come here ?"><div class="todo">to be written</div></section>
+
+</div>
+<script>window.CONFIG={"title": "Seminar presentation – PUCPR", "short_title": "Seminar presentation – PUCPR", "author": "William DUMONTAUD", "parts": ["parts/01-title.html", "parts/02-who.html", "parts/03-contents.html", "parts/04-introduction.html", "parts/05-physical.html", "parts/06-insulation.html", "parts/07-shape.html", "parts/08-why.html"]};</script>
+<script>
+// theme/field.js — live contour field (WebGL2)
+// Height field = sum of smooth travelling waves (no grid => no rectangles); iso-lines are drawn with an
+// analytic gradient so the line width is exactly constant. Waves drift and slowly morph.
+// Usage: <canvas class="field" data-line="255,255,255" data-alpha="0.5"></canvas>
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+const FIELD=(()=>{
+  const NWAVE=12, rr=rng(5), WV=[], AM=[];
+  for(let n=0;n<NWAVE;n++){
+    const ang=rr()*Math.PI*2, kk=Math.exp(Math.log(1.1)+rr()*(Math.log(5.2)-Math.log(1.1)));
+    const kx=Math.cos(ang)*kk, ky=Math.sin(ang)*kk;
+    WV.push(kx,ky,kx*.045+ky*.02+(rr()-.5)*.09,rr()*6.283);   // k, omega (drift + morph), phase
+    AM.push(1/Math.pow(kk,1.05));
+  }
+  const asum=AM.reduce((x,y)=>x+y,0); for(let n=0;n<NWAVE;n++) AM[n]/=asum;
+  const FRAG=`#version 300 es
+precision highp float;in vec2 uv;out vec4 o;
+uniform float t;uniform vec3 col;uniform float alpha;uniform vec4 W[${NWAVE}];uniform float A[${NWAVE}];
+const float S=2.6;       // size of the terrain features
+const float N=15.0;      // iso-lines per unit of height
+void main(){
+  vec2 q=vec2(uv.x*1.7778,uv.y)*S;
+  float f=0.;vec2 g=vec2(0.);
+  for(int i=0;i<${NWAVE};i++){
+    float ph=dot(W[i].xy,q)+W[i].z*t+W[i].w;
+    f+=A[i]*sin(ph); g+=A[i]*cos(ph)*W[i].xy; }
+  f*=N; g*=N;
+  float d=abs(fract(f)-.5)/max(length(g)*(S/720.),1e-3);   // distance to the iso-line, in pixels
+  float line=1.-smoothstep(.55,1.45,d);
+  float m=smoothstep(.12,1.0,uv.x*.95+(1.-uv.y)*.5-.3);    // fades towards the top-left
+  float a=line*m*alpha;
+  o=vec4(col*a,a);}`;
+  return function make(cv){
+    const gl=cv.getContext('webgl2',{premultipliedAlpha:true,alpha:true}); if(!gl) return null;
+    cv.width=1280;cv.height=720;
+    const sh=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);
+      if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o};
+    const pr=gl.createProgram();
+    gl.attachShader(pr,sh(gl.VERTEX_SHADER,`#version 300 es
+in vec2 p;out vec2 uv;void main(){uv=p*.5+.5;gl_Position=vec4(p,0,1);}`));
+    gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FRAG));
+    gl.linkProgram(pr);gl.useProgram(pr);
+    const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+    const loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+    const [r,g,bl]=(cv.dataset.line||'255,255,255').split(',').map(Number);
+    gl.uniform3f(gl.getUniformLocation(pr,'col'),r/255,g/255,bl/255);
+    gl.uniform1f(gl.getUniformLocation(pr,'alpha'),parseFloat(cv.dataset.alpha||'.5'));
+    gl.uniform4fv(gl.getUniformLocation(pr,'W'),new Float32Array(WV));
+    gl.uniform1fv(gl.getUniformLocation(pr,'A'),new Float32Array(AM));
+    const ut=gl.getUniformLocation(pr,'t');
+    return {cv,draw:t=>{gl.viewport(0,0,1280,720);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.uniform1f(ut,t);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)}};
+  };
+})();
+
+</script>
+<script>
+// theme/engine.js — builds the whole presentation from the parts found in #stage.
+//
+// Conventions for the parts/*.html files:
+//   <!-- section: Introduction -->        starts a section  -> table of contents + top bar
+//   <!-- subsection: Governing equation -->  starts a subsection (table of contents only)
+//   <section class="slide" data-title="Slide title"> ... </section>   one slide  -> one bubble
+//     data-layout="free"   children are positioned freely (no .content wrapper)
+//     data-layout="title"  title slide (no header / footer)
+//     data-auto="toc"      the slide content is the automatic table of contents
+(()=>{
+const CFG=window.CONFIG||{};
+const stage=document.getElementById('stage');
+const params=new URLSearchParams(location.search);
+const PRINT=params.has('print');
+const NS='http://www.w3.org/2000/svg';
+
+// ---------- 1. collect slides, sections and subsections (document order) ----------
+const slides=[]; const toc=[]; let sec='',sub='';
+[...stage.childNodes].forEach(n=>{
+  if(n.nodeType===8){
+    const t=n.nodeValue.trim(); let m;
+    if((m=t.match(/^section:\s*(.+)$/i))){ sec=m[1].trim(); sub=''; toc.push({name:sec,subs:[]}); }
+    else if((m=t.match(/^subsection:\s*(.+)$/i))){ sub=m[1].trim(); if(toc.length) toc[toc.length-1].subs.push(sub); }
+  } else if(n.nodeType===1 && n.matches('section.slide')){
+    n.dataset.section=sec; n.dataset.subsection=sub; slides.push(n);
+  }
+});
+
+// ---------- 2. normalise slides (title bar, content wrapper, automatic TOC) ----------
+slides.forEach(s=>{
+  const layout=s.dataset.layout||'';
+  if(layout==='title') s.classList.add('s-title');
+  if(s.dataset.title){ const ft=document.createElement('div'); ft.className='frametitle'; ft.innerHTML=s.dataset.title; s.prepend(ft); }
+  if(!layout){
+    const c=document.createElement('div'); c.className='content';
+    [...s.children].forEach(ch=>{ if(!ch.matches('.frametitle,.field')) c.appendChild(ch); });
+    s.appendChild(c);
+  }
+  if(s.dataset.auto==='toc'){
+    s.classList.add('s-toc');
+    s.querySelector('.content').innerHTML='<ol>'+toc.map(t=>
+      `<li>${t.name}`+(t.subs.length?'<ol>'+t.subs.map(x=>`<li>${x}</li>`).join('')+'</ol>':'')+'</li>').join('')+'</ol>';
+  }
+});
+const isTitle=s=>s.classList.contains('s-title');
+const dots=[]; slides.forEach((s,k)=>{ if(s.dataset.section) dots.push({k,sec:s.dataset.section}); });
+const secNames=[...new Set(dots.map(d=>d.sec))];
+
+// ---------- 3. navigation "wave": one bubble per sectioned slide ----------
+const NW=1280, NH=50, PAD=60, INTRA_PX=46, INTER_MIN=90, LAB_GAP=26;
+const rnd=rng(11);
+// pixel layout: bubbles of a section stay close; the gap between sections just fits the labels
+const mctx=document.createElement('canvas').getContext('2d'); mctx.font='14px "CMU Sans Serif",sans-serif';
+const grp=secNames.map(name=>{const g=dots.filter(d=>d.sec===name);
+  return {g,w:mctx.measureText(name).width+8,span:(g.length-1)*INTRA_PX}});
+let x=0;
+grp.forEach((G,gi)=>{ if(gi){ const A=grp[gi-1];
+    x+=Math.max(INTER_MIN,LAB_GAP+(A.w-A.span)/2+(G.w-G.span)/2); }
+  G.g.forEach((d,n)=>{d.x=x+n*INTRA_PX;}); x+=G.span; });
+const kx=Math.min(1,(NW-2*PAD)/Math.max(x,1)), X0=(NW-x*kx)/2;
+dots.forEach((d,n)=>{ d.x=X0+d.x*kx; d.y=(n%2?29:41)+(rnd()-.5)*4; });
+// irregular wave through the bubbles (Catmull-Rom through extra control points)
+const pts=[]; let sign=1; const first=[];
+dots.forEach((d,n)=>{ first.push(pts.length); pts.push(d);
+  if(n<dots.length-1){ const e=dots[n+1], long=e.sec!==d.sec, m=long?2:1;
+    for(let j=1;j<=m;j++){
+      if(rnd()<.8) sign=-sign;
+      const t=(j-.5+(rnd()-.5)*.5)/m, amp=(long?8:6)+rnd()*7;
+      pts.push({x:d.x+(e.x-d.x)*t, y:Math.max(26,Math.min(47,d.y+(e.y-d.y)*t+sign*amp))}); } } });
+const P=i=>pts[Math.max(0,Math.min(pts.length-1,i))];
+const seg=i=>{const a=P(i),b=P(i+1),p0=P(i-1),p3=P(i+2);
+  return `C${a.x+(b.x-p0.x)/6},${a.y+(b.y-p0.y)/6} ${b.x-(p3.x-a.x)/6},${b.y-(p3.y-a.y)/6} ${b.x},${b.y}`};
+
+function makeNav(onDotClick){
+  const el=document.createElement('div'); el.className='nav';
+  const svg=document.createElementNS(NS,'svg'); svg.setAttribute('viewBox',`0 0 ${NW} ${NH}`);
+  const mk=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const q in a)e.setAttribute(q,a[q]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e};
+  // drawing order matters: lines first, bubbles last => the line never shows over a bubble
+  const segs=[];
+  for(let n=0;n<dots.length-1;n++){ let d=`M${dots[n].x},${dots[n].y}`;
+    for(let i=first[n];i<first[n+1];i++) d+=' '+seg(i);
+    segs.push(mk('path',{d,class:'seg'})); }
+  const labs=secNames.map(name=>{ const g=dots.filter(d=>d.sec===name);
+    return mk('text',{x:(g[0].x+g[g.length-1].x)/2,y:18,class:'lab'},name); });
+  const cs=dots.map(d=>{const c=mk('circle',{cx:d.x,cy:d.y,r:5});
+    if(onDotClick) c.addEventListener('click',e=>{e.stopPropagation();onDotClick(d.k)}); return c});
+  el.appendChild(svg);
+  return {el, set(i){
+    let cur=-1; dots.forEach((d,n)=>{ if(d.k<=i) cur=n; });
+    const onDot=cur>=0&&dots[cur].k===i;
+    cs.forEach((c,n)=>{const on=onDot&&n===cur;
+      c.setAttribute('class',on?'cur':(n<cur||(n===cur&&!onDot)?'past':'')); c.style.r=on?'7px':'5px';});
+    segs.forEach((p,n)=>{ if(p._L==null){p._L=p.getTotalLength();p.style.strokeDasharray=p._L;p.style.strokeDashoffset=p._L;}
+      p.style.strokeDashoffset=(n<cur)?0:p._L; });
+    labs.forEach(l=>l.setAttribute('class','lab'+(onDot&&l.textContent===dots[cur].sec?' cur':'')));
+  }};
+}
+function makeFoot(){
+  const el=document.createElement('div'); el.className='foot';
+  el.innerHTML=`<i class="prog"></i><span class="a">${CFG.author||''}</span><span class="t">${CFG.short_title||''}</span><span class="n"></span>`;
+  return {el, set(i){
+    el.querySelector('.n').textContent=`${i+1} / ${slides.length}`;
+    el.querySelector('.prog').style.width=(100*i/Math.max(1,slides.length-1))+'%'; }};
+}
+
+// ---------- 4a. PDF / print mode : one page per slide, static frame of the animated backgrounds ----------
+async function printMode(){
+  document.body.classList.add('print');
+  try{ await document.fonts.ready; }catch(e){}
+  const pages=document.createElement('div'); document.body.appendChild(pages);
+  slides.forEach((s,k)=>{
+    s.querySelectorAll('canvas.field').forEach(cv=>{
+      const f=FIELD(cv); if(!f) return; f.draw(33);
+      const img=new Image(); img.className='field'; img.src=cv.toDataURL(); cv.replaceWith(img); });
+    const pg=document.createElement('div'); pg.className='page'; pages.appendChild(pg);
+    s.classList.add('active'); pg.appendChild(s);
+    if(!isTitle(s)){
+      const nv=makeNav(), ft=makeFoot(); nv.el.classList.add('noanim');
+      pg.appendChild(nv.el); pg.appendChild(ft.el); nv.set(k); ft.set(k); }
+  });
+  stage.querySelectorAll('style').forEach(st=>document.head.appendChild(st));   // keep the parts' own CSS
+  stage.remove();
+  window.__ready=true;
+  if(params.get('dialog')) setTimeout(()=>print(),500);
+}
+if(PRINT){ printMode(); return; }
+
+// ---------- 4b. interactive mode ----------
+let i=Math.min(slides.length-1,Math.max(0,(parseInt(location.hash.slice(1))||1)-1));
+const nav=makeNav(k=>show(k)), foot=makeFoot();
+stage.appendChild(nav.el); stage.appendChild(foot.el);
+const fields=[...stage.querySelectorAll('canvas.field')].map(FIELD).filter(Boolean);
+
+function show(n){
+  i=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  const t=isTitle(slides[i]);
+  nav.el.style.opacity=foot.el.style.opacity=t?0:1; nav.el.style.pointerEvents=t?'none':'auto';
+  nav.set(i); foot.set(i);
+  history.replaceState(null,'','#'+(i+1));
+}
+function fit(){const k=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform=`translate(-50%,-50%) scale(${k})`}
+function toggleFullscreen(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
+addEventListener('resize',fit); fit(); show(i);
+
+addEventListener('keydown',e=>{
+  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();show(i+1)}
+  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();show(i-1)}
+  else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+  else if(e.key==='f'||e.key==='F') toggleFullscreen();
+});
+addEventListener('click',e=>{ if(e.target.closest('a,#tools'))return; show(e.clientX>innerWidth/2?i+1:i-1); });
+
+// viewer UI: fullscreen + PDF buttons (visible while the mouse moves), hint fading after a few seconds
+const hint=Object.assign(document.createElement('div'),{className:'hint',textContent:'← → / space: navigate · F: fullscreen'});
+const tools=document.createElement('div'); tools.id='tools';
+tools.innerHTML='<button id="bFs" title="Fullscreen (F)">⛶ Fullscreen</button><button id="bPdf" title="Open the print dialog: choose Save as PDF">⤓ PDF</button>';
+document.body.append(hint,tools);
+tools.querySelector('#bFs').onclick=toggleFullscreen;
+tools.querySelector('#bPdf').onclick=()=>window.open(location.pathname+'?print=1&dialog=1','_blank');
+let hide; addEventListener('mousemove',()=>{tools.classList.add('show');clearTimeout(hide);hide=setTimeout(()=>tools.classList.remove('show'),2500)});
+setTimeout(()=>hint.style.opacity=0,4000);
+
+(function loop(ms){fields.forEach(f=>{if(f.cv.closest('.slide').classList.contains('active'))f.draw(ms/1000+20)});requestAnimationFrame(loop)})(0);
+})();
+
+</script>
+</body>
+</html>

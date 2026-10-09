@@ -1,0 +1,54 @@
+<!-- section: Introduction -->
+<style>
+.topic .lead{text-align:center;font-weight:700;margin:4px 0 14px}
+.topic .row{display:flex;gap:24px;align-items:center;height:400px}
+.topic .row img{height:100%;width:auto;max-width:300px;object-fit:cover;border-radius:4px}
+.topic figure{margin:0;flex:1;text-align:center}
+.topic figcaption{font-size:15px;color:#444;margin-top:6px}
+.topic svg text{font-family:inherit}
+</style>
+
+<section class="slide topic" data-title="My research topic">
+  <p class="lead">Shape and insulation domain optimization regarding wall energy efficiency.</p>
+  <div class="row">
+    <img src="assets/context3.png" alt="context">
+    <figure>
+      <svg viewBox="-5.6 -0.3 9.6 3.9" width="100%" height="340" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(0,3.3) scale(1,-1)" id="fig-wall"></g>
+      </svg>
+      <figcaption>Figure 1: Illustration of non-uniform boundary conditions [Rocha 2017; McAdams 1954].</figcaption>
+    </figure>
+  </div>
+</section>
+<script>
+// ---- wall figure (port of the TikZ drawing; y axis up like TikZ) ----
+(function(){
+  const g=document.getElementById('fig-wall'),ns='http://www.w3.org/2000/svg',Y='#FEEA6D';
+  const add=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt)e.textContent=txt;g.appendChild(e);return e};
+  const defs=document.createElementNS(ns,'defs');
+  defs.innerHTML=`<linearGradient id="gy"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="${Y}"/></linearGradient>
+  <linearGradient id="gg"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="gray"/></linearGradient>
+  <marker id="ar" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6z" fill="#000"/></marker>`;
+  g.parentNode.insertBefore(defs,g);
+  const sw=.03;
+  add('rect',{x:0,y:0,width:1,height:3,fill:'#bfbfbf'});
+  add('rect',{x:1,y:0,width:1,height:3,fill:'#fef6b6'});
+  add('rect',{x:0,y:0,width:2,height:3,fill:'none',stroke:'#000','stroke-width':sw*1.5});
+  add('line',{x1:1,y1:0,x2:1,y2:3,stroke:'#000','stroke-width':sw*1.5,'stroke-dasharray':'.1 .08'});
+  add('rect',{x:-.5,y:1.5,width:.5,height:1.5,fill:'url(#gy)'});
+  add('rect',{x:-.5,y:0,width:.5,height:1.5,fill:'url(#gg)'});
+  const T=(x,y,s,fill,size,rot)=>add('text',{x:0,y:0,fill,'font-size':size,'text-anchor':'middle',
+    transform:`translate(${x},${y}) scale(1,-1)${rot?' rotate(90)':''}`},s);
+  T(-.6,2.2,'sunlit','#c9b400',.2,true);
+  T(-.6,.8,'shadow','gray',.2,true);
+  T(.5,2.4,'Ω₁','#000',.3); T(1.5,2.4,'Ω₂','#000',.3);
+  T(-2,.95,'outside','blue',.28); T(3,.95,'inside','red',.28);
+  [[0,-4.3],[.5,-3.9],[1,-3.4],[1.5,-3.15],[2,-3],[2.5,-2.9],[3,-2.9]].forEach(([y,x])=>
+    add('line',{x1:-4.5,y1:y,x2:x,y2:y,stroke:'#000','stroke-width':sw*1.2,'marker-end':'url(#ar)'}));
+  add('path',{d:'M-2.9,3 C-3,2.3 -3.1,1.8 -3.15,1.5 S-3.4,1 -3.4,1 L-3.9,.5 L-4.3,0',fill:'none',stroke:'#000','stroke-width':sw*1.2});
+  T(-5,2.5,'v∞','#000',.3); T(-3.8,3.2,'wind velocity','#000',.2);
+})();
+</script>
+
+<section class="slide" data-title="Global strategy : stage 1"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Global strategy : stage 2"><div class="todo">to be written</div></section>
