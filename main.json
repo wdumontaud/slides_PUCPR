@@ -10,5 +10,6 @@
     "parts/05-physical.html",
     "parts/06-cosimulation.html",
     "parts/07-conclusion.html"
-  ]
+  ],
+  "bibliography": "refs.bib"
 }

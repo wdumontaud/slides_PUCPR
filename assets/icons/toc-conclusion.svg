@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="110" height="100" viewBox="0 0 110 100">
+  <circle cx="55" cy="52" r="46" fill="#fbf5d6"/>
+  <!-- summit and flag -->
+  <path d="M12 88 L44 42 L58 60 L70 46 L98 88Z" fill="#dfe7ef" stroke="#00294B" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M38 51 L44 42 L50 50 L46 48 L42 52Z" fill="#fff"/>
+  <path d="M44 42V12" stroke="#00294B" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M44 13h26l-7 8 7 8H44Z" fill="#FEEA6D" stroke="#c9a800" stroke-width="3" stroke-linejoin="round"/>
+</svg>

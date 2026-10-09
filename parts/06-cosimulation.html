@@ -1,4 +1,49 @@
 <!-- section: Co-simulation -->
+<style>
+.plan .content>*{position:absolute}
+/* ---- action plan ---- */
+.plan .row{left:0;right:0;top:40px;display:flex;align-items:stretch;gap:14px}
+.plan .card{flex:1;border:2px solid #c8cfd8;border-radius:10px;padding:16px 18px 18px;font-size:19px;line-height:1.35;position:relative;background:#fff}
+.plan .card h3{margin:0 0 8px;font-size:23px;color:var(--blueCNRS)}
+.plan .card ul{margin:0}
+.plan .num{position:absolute;right:14px;top:10px;font-size:34px;font-weight:700;color:#d9dee6}
+.plan .badge{display:inline-block;margin-top:12px;padding:3px 10px;border-radius:12px;font-size:16px;color:#fff}
+.plan .done{background:#2e8b57} .plan .now{background:var(--purple)} .plan .next{background:#8c9fae}
+.plan .card.cur{border-color:var(--purple);box-shadow:0 0 0 3px rgba(77,13,171,.15)}
+.plan .arr{align-self:center;font-size:34px;color:var(--purple)}
+.plan .bottom{left:0;right:0;top:440px;text-align:center;font-size:22px}
+</style>
+<section class="slide plan" data-title="Action plan of the thesis">
+  <div class="row">
+    <div class="card"><span class="num">1</span>
+      <h3>2D wall models</h3>
+      <ul>
+        <li>Transient heat conduction in 2D.</li>
+        <li>Two materials with a curved interface (Ghost Fluid Method).</li>
+        <li>Free shape of the external face.</li>
+      </ul>
+      <span class="badge done">done</span>
+    </div>
+    <div class="arr">➜</div>
+    <div class="card cur"><span class="num">2</span>
+      <h3>Realistic boundary conditions</h3>
+      <ul>
+        <li>Co-simulation with <b>Domus</b> (building energy simulation).</li>
+        <li>Urban scene: sun, shadows, long-wave exchanges, indoor zones.</li>
+      </ul>
+      <span class="badge now">in progress: this talk</span>
+    </div>
+    <div class="arr">➜</div>
+    <div class="card"><span class="num">3</span>
+      <h3>Optimisation</h3>
+      <ul>
+        <li>Shape and insulation domain of the wall.</li>
+        <li>Surrogate-based optimisation (kriging).</li>
+      </ul>
+      <span class="badge next">next</span>
+    </div>
+  </div>
+</section>
 <!-- subsection: Motivation -->
 <section class="slide" data-title="Why a co-simulation?"><div class="todo">to be written</div></section>
 <!-- subsection: Architecture and coupling -->

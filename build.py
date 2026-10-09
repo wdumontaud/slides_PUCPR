@@ -6,6 +6,7 @@
 """
 import json, sys, time
 from pathlib import Path
+import bib
 
 ROOT = Path(__file__).resolve().parent
 
@@ -44,6 +45,8 @@ def read(p):
 def build():
     cfg = json.loads(read("main.json"))
     parts = "\n".join(f"<!-- ==== {p} ==== -->\n{read(p)}" for p in cfg["parts"])
+    if cfg.get("bibliography"):                     # \cite{key} -> numbers, slide footers, References appendix
+        parts = bib.process(parts, bib.parse(read(cfg["bibliography"])))
     values = dict(
         title=cfg.get("title", "Presentation"),
         css=read("theme/style.css"),
@@ -60,7 +63,7 @@ def build():
 
 
 def stamp():
-    files = [ROOT / "main.json", *(ROOT / "theme").glob("*"), *(ROOT / "parts").glob("*.html")]
+    files = [ROOT / "main.json", ROOT / "refs.bib", *(ROOT / "theme").glob("*"), *(ROOT / "parts").glob("*.html")]
     return {f: f.stat().st_mtime for f in files if f.exists()}
 
 

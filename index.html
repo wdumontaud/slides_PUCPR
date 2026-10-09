@@ -57,6 +57,12 @@ ul li::marker{color:var(--purple)}
 /* references at the bottom of a slide (like beamer footnotes) */
 .refs{position:absolute;left:0;right:0;bottom:0;font-size:13px;line-height:1.35;color:#555;border-top:1px solid #ccd;padding-top:5px}
 .refs sup,.cite{color:var(--purple)}
+.cite a{color:var(--purple);text-decoration:none}
+/* ---- References appendix (generated from refs.bib) ---- */
+.s-refs .biblio{margin:0;padding-left:2.3em;font-size:15.5px;line-height:1.35}
+.s-refs .biblio li{margin:0 0 .55em}
+.s-refs .biblio li::marker{content:"[" counter(list-item) "]  ";color:var(--purple);font-weight:700}
+.s-refs .biblio a{color:#555;font-size:13px}
 .lead{text-align:center;font-weight:700;margin:0 0 14px}
 .todo{color:#888;font-size:24px;margin-top:40px;text-align:center}
 
@@ -123,10 +129,9 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 </style>
 <section class="slide s-who" data-title="Who am I?" data-layout="free">
   <div class="photo"></div>
-  <!-- flight La Rochelle -> Curitiba drawn over the photo (image coordinates, same framing as background-size:cover) -->
+  <!-- flight between the two dots of the photo (La Rochelle -> Curitiba) (image coordinates, same framing as background-size:cover) -->
   <svg class="route" viewBox="0 0 2549 2712" preserveAspectRatio="xMidYMid slice">
-    <path class="trace" d="M1827.9,353 L1767.9,437 L1683.9,557 L1601.8,677 L1521.8,797 L1443.6,917 L1367.4,1037 L1293.2,1157 L1220.9,1277 L1150.5,1397 L1082.1,1517 L1015.5,1637 L950.9,1757 L888.2,1877 L827.4,1997 L768.5,2117 L711.5,2237 L656.4,2357 L603.1,2477 L551.8,2597"/>
-    <circle cx="1828" cy="353" r="13" fill="#fff"/><circle cx="552" cy="2597" r="17" fill="#fff"/>
+    <path class="trace" d="M1838.0,354.8 L1763.9,453.1 L1693.1,551.5 L1623.9,649.8 L1556.3,748.2 L1490.1,846.5 L1425.5,944.9 L1362.4,1043.2 L1300.9,1141.5 L1240.8,1239.9 L1182.1,1338.2 L1125.0,1436.6 L1069.3,1534.9 L1015.1,1633.3 L962.3,1731.6 L910.9,1830.0 L861.0,1928.3 L812.4,2026.6 L765.3,2125.0 L719.5,2223.3 L675.1,2321.7 L632.1,2420.0 L590.4,2518.4 L552.4,2616.7"/>
     <g class="plane"><g transform="scale(2.1)">
       <path d="M0,-100C12,-100 14,-80 14,-60L14,70C14,90 8,100 0,104C-8,100 -14,90 -14,70L-14,-60C-14,-80 -12,-100 0,-100Z
                M14,-12L100,30L100,46L14,24Z M-14,-12L-100,30L-100,46L-14,24Z
@@ -178,7 +183,7 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 .s-toc .card:nth-child(4){border-top-color:#c9a800}
 .s-toc .num{position:absolute;right:16px;top:6px;font-size:58px;font-weight:700;color:#e4e8ef;line-height:1}
 .s-toc .ico{height:92px;margin:4px 0 10px}
-.s-toc .ico svg{height:92px;width:auto}
+.s-toc .ico img{height:96px;width:auto}
 .s-toc .name{font-size:27px;font-weight:700;color:var(--blueCNRS);line-height:1.15;min-height:62px}
 .s-toc .card ul{list-style:none;padding:0;margin:14px 0 0;font-size:19px;color:#333}
 .s-toc .card li{margin:.45em 0;padding-left:16px;position:relative}
@@ -190,38 +195,17 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 </style>
 <section class="slide" data-title="Outline" data-auto="toc" data-toc-style="cards">
   <canvas class="field" data-line="0,0,0" data-alpha="0.55"></canvas>
-  <template data-icon="Introduction"><!-- facade under the sun -->
-    <svg viewBox="0 0 100 92" fill="none" stroke="#00294B" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
-      <circle cx="78" cy="20" r="9" fill="#FEEA6D" stroke="#c9a800"/><path d="M78 3v5M78 32v5M61 20h5M90 20h5M66 8l3.5 3.5M86.5 28.5L90 32M66 32l3.5-3.5M86.5 11.5L90 8" stroke="#c9a800"/>
-      <path d="M8 88V34h46v54"/><path d="M4 88h60"/>
-      <path d="M17 44h9v9h-9zM36 44h9v9h-9zM17 64h9v9h-9zM36 64h9v9h-9z" fill="#dfe7ef"/>
-      <path d="M54 50 L8 88" stroke="#8c9fae" stroke-dasharray="4 4"/>
-    </svg></template>
-  <template data-icon="Physical problem"><!-- wall section crossed by heat -->
-    <svg viewBox="0 0 100 92" stroke="#00294B" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
-      <rect x="30" y="8" width="20" height="78" fill="#bfbfbf"/><rect x="50" y="8" width="20" height="78" fill="#fef6b6"/>
-      <path d="M50 8v78" stroke-dasharray="5 4"/>
-      <path d="M4 30h22M4 48h22M4 66h22" stroke="#c0392b"/><path d="M20 24l6 6-6 6M20 42l6 6-6 6M20 60l6 6-6 6" fill="none" stroke="#c0392b"/>
-      <path d="M76 48 C84 40 88 56 96 48" fill="none" stroke="#4D0DAB"/>
-    </svg></template>
-  <template data-icon="Co-simulation"><!-- two models exchanging data -->
-    <svg viewBox="0 0 100 92" fill="none" stroke="#4D0DAB" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
-      <path d="M6 44 L24 28 L42 44 V76 H6Z" fill="#efe8fb"/><path d="M16 76V58h16v18"/>
-      <rect x="62" y="30" width="30" height="46" fill="#fef6b6" stroke="#00294B"/><path d="M77 30v46" stroke="#00294B" stroke-dasharray="4 4"/>
-      <path d="M46 40 C52 30 58 30 60 34"/><path d="M55 30l5 4-6 3"/>
-      <path d="M60 66 C54 76 48 76 46 72"/><path d="M51 76l-5-4 6-3"/>
-    </svg></template>
-  <template data-icon="*"><!-- conclusion: flag on a summit -->
-    <svg viewBox="0 0 100 92" fill="none" stroke="#00294B" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
-      <path d="M6 86 L38 40 L54 60 L66 46 L94 86Z" fill="#dfe7ef"/>
-      <path d="M38 40V8"/><path d="M38 9h26l-7 8 7 8H38" fill="#FEEA6D" stroke="#c9a800"/>
-    </svg></template>
+  <!-- icons: assets/icons/toc-*.svg (editable in assets/illustrations.pptx, export as SVG over the file) -->
+  <template data-icon="Introduction"><img src="assets/icons/toc-introduction.svg" alt=""></template>
+  <template data-icon="Physical problem"><img src="assets/icons/toc-physical.svg" alt=""></template>
+  <template data-icon="Co-simulation"><img src="assets/icons/toc-cosimulation.svg" alt=""></template>
+  <template data-icon="*"><img src="assets/icons/toc-conclusion.svg" alt=""></template>
 </section>
 
 <!-- ==== parts/04-introduction.html ==== -->
 <!-- section: Introduction -->
 <style>
-.ctx .content>*,.why .content>*,.tech .content>*,.sota .content>*,.plan .content>*{position:absolute}
+.ctx .content>*,.why .content>*,.tech .content>*,.sota .content>*{position:absolute}
 .why .lead{left:0;right:0;top:0}
 /* ---- context: video of the street canyon -> zoom on band 1 -> 2D section ---- */
 .ctx .vid{left:0;top:0;width:640px;height:507px;overflow:hidden;border-radius:4px;background:#000}
@@ -255,11 +239,12 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 .tech .hero .over{position:absolute;left:0;right:0;bottom:0;padding:60px 20px 16px;color:#fff;font-size:21px;line-height:1.3;
   background:linear-gradient(transparent,rgba(0,20,40,.88))}
 .tech .hero .over b{font-size:25px;display:block;margin-bottom:4px}
+.tech .hero .cite a{color:var(--yellowCNRS)}
 .tech .hero .over small{font-size:13px;opacity:.8}
 .tech .list{left:500px;right:0;top:0;display:flex;flex-direction:column;gap:14px}
 .tech .item{display:flex;gap:16px;align-items:center;background:#fff;border:1px solid #dde2ea;border-left:6px solid var(--purple);
   border-radius:10px;padding:10px 16px 10px 12px;box-shadow:0 2px 8px rgba(0,41,75,.08)}
-.tech .item svg{flex:none;width:150px;height:96px}
+.tech .item img{flex:none;width:150px;height:96px}
 .tech .item h4{margin:0 0 3px;font-size:21px;color:var(--blueCNRS)}
 .tech .item p{margin:0;font-size:17px;line-height:1.3;color:#333}
 .tech .item .key{color:var(--purple);font-weight:700}
@@ -273,11 +258,15 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 .noanim .item,.noanim .so{animation:none!important}
 
 /* ---- state of the art by scale + what is missing ---- */
-.sota .cols{left:0;right:0;top:0;height:372px;display:flex;gap:16px}
+.sota .cols{left:0;right:0;top:0;height:404px;display:flex;gap:16px}
 .sota .col{flex:1;border-radius:10px;background:#f7f8fb;border:1px solid #dde2ea;padding:10px 14px;transition:opacity .6s,box-shadow .6s,border-color .6s}
+.sota .col{display:flex;flex-direction:column}
 .sota .col.wall{flex:1.18}
+.sota .ill{margin:auto 0 0;text-align:center}
+.sota .ill img{max-width:100%;border:1px solid #ccd;border-radius:4px;background:#fff}
+.sota .ill figcaption{font-size:12px;color:#555;margin-top:2px}
 .sota .head{display:flex;gap:10px;align-items:center;border-bottom:2px solid #dde2ea;padding-bottom:6px;margin-bottom:6px}
-.sota .head svg{flex:none;width:58px;height:50px}
+.sota .head img{flex:none;width:58px;height:50px}
 .sota .head b{display:block;font-size:21px;color:var(--blueCNRS)}
 .sota .head span{font-size:14px;color:#555;line-height:1.2;display:block}
 .sota ul{list-style:none;margin:0;padding:0}
@@ -286,11 +275,11 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 .sota li i{font-style:normal;color:#555}
 .sota .m{flex:none;width:10px;height:10px;border-radius:50%;transform:translateY(-1px)}
 .sota .t{background:var(--purple)} .sota .s{background:#d08a00} .sota .p{background:#6b8aa5}
-.sota .legend{left:0;right:0;top:384px;font-size:15px;color:#444;display:flex;gap:26px;justify-content:center;align-items:center}
+.sota .legend{left:0;right:0;top:418px;font-size:15px;color:#444;display:flex;gap:26px;justify-content:center;align-items:center}
 .sota .legend .m{display:inline-block;margin-right:6px}
 .sota[data-step="1"] .col.mat,.sota[data-step="1"] .col.bld{opacity:.32}
 .sota[data-step="1"] .col.wall{border-color:var(--purple);box-shadow:0 0 0 3px rgba(77,13,171,.18);background:#fff}
-.sota .gap{left:0;right:0;top:386px;display:flex;gap:16px;align-items:stretch}
+.sota .gap{left:0;right:0;top:418px;display:flex;gap:16px;align-items:stretch}
 .sota .gap .miss{flex:1.25;font-size:17px}
 .sota .gap .miss b{color:var(--blueCNRS)}
 .sota .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
@@ -298,17 +287,6 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 .sota .gap .aim{flex:1;padding:10px 16px;border:2px solid var(--purple);border-radius:10px;background:#f6f2fd;font-size:17px;line-height:1.35}
 .sota .gap .aim b{color:var(--purple)}
 
-/* ---- action plan ---- */
-.plan .row{left:0;right:0;top:40px;display:flex;align-items:stretch;gap:14px}
-.plan .card{flex:1;border:2px solid #c8cfd8;border-radius:10px;padding:16px 18px 18px;font-size:19px;line-height:1.35;position:relative;background:#fff}
-.plan .card h3{margin:0 0 8px;font-size:23px;color:var(--blueCNRS)}
-.plan .card ul{margin:0}
-.plan .num{position:absolute;right:14px;top:10px;font-size:34px;font-weight:700;color:#d9dee6}
-.plan .badge{display:inline-block;margin-top:12px;padding:3px 10px;border-radius:12px;font-size:16px;color:#fff}
-.plan .done{background:#2e8b57} .plan .now{background:var(--purple)} .plan .next{background:#8c9fae}
-.plan .card.cur{border-color:var(--purple);box-shadow:0 0 0 3px rgba(77,13,171,.15)}
-.plan .arr{align-self:center;font-size:34px;color:var(--purple)}
-.plan .bottom{left:0;right:0;top:440px;text-align:center;font-size:22px}
 </style>
 
 <!-- subsection: Context -->
@@ -320,16 +298,16 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
       <!-- frame coordinates of the 1120x888 video (cropped); band 1 = between the left red line and the first yellow line -->
       <svg viewBox="0 0 1120 888" preserveAspectRatio="none">
         <path class="mask" fill="rgba(0,20,40,.42)" fill-rule="evenodd"
-              d="M0,0H1120V888H0Z M438,151 L568,166 L577,724 L468,698 Z"/>
+              d="M0,0H1120V888H0Z M436,146 L568,164 L573,723 L461,756 Z"/>
         <g class="cut"><!-- shadow edge on band 1 (frame 86 of the cut video) -->
-          <line x1="438" y1="324" x2="568" y2="372" stroke="#FEEA6D" stroke-width="5"/>
+          <line x1="440" y1="324" x2="569" y2="372" stroke="#FEEA6D" stroke-width="5"/>
           <text x="586" y="270" fill="#FEEA6D" font-size="28" font-weight="700" stroke="#000" stroke-width=".8">sunlit</text>
           <text x="586" y="470" fill="#fff" font-size="28" font-weight="700" stroke="#000" stroke-width=".8">shadow</text>
         </g>
         <g class="cut">
-          <line x1="512" y1="157" x2="516" y2="708" stroke="#fff" stroke-width="5" stroke-dasharray="14 9"/>
-          <circle cx="512" cy="157" r="11" fill="var(--purple)"/><circle cx="516" cy="708" r="11" fill="var(--purple)"/>
-          <text x="528" y="205" fill="#fff" font-size="34" font-weight="700" stroke="#000" stroke-width="1">A</text>
+          <line x1="502" y1="155" x2="517" y2="740" stroke="#fff" stroke-width="5" stroke-dasharray="14 9"/>
+          <circle cx="502" cy="155" r="11" fill="var(--purple)"/><circle cx="517" cy="740" r="11" fill="var(--purple)"/>
+          <text x="520" y="205" fill="#fff" font-size="34" font-weight="700" stroke="#000" stroke-width="1">A</text>
         </g>
       </svg>
     </div>
@@ -400,16 +378,14 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
   <p class="lead">Non-uniform conditions ⇒ a uniform wall does not use its material at best.</p>
   <div class="row">
     <figure><svg data-k="topo" viewBox="0 0 385 243"></svg>
-      <figcaption>(a) Insulation domain (topology)<sup class="cite">1</sup></figcaption></figure>
+      <figcaption>(a) Insulation domain (topology)<sup class="cite"><a href="#" data-ref="1">1</a></sup></figcaption></figure>
     <figure data-from="1"><svg data-k="shape" viewBox="0 0 385 243"></svg>
-      <figcaption>(b) Shape of the external face<sup class="cite">2</sup></figcaption></figure>
+      <figcaption>(b) Shape of the external face<sup class="cite"><a href="#" data-ref="2">2</a></sup></figcaption></figure>
     <figure data-from="2"><svg data-k="both" viewBox="0 0 385 243"></svg>
       <figcaption class="this">(c) Shape &amp; insulation domain<br>this thesis</figcaption></figure>
   </div>
-  <div class="refs">
-    <sup>1</sup> Karashbayeva, Gasparin and Berger, “Optimisation of the insulation domain for heat transfer in building wall”, 2024.<br>
-    <sup>2</sup> Alpar et al., “Shape optimization of the energy efficiency of building retrofitted facade”, 2024.
-  </div>
+
+  <div class="refs auto"><sup>1</sup> Karashbayeva et al., “Optimisation of the insulation domain for heat transfer in building wall”, 2024.<br><sup>2</sup> Alpar et al., “Shape optimization of the energy efficiency of building retrofitted facade”, 2024.</div>
 </section>
 <script>
 // before -> after drawings: (a) curved interface, (b) wavy external face, (c) both
@@ -449,89 +425,77 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 <section class="slide tech" data-title="Manufacturing advances: the wall becomes a design object">
   <div class="hero">
     <img src="assets/3d_printing.jpg" alt="On-site concrete 3D printing of a building">
-    <div class="over"><b>Large-scale concrete 3D printing</b>Complex geometries at almost no extra cost: curved faces, variable thickness, internal cavities<sup>1</sup>.
+    <div class="over"><b>Large-scale concrete 3D printing</b>Complex geometries at almost no extra cost: curved faces, variable thickness, internal cavities<sup class="cite"><a href="#" data-ref="3">3</a></sup>.
       <br><small>On-site printing of a building (PERI printer).</small></div>
   </div>
   <div class="list">
     <div class="item">
-      <svg viewBox="0 0 150 96"><!-- printed wall seen from above: two faces, zigzag web, cavities filled with insulation -->
-        <rect x="6" y="14" width="138" height="68" fill="#fef6b6"/>
-        <g fill="#e2cf5a" opacity=".7"><circle cx="22" cy="48" r="3"/><circle cx="40" cy="30" r="3"/><circle cx="58" cy="60" r="3"/><circle cx="78" cy="36" r="3"/><circle cx="96" cy="64" r="3"/><circle cx="114" cy="30" r="3"/><circle cx="132" cy="56" r="3"/></g>
-        <path d="M6,14H144M6,82H144" stroke="#8a8a8a" stroke-width="9"/>
-        <path d="M10,78 L44,18 L78,78 L112,18 L142,72" fill="none" stroke="#8a8a8a" stroke-width="7" stroke-linejoin="round"/>
-        <path d="M6,10H144M6,18H144M6,78H144M6,86H144" stroke="#6f6f6f" stroke-width=".8"/>
-      </svg>
+      <img src="assets/icons/tech-cavities.svg" alt="">
       <div><h4>Printed cavities filled with insulation</h4>
-        <p>Measured U-value of a printed wall: <span class="key">1.58 → 0.28 W/m²K</span> when its cavities are filled with recycled cellulose.</p>
-        <div class="ref">Neri et al., J. Phys.: Conf. Ser. 2685, 2024</div></div>
+        <p>Measured U-value of a printed wall: <span class="key">1.58 → 0.28 W/m²K</span> when its cavities are filled with recycled cellulose<sup class="cite"><a href="#" data-ref="4">4</a></sup>.</p>
+        </div>
     </div>
     <div class="item">
-      <svg viewBox="0 0 150 96"><!-- two densities of foamed concrete in one component -->
-        <rect x="6" y="10" width="138" height="76" rx="4" fill="#9b9b9b"/>
-        <rect x="24" y="24" width="102" height="48" rx="3" fill="#eef1f4"/>
-        <g fill="none" stroke="#b8c2cc" stroke-width="1.6"><circle cx="38" cy="36" r="5"/><circle cx="56" cy="56" r="7"/><circle cx="74" cy="34" r="4"/><circle cx="92" cy="52" r="6"/><circle cx="112" cy="38" r="5"/><circle cx="110" cy="62" r="3"/><circle cx="40" cy="62" r="3"/></g>
-        <g fill="#7d7d7d"><circle cx="14" cy="18" r="1.6"/><circle cx="132" cy="80" r="1.6"/><circle cx="70" cy="16" r="1.6"/><circle cx="100" cy="80" r="1.6"/></g>
-      </svg>
+      <img src="assets/icons/tech-multimaterial.svg" alt="">
       <div><h4>Several materials in one print</h4>
-        <p>Load-bearing printed foamed concrete (<span class="key">λ = 0.205 W/mK</span>) + insulating ultra-light foam in its voids (<span class="key">λ = 0.072 W/mK</span>).</p>
-        <div class="ref">Parmigiani et al., Dev. Built Environ. 20, 2024</div></div>
+        <p>Load-bearing printed foamed concrete (<span class="key">λ = 0.205 W/mK</span>) + insulating ultra-light foam in its voids (<span class="key">λ = 0.072 W/mK</span>)<sup class="cite"><a href="#" data-ref="5">5</a></sup>.</p>
+        </div>
     </div>
     <div class="item">
-      <svg viewBox="0 0 150 96"><!-- lattice infill: heat goes through the webs (thermal bridges) -->
-        <rect x="6" y="14" width="138" height="68" fill="#eef1f4"/>
-        <path d="M6,14H144M6,82H144" stroke="#8a8a8a" stroke-width="8"/>
-        <path d="M30,14V82M75,14V82M120,14V82M30,48H120" stroke="#8a8a8a" stroke-width="6"/>
-        <g stroke="#c0392b" stroke-width="2.4" fill="#c0392b"><path d="M30,2V92"/><path d="M75,2V92"/><path d="M120,2V92"/>
-          <path d="M26,86L30,94L34,86Z"/><path d="M71,86L75,94L79,86Z"/><path d="M116,86L120,94L124,86Z"/></g>
-      </svg>
+      <img src="assets/icons/tech-lattice.svg" alt="">
       <div><h4>Infill geometry controls the heat flow</h4>
-        <p>In printed lattice walls, the <span class="key">webs act as thermal bridges</span>: their layout matters as much as the insulation.</p>
-        <div class="ref">Chamatete &amp; Yalçınkaya, Buildings 14(4), 2024</div></div>
+        <p>In printed lattice walls, the <span class="key">webs act as thermal bridges</span>: their layout matters as much as the insulation<sup class="cite"><a href="#" data-ref="6">6</a></sup>.</p>
+        </div>
     </div>
   </div>
   <div class="so">⇒ shape and insulation layout become<b>design variables</b>of the wall</div>
-  <div class="refs" style="left:0;width:470px;top:488px;bottom:auto;border:0;font-size:12px"><sup>1</sup> Gosselin et al., “Large-scale 3D printing of ultra-high performance concrete”, Mater. Des., 2016.</div>
+
+  <div class="refs auto"><sup>3</sup> Gosselin et al., “Large-scale 3D printing of ultra-high performance concrete – a new processing route for architects and builders”, 2016.<br><sup>4</sup> Neri et al., “Improving the energy performance of a 3D-printed wall using recycled material”, 2024.<br><sup>5</sup> Parmigiani et al., “3D-printed multi-functional foamed concrete building components: material properties, component design, and 3D printing application”, 2024.<br><sup>6</sup> Chamatete and Yalçınkaya, “Numerical evaluation on thermal performance of 3D printed concrete walls: the effects of lattice type, filament width and granular filling material”, 2024.</div>
 </section>
 
 <!-- subsection: State of the art -->
-<section class="slide sota" data-title="State of the art: optimisation across scales" data-steps="1">
+<section class="slide sota" data-title="State of the art: optimisation across scales" data-steps="1" data-footcite="off">
   <div class="cols">
     <div class="col mat">
       <div class="head">
-        <svg viewBox="0 0 58 50"><rect x="3" y="8" width="52" height="34" rx="2" fill="#c8705a"/><g fill="#f7f8fb"><rect x="9" y="14" width="9" height="9"/><rect x="24" y="14" width="9" height="9"/><rect x="39" y="14" width="10" height="9"/><rect x="9" y="27" width="9" height="9"/><rect x="24" y="27" width="9" height="9"/><rect x="39" y="27" width="10" height="9"/></g></svg>
+        <img src="assets/icons/sota-material.svg" alt="">
         <div><b>Material / block</b><span>cavities of bricks, blocks and printed infills</span></div></div>
       <ul>
-        <li><span class="m p"></span><span class="y">2007</span><span>del Coz Díaz et al. <i>— hollow-brick geometries, FEM</i></span></li>
-        <li><span class="m t"></span><span class="y">2011</span><span>Sousa et al. <i>— masonry units, genetic algorithm</i></span></li>
-        <li><span class="m t"></span><span class="y">2013</span><span>Bruggi &amp; Taliercio <i>— masonry blocks, thermo-mechanical</i></span></li>
-        <li><span class="m p"></span><span class="y">2014</span><span>Sütçü et al. <i>— hollow clay bricks, hole layout</i></span></li>
-        <li><span class="m p"></span><span class="y">2024</span><span>Chamatete &amp; Yalçınkaya <i>— lattice infill of printed walls</i></span></li>
+        <li><span class="m p"></span><span class="y">2007</span><span>del Coz Díaz et al.<sup class="cite"><a href="#" data-ref="7">7</a></sup> <i>— hollow-brick geometries, FEM</i></span></li>
+        <li><span class="m t"></span><span class="y">2011</span><span>Sousa et al.<sup class="cite"><a href="#" data-ref="8">8</a></sup> <i>— masonry units, genetic algorithm</i></span></li>
+        <li><span class="m t"></span><span class="y">2013</span><span>Bruggi &amp; Taliercio<sup class="cite"><a href="#" data-ref="9">9</a></sup> <i>— masonry blocks, thermo-mechanical</i></span></li>
+        <li><span class="m p"></span><span class="y">2014</span><span>Sütçü et al.<sup class="cite"><a href="#" data-ref="10">10</a></sup> <i>— hollow clay bricks, hole layout</i></span></li>
+        <li><span class="m p"></span><span class="y">2024</span><span>Chamatete &amp; Yalçınkaya<sup class="cite"><a href="#" data-ref="6">6</a></sup> <i>— lattice infill of printed walls</i></span></li>
       </ul>
+      <figure class="ill"><img src="assets/sota/bruggi2013_fig5.jpg" alt="" style="height:66px">
+        <figcaption>Conventional vs optimised block <sup class="cite"><a href="#" data-ref="9">9</a></sup></figcaption></figure>
     </div>
     <div class="col wall">
       <div class="head">
-        <svg viewBox="0 0 58 50"><rect x="12" y="4" width="17" height="42" fill="#bfbfbf"/><rect x="29" y="4" width="17" height="42" fill="#fef6b6"/><path d="M29 4v42" stroke="#111" stroke-dasharray="3 2"/><rect x="12" y="4" width="34" height="42" fill="none" stroke="#111" stroke-width="1.5"/><path d="M2 14h7M2 25h7M2 36h7" stroke="#c0392b" stroke-width="2"/></svg>
+        <img src="assets/icons/sota-wall.svg" alt="">
         <div><b>Wall</b><span>thickness, position and distribution of the insulation, shape of the wall</span></div></div>
       <ul>
-        <li><span class="m p"></span><span class="y">2011</span><span>Ozel <i>— optimum insulation thickness vs orientation (1D)</i></span></li>
-        <li><span class="m p"></span><span class="y">2012</span><span>Kaynakli <i>— review: optimum insulation thickness</i></span></li>
-        <li><span class="m p"></span><span class="y">2014</span><span>Ozel <i>— location of the insulation in the wall</i></span></li>
-        <li><span class="m p"></span><span class="y">2019</span><span>Gasparin et al. <i>— insulation thickness, adaptive moving grid</i></span></li>
-        <li><span class="m t"></span><span class="y">2019</span><span>Vantyghem et al. <i>— multi-material topology, structural + thermal</i></span></li>
-        <li><span class="m s"></span><span class="y">2024</span><span>Alpar et al. <i>— shape of a retrofitted façade</i></span></li>
-        <li><span class="m t"></span><span class="y">2025</span><span>Karashbayeva et al. <i>— insulation domain of a 2D wall</i></span></li>
+        <li><span class="m p"></span><span class="y">2011</span><span>Ozel<sup class="cite"><a href="#" data-ref="11">11</a></sup> <i>— optimum insulation thickness vs orientation (1D)</i></span></li>
+        <li><span class="m p"></span><span class="y">2012</span><span>Kaynakli<sup class="cite"><a href="#" data-ref="12">12</a></sup> <i>— review: optimum insulation thickness</i></span></li>
+        <li><span class="m p"></span><span class="y">2014</span><span>Ozel<sup class="cite"><a href="#" data-ref="13">13</a></sup> <i>— location of the insulation in the wall</i></span></li>
+        <li><span class="m p"></span><span class="y">2019</span><span>Gasparin et al.<sup class="cite"><a href="#" data-ref="14">14</a></sup> <i>— insulation thickness, adaptive moving grid</i></span></li>
+        <li><span class="m t"></span><span class="y">2019</span><span>Vantyghem et al.<sup class="cite"><a href="#" data-ref="15">15</a></sup> <i>— multi-material topology, structural + thermal</i></span></li>
+        <li><span class="m s"></span><span class="y">2024</span><span>Alpar et al.<sup class="cite"><a href="#" data-ref="2">2</a></sup> <i>— shape of a retrofitted façade</i></span></li>
+        <li><span class="m t"></span><span class="y">2025</span><span>Karashbayeva et al.<sup class="cite"><a href="#" data-ref="16">16</a></sup> <i>— insulation domain of a 2D wall</i></span></li>
       </ul>
     </div>
     <div class="col bld">
       <div class="head">
-        <svg viewBox="0 0 58 50"><path d="M6 46V22L22 10L38 22V46Z" fill="#dfe7ef" stroke="#00294B" stroke-width="2"/><rect x="40" y="18" width="14" height="28" fill="#dfe7ef" stroke="#00294B" stroke-width="2"/><circle cx="48" cy="8" r="5" fill="#FEEA6D" stroke="#c9a800"/><path d="M2 46h54" stroke="#00294B" stroke-width="2"/></svg>
+        <img src="assets/icons/sota-building.svg" alt="">
         <div><b>Building</b><span>form, orientation, envelope, systems</span></div></div>
       <ul>
-        <li><span class="m p"></span><span class="y">2010</span><span>Tuhus-Dubrow &amp; Krarti <i>— envelope and form, genetic algorithm</i></span></li>
-        <li><span class="m p"></span><span class="y">2013</span><span>Evins <i>— review: optimisation in sustainable building design</i></span></li>
-        <li><span class="m p"></span><span class="y">2014</span><span>Nguyen et al. <i>— review: simulation-based optimisation</i></span></li>
-        <li><span class="m s"></span><span class="y">2020</span><span>Ciardiello et al. <i>— shape and envelope, multi-objective</i></span></li>
+        <li><span class="m p"></span><span class="y">2010</span><span>Tuhus-Dubrow &amp; Krarti<sup class="cite"><a href="#" data-ref="17">17</a></sup> <i>— envelope and form, genetic algorithm</i></span></li>
+        <li><span class="m p"></span><span class="y">2013</span><span>Evins<sup class="cite"><a href="#" data-ref="18">18</a></sup> <i>— review: optimisation in sustainable building design</i></span></li>
+        <li><span class="m p"></span><span class="y">2014</span><span>Nguyen et al.<sup class="cite"><a href="#" data-ref="19">19</a></sup> <i>— review: simulation-based optimisation</i></span></li>
+        <li><span class="m s"></span><span class="y">2020</span><span>Ciardiello et al.<sup class="cite"><a href="#" data-ref="20">20</a></sup> <i>— shape and envelope, multi-objective</i></span></li>
       </ul>
+      <figure class="ill"><img src="assets/sota/ciardiello2020_ga.jpg" alt="" style="height:112px">
+        <figcaption>Geometry then envelope optimisation <sup class="cite"><a href="#" data-ref="20">20</a></sup></figcaption></figure>
     </div>
   </div>
   <div class="legend" data-until="0"><span><i class="m t"></i>topology / material layout</span><span><i class="m s"></i>shape</span><span><i class="m p"></i>parameters (thickness, position, orientation…)</span></div>
@@ -544,7 +508,35 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
   </div>
 </section>
 
-<section class="slide plan" data-title="Action plan">
+
+
+<!-- ==== parts/05-physical.html ==== -->
+<!-- section: Physical problem -->
+<section class="slide" data-title="Physical problem: street canyon configuration"><div class="todo">to be written</div></section>
+<!-- subsection: Governing equations -->
+<section class="slide" data-title="Governing equations"><div class="todo">to be written</div></section>
+<!-- subsection: Boundary conditions -->
+<section class="slide" data-title="External boundary conditions"><div class="todo">to be written</div></section>
+<section class="slide" data-title="External boundary conditions: short- and long-wave radiation"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Internal, top and bottom boundary conditions"><div class="todo">to be written</div></section>
+
+<!-- ==== parts/06-cosimulation.html ==== -->
+<!-- section: Co-simulation -->
+<style>
+.plan .content>*{position:absolute}
+/* ---- action plan ---- */
+.plan .row{left:0;right:0;top:40px;display:flex;align-items:stretch;gap:14px}
+.plan .card{flex:1;border:2px solid #c8cfd8;border-radius:10px;padding:16px 18px 18px;font-size:19px;line-height:1.35;position:relative;background:#fff}
+.plan .card h3{margin:0 0 8px;font-size:23px;color:var(--blueCNRS)}
+.plan .card ul{margin:0}
+.plan .num{position:absolute;right:14px;top:10px;font-size:34px;font-weight:700;color:#d9dee6}
+.plan .badge{display:inline-block;margin-top:12px;padding:3px 10px;border-radius:12px;font-size:16px;color:#fff}
+.plan .done{background:#2e8b57} .plan .now{background:var(--purple)} .plan .next{background:#8c9fae}
+.plan .card.cur{border-color:var(--purple);box-shadow:0 0 0 3px rgba(77,13,171,.15)}
+.plan .arr{align-self:center;font-size:34px;color:var(--purple)}
+.plan .bottom{left:0;right:0;top:440px;text-align:center;font-size:22px}
+</style>
+<section class="slide plan" data-title="Action plan of the thesis">
   <div class="row">
     <div class="card"><span class="num">1</span>
       <h3>2D wall models</h3>
@@ -575,19 +567,6 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
     </div>
   </div>
 </section>
-
-<!-- ==== parts/05-physical.html ==== -->
-<!-- section: Physical problem -->
-<section class="slide" data-title="Physical problem: street canyon configuration"><div class="todo">to be written</div></section>
-<!-- subsection: Governing equations -->
-<section class="slide" data-title="Governing equations"><div class="todo">to be written</div></section>
-<!-- subsection: Boundary conditions -->
-<section class="slide" data-title="External boundary conditions"><div class="todo">to be written</div></section>
-<section class="slide" data-title="External boundary conditions: short- and long-wave radiation"><div class="todo">to be written</div></section>
-<section class="slide" data-title="Internal, top and bottom boundary conditions"><div class="todo">to be written</div></section>
-
-<!-- ==== parts/06-cosimulation.html ==== -->
-<!-- section: Co-simulation -->
 <!-- subsection: Motivation -->
 <section class="slide" data-title="Why a co-simulation?"><div class="todo">to be written</div></section>
 <!-- subsection: Architecture and coupling -->
@@ -603,8 +582,12 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 <!-- section: Conclusion -->
 <section class="slide" data-title="Conclusion and perspectives"><div class="todo">to be written</div></section>
 
+<!-- appendix -->
+<section class="slide s-refs" data-title="References (1/2)"><ol class="biblio"><li value="1">Zh. Karashbayeva, S. Gasparin and J. Berger, Optimisation of the insulation domain for heat transfer in building wall, <i>11th International Conference on Inverse Problems in Engineering (ICIPE), Búzios, Brazil</i> (2024).</li><li value="2">S. Alpar, J. Berger, W. Mazuroski and R. Belarbi, Shape optimization of the energy efficiency of building retrofitted facade, <i>Solar Energy</i> 271 (2024) 112437.</li><li value="3">C. Gosselin, R. Duballet, P. Roux, N. Gaudillière, J. Dirrenberger and P. Morel, Large-scale 3D printing of ultra-high performance concrete – a new processing route for architects and builders, <i>Materials &amp; Design</i> 100 (2016) 102–109. <a href="https://doi.org/10.1016/j.matdes.2016.03.097" target="_blank">doi:10.1016/j.matdes.2016.03.097</a></li><li value="4">M. Neri, L. Licciardello, A. Reggia, M. Pilotelli and A. M. Lezzi, Improving the energy performance of a 3D-printed wall using recycled material, <i>Journal of Physics: Conference Series</i> 2685 (2024) 012034. <a href="https://doi.org/10.1088/1742-6596/2685/1/012034" target="_blank">doi:10.1088/1742-6596/2685/1/012034</a></li><li value="5">S. Parmigiani, D. Falliano, S. Moro, G. A. Ferro and L. Restuccia, 3D-printed multi-functional foamed concrete building components: material properties, component design, and 3D printing application, <i>Developments in the Built Environment</i> 20 (2024) 100483. <a href="https://doi.org/10.1016/j.dibe.2024.100483" target="_blank">doi:10.1016/j.dibe.2024.100483</a></li><li value="6">K. Chamatete and Ç. Yalçınkaya, Numerical evaluation on thermal performance of 3D printed concrete walls: the effects of lattice type, filament width and granular filling material, <i>Buildings</i> 14 (4) (2024) 926. <a href="https://doi.org/10.3390/buildings14040926" target="_blank">doi:10.3390/buildings14040926</a></li><li value="7">J. J. del Coz Díaz, P. J. García Nieto, C. Betegón Biempica and M. B. Prendes Gero, Analysis and optimization of the heat-insulating light concrete hollow brick walls design by the finite element method, <i>Applied Thermal Engineering</i> 27 (8-9) (2007) 1445–1456. <a href="https://doi.org/10.1016/j.applthermaleng.2006.10.010" target="_blank">doi:10.1016/j.applthermaleng.2006.10.010</a></li><li value="8">L. C. Sousa, C. F. Castro, C. C. António and H. Sousa, Topology optimisation of masonry units from the thermal point of view using a genetic algorithm, <i>Construction and Building Materials</i> 25 (2011) 2254–2262.</li><li value="9">M. Bruggi and A. Taliercio, Design of masonry blocks with enhanced thermomechanical performances by topology optimization, <i>Construction and Building Materials</i> 48 (2013) 424–433.</li><li value="10">M. Sütçü, J. J. del Coz Díaz, F. P. Álvarez Rabanal, O. Gençel and S. Akkurt, Thermal performance optimization of hollow clay bricks made up of paper waste, <i>Energy and Buildings</i> 75 (2014) 96–108. <a href="https://doi.org/10.1016/j.enbuild.2014.02.006" target="_blank">doi:10.1016/j.enbuild.2014.02.006</a></li><li value="11">M. Ozel, Effect of wall orientation on the optimum insulation thickness by using a dynamic method, <i>Applied Energy</i> 88 (7) (2011) 2429–2435.</li></ol></section>
+<section class="slide s-refs" data-title="References (2/2)"><ol class="biblio"><li value="12">O. Kaynakli, A review of the economical and optimum thermal insulation thickness for building applications, <i>Renewable and Sustainable Energy Reviews</i> 16 (1) (2012) 415–425.</li><li value="13">M. Ozel, Effect of insulation location on dynamic heat-transfer characteristics of building external walls and optimization of insulation thickness, <i>Energy and Buildings</i> 72 (2014) 288–295.</li><li value="14">S. Gasparin, J. Berger, D. Dutykh and N. Mendes, An innovative method to determine optimum insulation thickness based on non-uniform adaptive moving grid, <i>Journal of the Brazilian Society of Mechanical Sciences and Engineering</i> 41 (2019) 173. <a href="https://doi.org/10.1007/s40430-019-1670-6" target="_blank">doi:10.1007/s40430-019-1670-6</a></li><li value="15">G. Vantyghem, V. Boel, M. Steeman and W. De Corte, Multi-material topology optimization involving simultaneous structural and thermal analyses, <i>Structural and Multidisciplinary Optimization</i> (2019).</li><li value="16">Zh. Karashbayeva, S. Gasparin and J. Berger, Optimization of the insulation domain for heat transfer in building walls, <i>Journal of the Brazilian Society of Mechanical Sciences and Engineering</i> (2025).</li><li value="17">D. Tuhus-Dubrow and M. Krarti, Genetic-algorithm based approach to optimize building envelope design for residential buildings, <i>Building and Environment</i> 45 (7) (2010) 1574–1581. <a href="https://doi.org/10.1016/j.buildenv.2010.01.005" target="_blank">doi:10.1016/j.buildenv.2010.01.005</a></li><li value="18">R. Evins, A review of computational optimisation methods applied to sustainable building design, <i>Renewable and Sustainable Energy Reviews</i> 22 (2013) 230–245. <a href="https://doi.org/10.1016/j.rser.2013.02.004" target="_blank">doi:10.1016/j.rser.2013.02.004</a></li><li value="19">A.-T. Nguyen, S. Reiter and P. Rigo, A review on simulation-based optimization methods applied to building performance analysis, <i>Applied Energy</i> 113 (2014) 1043–1058. <a href="https://doi.org/10.1016/j.apenergy.2013.08.061" target="_blank">doi:10.1016/j.apenergy.2013.08.061</a></li><li value="20">A. Ciardiello, F. Rosso, J. Dell'Olmo, V. Ciancio, M. Ferrero and F. Salata, Multi-objective approach to the optimization of shape and envelope in building energy design, <i>Applied Energy</i> 280 (2020) 115984. <a href="https://doi.org/10.1016/j.apenergy.2020.115984" target="_blank">doi:10.1016/j.apenergy.2020.115984</a></li></ol></section>
+
 </div>
-<script>window.CONFIG={"title": "Seminar presentation – PUCPR", "short_title": "Seminar presentation – PUCPR", "author": "William DUMONTAUD", "parts": ["parts/01-title.html", "parts/02-who.html", "parts/03-contents.html", "parts/04-introduction.html", "parts/05-physical.html", "parts/06-cosimulation.html", "parts/07-conclusion.html"]};</script>
+<script>window.CONFIG={"title": "Seminar presentation – PUCPR", "short_title": "Seminar presentation – PUCPR", "author": "William DUMONTAUD", "parts": ["parts/01-title.html", "parts/02-who.html", "parts/03-contents.html", "parts/04-introduction.html", "parts/05-physical.html", "parts/06-cosimulation.html", "parts/07-conclusion.html"], "bibliography": "refs.bib"};</script>
 <script>
 // theme/field.js — live contour field (WebGL2)
 // Height field = sum of smooth travelling waves (no grid => no rectangles); iso-lines are drawn with an
@@ -691,6 +674,7 @@ const slides=[]; const toc=[]; let sec='',sub='';
   if(n.nodeType===8){
     const t=n.nodeValue.trim(); let m;
     if((m=t.match(/^section:\s*(.+)$/i))){ sec=m[1].trim(); sub=''; toc.push({name:sec,subs:[]}); }
+    else if(/^appendix$/i.test(t)){ sec=''; sub=''; }          // slides after it: no bubble, not in the outline
     else if((m=t.match(/^subsection:\s*(.+)$/i))){ sub=m[1].trim(); if(toc.length) toc[toc.length-1].subs.push(sub); }
   } else if(n.nodeType===1 && n.matches('section.slide')){
     n.dataset.section=sec; n.dataset.subsection=sub; slides.push(n);
@@ -744,15 +728,15 @@ grp.forEach((G,gi)=>{ if(gi){ const A=grp[gi-1];
     x+=Math.max(INTER_MIN,LAB_GAP+(A.w-A.span)/2+(G.w-G.span)/2); }
   G.g.forEach((d,n)=>{d.x=x+n*INTRA_PX;}); x+=G.span; });
 const kx=Math.min(1,(NW-2*PAD)/Math.max(x,1)), X0=(NW-x*kx)/2;
-dots.forEach((d,n)=>{ d.x=X0+d.x*kx; d.y=(n%2?34:41)+(rnd()-.5)*2.5; });
+dots.forEach(d=>{ d.x=X0+d.x*kx; d.y=38; });          // all bubbles on one line
 // irregular wave through the bubbles (Catmull-Rom through extra control points)
 const pts=[]; let sign=1; const first=[];
 dots.forEach((d,n)=>{ first.push(pts.length); pts.push(d);
   if(n<dots.length-1){ const e=dots[n+1], long=e.sec!==d.sec, m=long?2:1;
     for(let j=1;j<=m;j++){
       if(rnd()<.8) sign=-sign;
-      const t=(j-.5+(rnd()-.5)*.5)/m, amp=(long?5:4)+rnd()*4.5;
-      pts.push({x:d.x+(e.x-d.x)*t, y:Math.max(31,Math.min(45.5,d.y+(e.y-d.y)*t+sign*amp))}); } } });
+      const t=(j-.5+(rnd()-.5)*.3)/m, amp=4+rnd()*2.5;                // wave between the bubbles
+      pts.push({x:d.x+(e.x-d.x)*t, y:d.y+sign*amp}); } } });
 const P=i=>pts[Math.max(0,Math.min(pts.length-1,i))];
 const seg=i=>{const a=P(i),b=P(i+1),p0=P(i-1),p3=P(i+2);
   return `C${a.x+(b.x-p0.x)/6},${a.y+(b.y-p0.y)/6} ${b.x-(p3.x-a.x)/6},${b.y-(p3.y-a.y)/6} ${b.x},${b.y}`};
@@ -771,13 +755,13 @@ function makeNav(onDotClick){
   const cs=dots.map(d=>{const c=mk('circle',{cx:d.x,cy:d.y,r:5});
     if(onDotClick) c.addEventListener('click',e=>{e.stopPropagation();onDotClick(d.k)}); return c});
   el.appendChild(svg);
-  return {el, set(i){
+  return {el, set(i,frac=0){            // frac in [0,1): progress of the in-slide steps along the next segment
     let cur=-1; dots.forEach((d,n)=>{ if(d.k<=i) cur=n; });
     const onDot=cur>=0&&dots[cur].k===i;
     cs.forEach((c,n)=>{const on=onDot&&n===cur;
       c.setAttribute('class',on?'cur':(n<cur||(n===cur&&!onDot)?'past':'')); c.style.r=on?'7px':'5px';});
     segs.forEach((p,n)=>{ if(p._L==null){p._L=p.getTotalLength();p.style.strokeDasharray=p._L;p.style.strokeDashoffset=p._L;}
-      p.style.strokeDashoffset=(n<cur)?0:p._L; });
+      p.style.strokeDashoffset=(n<cur)?0:(n===cur&&onDot?p._L*(1-frac):p._L); });
     labs.forEach(l=>l.setAttribute('class','lab'+(onDot&&l.textContent===dots[cur].sec?' cur':'')));
   }};
 }
@@ -802,7 +786,7 @@ async function printMode(){
     s.classList.add('active','noanim'); pg.appendChild(s); setStep(s,nSteps(s),true);
     if(!isTitle(s)){
       const nv=makeNav(), ft=makeFoot(); nv.el.classList.add('noanim');
-      pg.appendChild(nv.el); pg.appendChild(ft.el); nv.set(k); ft.set(k); }
+      pg.appendChild(nv.el); pg.appendChild(ft.el); nv.set(k,nSteps(s)/(nSteps(s)+1)); ft.set(k); }
   });
   stage.querySelectorAll('style').forEach(st=>document.head.appendChild(st));   // keep the parts' own CSS
   stage.remove();
@@ -824,13 +808,14 @@ function show(n,step){
   slides.forEach((s,k)=>s.classList.toggle('active',k===i));
   const t=isTitle(slides[i]);
   nav.el.style.opacity=foot.el.style.opacity=t?0:1; nav.el.style.pointerEvents=t?'none':'auto';
-  nav.set(i); foot.set(i);
+  nav.set(i,st/(nSteps(slides[i])+1)); foot.set(i);
   history.replaceState(null,'','#'+(i+1));
 }
 function fit(){const k=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform=`translate(-50%,-50%) scale(${k})`}
 function toggleFullscreen(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
-function next(){ if(st<nSteps(slides[i])) setStep(slides[i],++st); else show(i+1); }
-function prev(){ if(st>0) setStep(slides[i],--st); else if(i>0){ const k=i-1; show(k,nSteps(slides[k])); } }
+const navStep=()=>nav.set(i,st/(nSteps(slides[i])+1));
+function next(){ if(st<nSteps(slides[i])){ setStep(slides[i],++st); navStep(); } else show(i+1); }
+function prev(){ if(st>0){ setStep(slides[i],--st); navStep(); } else if(i>0){ const k=i-1; show(k,nSteps(slides[k])); } }
 addEventListener('resize',fit); fit(); show(i,0);
 
 addEventListener('keydown',e=>{
@@ -839,7 +824,10 @@ addEventListener('keydown',e=>{
   else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
   else if(e.key==='f'||e.key==='F') toggleFullscreen();
 });
-addEventListener('click',e=>{ if(e.target.closest('a,#tools'))return; e.clientX>innerWidth/2?next():prev(); });
+addEventListener('click',e=>{
+  const c=e.target.closest('.cite a');                       // citation number -> its References slide
+  if(c){ e.preventDefault(); const k=slides.findIndex(s=>s.querySelector(`.biblio li[value="${c.dataset.ref}"]`)); if(k>=0) show(k,0); return; }
+  if(e.target.closest('a,#tools'))return; e.clientX>innerWidth/2?next():prev(); });
 
 // viewer UI: fullscreen + PDF buttons (visible while the mouse moves), hint fading after a few seconds
 const hint=Object.assign(document.createElement('div'),{className:'hint',textContent:'← → / space: navigate · F: fullscreen'});

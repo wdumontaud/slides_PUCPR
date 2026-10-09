@@ -1,6 +1,6 @@
 <!-- section: Introduction -->
 <style>
-.ctx .content>*,.why .content>*,.tech .content>*,.sota .content>*,.plan .content>*{position:absolute}
+.ctx .content>*,.why .content>*,.tech .content>*,.sota .content>*{position:absolute}
 .why .lead{left:0;right:0;top:0}
 /* ---- context: video of the street canyon -> zoom on band 1 -> 2D section ---- */
 .ctx .vid{left:0;top:0;width:640px;height:507px;overflow:hidden;border-radius:4px;background:#000}
@@ -34,11 +34,12 @@
 .tech .hero .over{position:absolute;left:0;right:0;bottom:0;padding:60px 20px 16px;color:#fff;font-size:21px;line-height:1.3;
   background:linear-gradient(transparent,rgba(0,20,40,.88))}
 .tech .hero .over b{font-size:25px;display:block;margin-bottom:4px}
+.tech .hero .cite a{color:var(--yellowCNRS)}
 .tech .hero .over small{font-size:13px;opacity:.8}
 .tech .list{left:500px;right:0;top:0;display:flex;flex-direction:column;gap:14px}
 .tech .item{display:flex;gap:16px;align-items:center;background:#fff;border:1px solid #dde2ea;border-left:6px solid var(--purple);
   border-radius:10px;padding:10px 16px 10px 12px;box-shadow:0 2px 8px rgba(0,41,75,.08)}
-.tech .item svg{flex:none;width:150px;height:96px}
+.tech .item img{flex:none;width:150px;height:96px}
 .tech .item h4{margin:0 0 3px;font-size:21px;color:var(--blueCNRS)}
 .tech .item p{margin:0;font-size:17px;line-height:1.3;color:#333}
 .tech .item .key{color:var(--purple);font-weight:700}
@@ -52,11 +53,15 @@
 .noanim .item,.noanim .so{animation:none!important}
 
 /* ---- state of the art by scale + what is missing ---- */
-.sota .cols{left:0;right:0;top:0;height:372px;display:flex;gap:16px}
+.sota .cols{left:0;right:0;top:0;height:404px;display:flex;gap:16px}
 .sota .col{flex:1;border-radius:10px;background:#f7f8fb;border:1px solid #dde2ea;padding:10px 14px;transition:opacity .6s,box-shadow .6s,border-color .6s}
+.sota .col{display:flex;flex-direction:column}
 .sota .col.wall{flex:1.18}
+.sota .ill{margin:auto 0 0;text-align:center}
+.sota .ill img{max-width:100%;border:1px solid #ccd;border-radius:4px;background:#fff}
+.sota .ill figcaption{font-size:12px;color:#555;margin-top:2px}
 .sota .head{display:flex;gap:10px;align-items:center;border-bottom:2px solid #dde2ea;padding-bottom:6px;margin-bottom:6px}
-.sota .head svg{flex:none;width:58px;height:50px}
+.sota .head img{flex:none;width:58px;height:50px}
 .sota .head b{display:block;font-size:21px;color:var(--blueCNRS)}
 .sota .head span{font-size:14px;color:#555;line-height:1.2;display:block}
 .sota ul{list-style:none;margin:0;padding:0}
@@ -65,11 +70,11 @@
 .sota li i{font-style:normal;color:#555}
 .sota .m{flex:none;width:10px;height:10px;border-radius:50%;transform:translateY(-1px)}
 .sota .t{background:var(--purple)} .sota .s{background:#d08a00} .sota .p{background:#6b8aa5}
-.sota .legend{left:0;right:0;top:384px;font-size:15px;color:#444;display:flex;gap:26px;justify-content:center;align-items:center}
+.sota .legend{left:0;right:0;top:418px;font-size:15px;color:#444;display:flex;gap:26px;justify-content:center;align-items:center}
 .sota .legend .m{display:inline-block;margin-right:6px}
 .sota[data-step="1"] .col.mat,.sota[data-step="1"] .col.bld{opacity:.32}
 .sota[data-step="1"] .col.wall{border-color:var(--purple);box-shadow:0 0 0 3px rgba(77,13,171,.18);background:#fff}
-.sota .gap{left:0;right:0;top:386px;display:flex;gap:16px;align-items:stretch}
+.sota .gap{left:0;right:0;top:418px;display:flex;gap:16px;align-items:stretch}
 .sota .gap .miss{flex:1.25;font-size:17px}
 .sota .gap .miss b{color:var(--blueCNRS)}
 .sota .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
@@ -77,17 +82,6 @@
 .sota .gap .aim{flex:1;padding:10px 16px;border:2px solid var(--purple);border-radius:10px;background:#f6f2fd;font-size:17px;line-height:1.35}
 .sota .gap .aim b{color:var(--purple)}
 
-/* ---- action plan ---- */
-.plan .row{left:0;right:0;top:40px;display:flex;align-items:stretch;gap:14px}
-.plan .card{flex:1;border:2px solid #c8cfd8;border-radius:10px;padding:16px 18px 18px;font-size:19px;line-height:1.35;position:relative;background:#fff}
-.plan .card h3{margin:0 0 8px;font-size:23px;color:var(--blueCNRS)}
-.plan .card ul{margin:0}
-.plan .num{position:absolute;right:14px;top:10px;font-size:34px;font-weight:700;color:#d9dee6}
-.plan .badge{display:inline-block;margin-top:12px;padding:3px 10px;border-radius:12px;font-size:16px;color:#fff}
-.plan .done{background:#2e8b57} .plan .now{background:var(--purple)} .plan .next{background:#8c9fae}
-.plan .card.cur{border-color:var(--purple);box-shadow:0 0 0 3px rgba(77,13,171,.15)}
-.plan .arr{align-self:center;font-size:34px;color:var(--purple)}
-.plan .bottom{left:0;right:0;top:440px;text-align:center;font-size:22px}
 </style>
 
 <!-- subsection: Context -->
@@ -99,16 +93,16 @@
       <!-- frame coordinates of the 1120x888 video (cropped); band 1 = between the left red line and the first yellow line -->
       <svg viewBox="0 0 1120 888" preserveAspectRatio="none">
         <path class="mask" fill="rgba(0,20,40,.42)" fill-rule="evenodd"
-              d="M0,0H1120V888H0Z M438,151 L568,166 L577,724 L468,698 Z"/>
+              d="M0,0H1120V888H0Z M436,146 L568,164 L573,723 L461,756 Z"/>
         <g class="cut"><!-- shadow edge on band 1 (frame 86 of the cut video) -->
-          <line x1="438" y1="324" x2="568" y2="372" stroke="#FEEA6D" stroke-width="5"/>
+          <line x1="440" y1="324" x2="569" y2="372" stroke="#FEEA6D" stroke-width="5"/>
           <text x="586" y="270" fill="#FEEA6D" font-size="28" font-weight="700" stroke="#000" stroke-width=".8">sunlit</text>
           <text x="586" y="470" fill="#fff" font-size="28" font-weight="700" stroke="#000" stroke-width=".8">shadow</text>
         </g>
         <g class="cut">
-          <line x1="512" y1="157" x2="516" y2="708" stroke="#fff" stroke-width="5" stroke-dasharray="14 9"/>
-          <circle cx="512" cy="157" r="11" fill="var(--purple)"/><circle cx="516" cy="708" r="11" fill="var(--purple)"/>
-          <text x="528" y="205" fill="#fff" font-size="34" font-weight="700" stroke="#000" stroke-width="1">A</text>
+          <line x1="502" y1="155" x2="517" y2="740" stroke="#fff" stroke-width="5" stroke-dasharray="14 9"/>
+          <circle cx="502" cy="155" r="11" fill="var(--purple)"/><circle cx="517" cy="740" r="11" fill="var(--purple)"/>
+          <text x="520" y="205" fill="#fff" font-size="34" font-weight="700" stroke="#000" stroke-width="1">A</text>
         </g>
       </svg>
     </div>
@@ -179,15 +173,11 @@
   <p class="lead">Non-uniform conditions ⇒ a uniform wall does not use its material at best.</p>
   <div class="row">
     <figure><svg data-k="topo" viewBox="0 0 385 243"></svg>
-      <figcaption>(a) Insulation domain (topology)<sup class="cite">1</sup></figcaption></figure>
+      <figcaption>(a) Insulation domain (topology)\cite{karashbayeva2024}</figcaption></figure>
     <figure data-from="1"><svg data-k="shape" viewBox="0 0 385 243"></svg>
-      <figcaption>(b) Shape of the external face<sup class="cite">2</sup></figcaption></figure>
+      <figcaption>(b) Shape of the external face\cite{alpar2024}</figcaption></figure>
     <figure data-from="2"><svg data-k="both" viewBox="0 0 385 243"></svg>
       <figcaption class="this">(c) Shape &amp; insulation domain<br>this thesis</figcaption></figure>
-  </div>
-  <div class="refs">
-    <sup>1</sup> Karashbayeva, Gasparin and Berger, “Optimisation of the insulation domain for heat transfer in building wall”, 2024.<br>
-    <sup>2</sup> Alpar et al., “Shape optimization of the energy efficiency of building retrofitted facade”, 2024.
   </div>
 </section>
 <script>
@@ -228,89 +218,75 @@
 <section class="slide tech" data-title="Manufacturing advances: the wall becomes a design object">
   <div class="hero">
     <img src="assets/3d_printing.jpg" alt="On-site concrete 3D printing of a building">
-    <div class="over"><b>Large-scale concrete 3D printing</b>Complex geometries at almost no extra cost: curved faces, variable thickness, internal cavities<sup>1</sup>.
+    <div class="over"><b>Large-scale concrete 3D printing</b>Complex geometries at almost no extra cost: curved faces, variable thickness, internal cavities\cite{gosselin2016}.
       <br><small>On-site printing of a building (PERI printer).</small></div>
   </div>
   <div class="list">
     <div class="item">
-      <svg viewBox="0 0 150 96"><!-- printed wall seen from above: two faces, zigzag web, cavities filled with insulation -->
-        <rect x="6" y="14" width="138" height="68" fill="#fef6b6"/>
-        <g fill="#e2cf5a" opacity=".7"><circle cx="22" cy="48" r="3"/><circle cx="40" cy="30" r="3"/><circle cx="58" cy="60" r="3"/><circle cx="78" cy="36" r="3"/><circle cx="96" cy="64" r="3"/><circle cx="114" cy="30" r="3"/><circle cx="132" cy="56" r="3"/></g>
-        <path d="M6,14H144M6,82H144" stroke="#8a8a8a" stroke-width="9"/>
-        <path d="M10,78 L44,18 L78,78 L112,18 L142,72" fill="none" stroke="#8a8a8a" stroke-width="7" stroke-linejoin="round"/>
-        <path d="M6,10H144M6,18H144M6,78H144M6,86H144" stroke="#6f6f6f" stroke-width=".8"/>
-      </svg>
+      <img src="assets/icons/tech-cavities.svg" alt="">
       <div><h4>Printed cavities filled with insulation</h4>
-        <p>Measured U-value of a printed wall: <span class="key">1.58 → 0.28 W/m²K</span> when its cavities are filled with recycled cellulose.</p>
-        <div class="ref">Neri et al., J. Phys.: Conf. Ser. 2685, 2024</div></div>
+        <p>Measured U-value of a printed wall: <span class="key">1.58 → 0.28 W/m²K</span> when its cavities are filled with recycled cellulose\cite{neri2024}.</p>
+        </div>
     </div>
     <div class="item">
-      <svg viewBox="0 0 150 96"><!-- two densities of foamed concrete in one component -->
-        <rect x="6" y="10" width="138" height="76" rx="4" fill="#9b9b9b"/>
-        <rect x="24" y="24" width="102" height="48" rx="3" fill="#eef1f4"/>
-        <g fill="none" stroke="#b8c2cc" stroke-width="1.6"><circle cx="38" cy="36" r="5"/><circle cx="56" cy="56" r="7"/><circle cx="74" cy="34" r="4"/><circle cx="92" cy="52" r="6"/><circle cx="112" cy="38" r="5"/><circle cx="110" cy="62" r="3"/><circle cx="40" cy="62" r="3"/></g>
-        <g fill="#7d7d7d"><circle cx="14" cy="18" r="1.6"/><circle cx="132" cy="80" r="1.6"/><circle cx="70" cy="16" r="1.6"/><circle cx="100" cy="80" r="1.6"/></g>
-      </svg>
+      <img src="assets/icons/tech-multimaterial.svg" alt="">
       <div><h4>Several materials in one print</h4>
-        <p>Load-bearing printed foamed concrete (<span class="key">λ = 0.205 W/mK</span>) + insulating ultra-light foam in its voids (<span class="key">λ = 0.072 W/mK</span>).</p>
-        <div class="ref">Parmigiani et al., Dev. Built Environ. 20, 2024</div></div>
+        <p>Load-bearing printed foamed concrete (<span class="key">λ = 0.205 W/mK</span>) + insulating ultra-light foam in its voids (<span class="key">λ = 0.072 W/mK</span>)\cite{parmigiani2024}.</p>
+        </div>
     </div>
     <div class="item">
-      <svg viewBox="0 0 150 96"><!-- lattice infill: heat goes through the webs (thermal bridges) -->
-        <rect x="6" y="14" width="138" height="68" fill="#eef1f4"/>
-        <path d="M6,14H144M6,82H144" stroke="#8a8a8a" stroke-width="8"/>
-        <path d="M30,14V82M75,14V82M120,14V82M30,48H120" stroke="#8a8a8a" stroke-width="6"/>
-        <g stroke="#c0392b" stroke-width="2.4" fill="#c0392b"><path d="M30,2V92"/><path d="M75,2V92"/><path d="M120,2V92"/>
-          <path d="M26,86L30,94L34,86Z"/><path d="M71,86L75,94L79,86Z"/><path d="M116,86L120,94L124,86Z"/></g>
-      </svg>
+      <img src="assets/icons/tech-lattice.svg" alt="">
       <div><h4>Infill geometry controls the heat flow</h4>
-        <p>In printed lattice walls, the <span class="key">webs act as thermal bridges</span>: their layout matters as much as the insulation.</p>
-        <div class="ref">Chamatete &amp; Yalçınkaya, Buildings 14(4), 2024</div></div>
+        <p>In printed lattice walls, the <span class="key">webs act as thermal bridges</span>: their layout matters as much as the insulation\cite{chamatete2024}.</p>
+        </div>
     </div>
   </div>
   <div class="so">⇒ shape and insulation layout become<b>design variables</b>of the wall</div>
-  <div class="refs" style="left:0;width:470px;top:488px;bottom:auto;border:0;font-size:12px"><sup>1</sup> Gosselin et al., “Large-scale 3D printing of ultra-high performance concrete”, Mater. Des., 2016.</div>
 </section>
 
 <!-- subsection: State of the art -->
-<section class="slide sota" data-title="State of the art: optimisation across scales" data-steps="1">
+<section class="slide sota" data-title="State of the art: optimisation across scales" data-steps="1" data-footcite="off">
   <div class="cols">
     <div class="col mat">
       <div class="head">
-        <svg viewBox="0 0 58 50"><rect x="3" y="8" width="52" height="34" rx="2" fill="#c8705a"/><g fill="#f7f8fb"><rect x="9" y="14" width="9" height="9"/><rect x="24" y="14" width="9" height="9"/><rect x="39" y="14" width="10" height="9"/><rect x="9" y="27" width="9" height="9"/><rect x="24" y="27" width="9" height="9"/><rect x="39" y="27" width="10" height="9"/></g></svg>
+        <img src="assets/icons/sota-material.svg" alt="">
         <div><b>Material / block</b><span>cavities of bricks, blocks and printed infills</span></div></div>
       <ul>
-        <li><span class="m p"></span><span class="y">2007</span><span>del Coz Díaz et al. <i>— hollow-brick geometries, FEM</i></span></li>
-        <li><span class="m t"></span><span class="y">2011</span><span>Sousa et al. <i>— masonry units, genetic algorithm</i></span></li>
-        <li><span class="m t"></span><span class="y">2013</span><span>Bruggi &amp; Taliercio <i>— masonry blocks, thermo-mechanical</i></span></li>
-        <li><span class="m p"></span><span class="y">2014</span><span>Sütçü et al. <i>— hollow clay bricks, hole layout</i></span></li>
-        <li><span class="m p"></span><span class="y">2024</span><span>Chamatete &amp; Yalçınkaya <i>— lattice infill of printed walls</i></span></li>
+        <li><span class="m p"></span><span class="y">2007</span><span>del Coz Díaz et al.\cite{delcozdiaz2007} <i>— hollow-brick geometries, FEM</i></span></li>
+        <li><span class="m t"></span><span class="y">2011</span><span>Sousa et al.\cite{sousa2011} <i>— masonry units, genetic algorithm</i></span></li>
+        <li><span class="m t"></span><span class="y">2013</span><span>Bruggi &amp; Taliercio\cite{bruggi2013} <i>— masonry blocks, thermo-mechanical</i></span></li>
+        <li><span class="m p"></span><span class="y">2014</span><span>Sütçü et al.\cite{sutcu2014} <i>— hollow clay bricks, hole layout</i></span></li>
+        <li><span class="m p"></span><span class="y">2024</span><span>Chamatete &amp; Yalçınkaya\cite{chamatete2024} <i>— lattice infill of printed walls</i></span></li>
       </ul>
+      <figure class="ill"><img src="assets/sota/bruggi2013_fig5.jpg" alt="" style="height:66px">
+        <figcaption>Conventional vs optimised block \cite{bruggi2013}</figcaption></figure>
     </div>
     <div class="col wall">
       <div class="head">
-        <svg viewBox="0 0 58 50"><rect x="12" y="4" width="17" height="42" fill="#bfbfbf"/><rect x="29" y="4" width="17" height="42" fill="#fef6b6"/><path d="M29 4v42" stroke="#111" stroke-dasharray="3 2"/><rect x="12" y="4" width="34" height="42" fill="none" stroke="#111" stroke-width="1.5"/><path d="M2 14h7M2 25h7M2 36h7" stroke="#c0392b" stroke-width="2"/></svg>
+        <img src="assets/icons/sota-wall.svg" alt="">
         <div><b>Wall</b><span>thickness, position and distribution of the insulation, shape of the wall</span></div></div>
       <ul>
-        <li><span class="m p"></span><span class="y">2011</span><span>Ozel <i>— optimum insulation thickness vs orientation (1D)</i></span></li>
-        <li><span class="m p"></span><span class="y">2012</span><span>Kaynakli <i>— review: optimum insulation thickness</i></span></li>
-        <li><span class="m p"></span><span class="y">2014</span><span>Ozel <i>— location of the insulation in the wall</i></span></li>
-        <li><span class="m p"></span><span class="y">2019</span><span>Gasparin et al. <i>— insulation thickness, adaptive moving grid</i></span></li>
-        <li><span class="m t"></span><span class="y">2019</span><span>Vantyghem et al. <i>— multi-material topology, structural + thermal</i></span></li>
-        <li><span class="m s"></span><span class="y">2024</span><span>Alpar et al. <i>— shape of a retrofitted façade</i></span></li>
-        <li><span class="m t"></span><span class="y">2025</span><span>Karashbayeva et al. <i>— insulation domain of a 2D wall</i></span></li>
+        <li><span class="m p"></span><span class="y">2011</span><span>Ozel\cite{ozel2011} <i>— optimum insulation thickness vs orientation (1D)</i></span></li>
+        <li><span class="m p"></span><span class="y">2012</span><span>Kaynakli\cite{kaynakli2012} <i>— review: optimum insulation thickness</i></span></li>
+        <li><span class="m p"></span><span class="y">2014</span><span>Ozel\cite{ozel2014} <i>— location of the insulation in the wall</i></span></li>
+        <li><span class="m p"></span><span class="y">2019</span><span>Gasparin et al.\cite{gasparin2019} <i>— insulation thickness, adaptive moving grid</i></span></li>
+        <li><span class="m t"></span><span class="y">2019</span><span>Vantyghem et al.\cite{vantyghem2019} <i>— multi-material topology, structural + thermal</i></span></li>
+        <li><span class="m s"></span><span class="y">2024</span><span>Alpar et al.\cite{alpar2024} <i>— shape of a retrofitted façade</i></span></li>
+        <li><span class="m t"></span><span class="y">2025</span><span>Karashbayeva et al.\cite{karashbayeva2025} <i>— insulation domain of a 2D wall</i></span></li>
       </ul>
     </div>
     <div class="col bld">
       <div class="head">
-        <svg viewBox="0 0 58 50"><path d="M6 46V22L22 10L38 22V46Z" fill="#dfe7ef" stroke="#00294B" stroke-width="2"/><rect x="40" y="18" width="14" height="28" fill="#dfe7ef" stroke="#00294B" stroke-width="2"/><circle cx="48" cy="8" r="5" fill="#FEEA6D" stroke="#c9a800"/><path d="M2 46h54" stroke="#00294B" stroke-width="2"/></svg>
+        <img src="assets/icons/sota-building.svg" alt="">
         <div><b>Building</b><span>form, orientation, envelope, systems</span></div></div>
       <ul>
-        <li><span class="m p"></span><span class="y">2010</span><span>Tuhus-Dubrow &amp; Krarti <i>— envelope and form, genetic algorithm</i></span></li>
-        <li><span class="m p"></span><span class="y">2013</span><span>Evins <i>— review: optimisation in sustainable building design</i></span></li>
-        <li><span class="m p"></span><span class="y">2014</span><span>Nguyen et al. <i>— review: simulation-based optimisation</i></span></li>
-        <li><span class="m s"></span><span class="y">2020</span><span>Ciardiello et al. <i>— shape and envelope, multi-objective</i></span></li>
+        <li><span class="m p"></span><span class="y">2010</span><span>Tuhus-Dubrow &amp; Krarti\cite{tuhusdubrow2010} <i>— envelope and form, genetic algorithm</i></span></li>
+        <li><span class="m p"></span><span class="y">2013</span><span>Evins\cite{evins2013} <i>— review: optimisation in sustainable building design</i></span></li>
+        <li><span class="m p"></span><span class="y">2014</span><span>Nguyen et al.\cite{nguyen2014} <i>— review: simulation-based optimisation</i></span></li>
+        <li><span class="m s"></span><span class="y">2020</span><span>Ciardiello et al.\cite{ciardiello2020} <i>— shape and envelope, multi-objective</i></span></li>
       </ul>
+      <figure class="ill"><img src="assets/sota/ciardiello2020_ga.jpg" alt="" style="height:112px">
+        <figcaption>Geometry then envelope optimisation \cite{ciardiello2020}</figcaption></figure>
     </div>
   </div>
   <div class="legend" data-until="0"><span><i class="m t"></i>topology / material layout</span><span><i class="m s"></i>shape</span><span><i class="m p"></i>parameters (thickness, position, orientation…)</span></div>
@@ -323,34 +299,4 @@
   </div>
 </section>
 
-<section class="slide plan" data-title="Action plan">
-  <div class="row">
-    <div class="card"><span class="num">1</span>
-      <h3>2D wall models</h3>
-      <ul>
-        <li>Transient heat conduction in 2D.</li>
-        <li>Two materials with a curved interface (Ghost Fluid Method).</li>
-        <li>Free shape of the external face.</li>
-      </ul>
-      <span class="badge done">done</span>
-    </div>
-    <div class="arr">➜</div>
-    <div class="card cur"><span class="num">2</span>
-      <h3>Realistic boundary conditions</h3>
-      <ul>
-        <li>Co-simulation with <b>Domus</b> (building energy simulation).</li>
-        <li>Urban scene: sun, shadows, long-wave exchanges, indoor zones.</li>
-      </ul>
-      <span class="badge now">in progress: this talk</span>
-    </div>
-    <div class="arr">➜</div>
-    <div class="card"><span class="num">3</span>
-      <h3>Optimisation</h3>
-      <ul>
-        <li>Shape and insulation domain of the wall.</li>
-        <li>Surrogate-based optimisation (kriging).</li>
-      </ul>
-      <span class="badge next">next</span>
-    </div>
-  </div>
-</section>
+

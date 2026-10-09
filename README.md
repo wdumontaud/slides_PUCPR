@@ -7,6 +7,9 @@ theme/style.css      look & feel                            (≈ presentation.st
 theme/engine.js      nav bubbles, TOC, footer, fullscreen, PDF mode
 theme/field.js       animated contour-line background
 assets/              images
+refs.bib             bibliography (cite with \cite{key} in the parts)
+bib.py               BibTeX support used by build.py
+assets/icons/*.svg   drawings (editable in assets/illustrations.pptx)
 build.py             assembles index.html from the above
 export_pdf.py        index.html -> PDF
 ```
@@ -32,6 +35,11 @@ Open `index.html` directly (double-click), no server needed.
 * Steps inside a slide (like beamer `\pause`): `<section class="slide" data-steps="2">`, then
   `<div data-from="1">` (shown from step 1) or `<div data-until="0">` (shown up to step 0).
   The slide gets `data-step="k"` for CSS and a `step` event for JS; the PDF shows the last step.
+* Citations: `\cite{key}` or `\cite{key1,key2}` with keys from `refs.bib` -> numbers in order of first citation,
+  a footer with the short references on the slide (disable with `data-footcite="off"` on the section),
+  and a "References" appendix at the end with the full entries (click a number to jump to it).
+* Drawings: `assets/illustrations.pptx` holds every `assets/icons/*.svg`. In PowerPoint: right-click > Convert to Shape,
+  edit, then right-click the group > Save as Picture > SVG over the same file, and rebuild.
 * To add a part: create `parts/09-xxx.html` and add it to `main.json`.
 
 ## Viewing

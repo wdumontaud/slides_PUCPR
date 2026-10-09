@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="110" height="100" viewBox="0 0 110 100">
+  <circle cx="55" cy="52" r="46" fill="#e9eef4"/>
+  <!-- sun -->
+  <circle cx="80" cy="26" r="9" fill="#FEEA6D" stroke="#c9a800" stroke-width="3"/>
+  <path d="M80 9v5M80 38v5M63 26h5M92 26h5M68 14l3.5 3.5M88.5 34.5L92 38M68 38l3.5-3.5M88.5 17.5L92 14" stroke="#c9a800" stroke-width="3" stroke-linecap="round"/>
+  <!-- facade with a shadow -->
+  <path d="M20 88V40h44v48Z" fill="#fff" stroke="#00294B" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M64 56 L20 88 H64Z" fill="#8c9fae" opacity=".45"/>
+  <path d="M28 49h9v9h-9zM47 49h9v9h-9zM28 68h9v9h-9zM47 68h9v9h-9z" fill="#dfe7ef" stroke="#00294B" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M14 88h56" stroke="#00294B" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

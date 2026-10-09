@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="110" height="100" viewBox="0 0 110 100">
+  <circle cx="55" cy="52" r="46" fill="#e9eef4"/>
+  <!-- wall section: structural material + insulation, curved interface -->
+  <path d="M40 14h22c-8 12 8 26 0 38s8 26 0 38H40Z" fill="#bfbfbf"/>
+  <path d="M62 14h18v76H62c8-12-8-26 0-38s-8-26 0-38Z" fill="#fef6b6"/>
+  <path d="M62 14c-8 12 8 26 0 38s8 26 0 38" fill="none" stroke="#00294B" stroke-width="2.5" stroke-dasharray="5 4"/>
+  <rect x="40" y="14" width="40" height="76" fill="none" stroke="#00294B" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- heat flux entering -->
+  <path d="M12 34h22M12 52h22M12 70h22" stroke="#c0392b" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M28 28l6 6-6 6M28 46l6 6-6 6M28 64l6 6-6 6" fill="none" stroke="#c0392b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- temperature profile -->
+  <path d="M86 30c6 6 6 14 0 22s-6 16 0 22" fill="none" stroke="#4D0DAB" stroke-width="3" stroke-linecap="round"/>
+</svg>

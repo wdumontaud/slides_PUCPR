@@ -25,6 +25,7 @@ const slides=[]; const toc=[]; let sec='',sub='';
   if(n.nodeType===8){
     const t=n.nodeValue.trim(); let m;
     if((m=t.match(/^section:\s*(.+)$/i))){ sec=m[1].trim(); sub=''; toc.push({name:sec,subs:[]}); }
+    else if(/^appendix$/i.test(t)){ sec=''; sub=''; }          // slides after it: no bubble, not in the outline
     else if((m=t.match(/^subsection:\s*(.+)$/i))){ sub=m[1].trim(); if(toc.length) toc[toc.length-1].subs.push(sub); }
   } else if(n.nodeType===1 && n.matches('section.slide')){
     n.dataset.section=sec; n.dataset.subsection=sub; slides.push(n);
@@ -78,15 +79,15 @@ grp.forEach((G,gi)=>{ if(gi){ const A=grp[gi-1];
     x+=Math.max(INTER_MIN,LAB_GAP+(A.w-A.span)/2+(G.w-G.span)/2); }
   G.g.forEach((d,n)=>{d.x=x+n*INTRA_PX;}); x+=G.span; });
 const kx=Math.min(1,(NW-2*PAD)/Math.max(x,1)), X0=(NW-x*kx)/2;
-dots.forEach((d,n)=>{ d.x=X0+d.x*kx; d.y=(n%2?34:41)+(rnd()-.5)*2.5; });
+dots.forEach(d=>{ d.x=X0+d.x*kx; d.y=38; });          // all bubbles on one line
 // irregular wave through the bubbles (Catmull-Rom through extra control points)
 const pts=[]; let sign=1; const first=[];
 dots.forEach((d,n)=>{ first.push(pts.length); pts.push(d);
   if(n<dots.length-1){ const e=dots[n+1], long=e.sec!==d.sec, m=long?2:1;
     for(let j=1;j<=m;j++){
       if(rnd()<.8) sign=-sign;
-      const t=(j-.5+(rnd()-.5)*.5)/m, amp=(long?5:4)+rnd()*4.5;
-      pts.push({x:d.x+(e.x-d.x)*t, y:Math.max(31,Math.min(45.5,d.y+(e.y-d.y)*t+sign*amp))}); } } });
+      const t=(j-.5+(rnd()-.5)*.3)/m, amp=4+rnd()*2.5;                // wave between the bubbles
+      pts.push({x:d.x+(e.x-d.x)*t, y:d.y+sign*amp}); } } });
 const P=i=>pts[Math.max(0,Math.min(pts.length-1,i))];
 const seg=i=>{const a=P(i),b=P(i+1),p0=P(i-1),p3=P(i+2);
   return `C${a.x+(b.x-p0.x)/6},${a.y+(b.y-p0.y)/6} ${b.x-(p3.x-a.x)/6},${b.y-(p3.y-a.y)/6} ${b.x},${b.y}`};
@@ -105,13 +106,13 @@ function makeNav(onDotClick){
   const cs=dots.map(d=>{const c=mk('circle',{cx:d.x,cy:d.y,r:5});
     if(onDotClick) c.addEventListener('click',e=>{e.stopPropagation();onDotClick(d.k)}); return c});
   el.appendChild(svg);
-  return {el, set(i){
+  return {el, set(i,frac=0){            // frac in [0,1): progress of the in-slide steps along the next segment
     let cur=-1; dots.forEach((d,n)=>{ if(d.k<=i) cur=n; });
     const onDot=cur>=0&&dots[cur].k===i;
     cs.forEach((c,n)=>{const on=onDot&&n===cur;
       c.setAttribute('class',on?'cur':(n<cur||(n===cur&&!onDot)?'past':'')); c.style.r=on?'7px':'5px';});
     segs.forEach((p,n)=>{ if(p._L==null){p._L=p.getTotalLength();p.style.strokeDasharray=p._L;p.style.strokeDashoffset=p._L;}
-      p.style.strokeDashoffset=(n<cur)?0:p._L; });
+      p.style.strokeDashoffset=(n<cur)?0:(n===cur&&onDot?p._L*(1-frac):p._L); });
     labs.forEach(l=>l.setAttribute('class','lab'+(onDot&&l.textContent===dots[cur].sec?' cur':'')));
   }};
 }
@@ -136,7 +137,7 @@ async function printMode(){
     s.classList.add('active','noanim'); pg.appendChild(s); setStep(s,nSteps(s),true);
     if(!isTitle(s)){
       const nv=makeNav(), ft=makeFoot(); nv.el.classList.add('noanim');
-      pg.appendChild(nv.el); pg.appendChild(ft.el); nv.set(k); ft.set(k); }
+      pg.appendChild(nv.el); pg.appendChild(ft.el); nv.set(k,nSteps(s)/(nSteps(s)+1)); ft.set(k); }
   });
   stage.querySelectorAll('style').forEach(st=>document.head.appendChild(st));   // keep the parts' own CSS
   stage.remove();
@@ -158,13 +159,14 @@ function show(n,step){
   slides.forEach((s,k)=>s.classList.toggle('active',k===i));
   const t=isTitle(slides[i]);
   nav.el.style.opacity=foot.el.style.opacity=t?0:1; nav.el.style.pointerEvents=t?'none':'auto';
-  nav.set(i); foot.set(i);
+  nav.set(i,st/(nSteps(slides[i])+1)); foot.set(i);
   history.replaceState(null,'','#'+(i+1));
 }
 function fit(){const k=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform=`translate(-50%,-50%) scale(${k})`}
 function toggleFullscreen(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
-function next(){ if(st<nSteps(slides[i])) setStep(slides[i],++st); else show(i+1); }
-function prev(){ if(st>0) setStep(slides[i],--st); else if(i>0){ const k=i-1; show(k,nSteps(slides[k])); } }
+const navStep=()=>nav.set(i,st/(nSteps(slides[i])+1));
+function next(){ if(st<nSteps(slides[i])){ setStep(slides[i],++st); navStep(); } else show(i+1); }
+function prev(){ if(st>0){ setStep(slides[i],--st); navStep(); } else if(i>0){ const k=i-1; show(k,nSteps(slides[k])); } }
 addEventListener('resize',fit); fit(); show(i,0);
 
 addEventListener('keydown',e=>{
@@ -173,7 +175,10 @@ addEventListener('keydown',e=>{
   else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
   else if(e.key==='f'||e.key==='F') toggleFullscreen();
 });
-addEventListener('click',e=>{ if(e.target.closest('a,#tools'))return; e.clientX>innerWidth/2?next():prev(); });
+addEventListener('click',e=>{
+  const c=e.target.closest('.cite a');                       // citation number -> its References slide
+  if(c){ e.preventDefault(); const k=slides.findIndex(s=>s.querySelector(`.biblio li[value="${c.dataset.ref}"]`)); if(k>=0) show(k,0); return; }
+  if(e.target.closest('a,#tools'))return; e.clientX>innerWidth/2?next():prev(); });
 
 // viewer UI: fullscreen + PDF buttons (visible while the mouse moves), hint fading after a few seconds
 const hint=Object.assign(document.createElement('div'),{className:'hint',textContent:'← → / space: navigate · F: fullscreen'});
