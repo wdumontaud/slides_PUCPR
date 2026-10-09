@@ -1,0 +1,1347 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domus co-simulation — Help</title>
+<link rel="icon" href="../tops.png">
+<style>
+:root{color-scheme:dark;--bg:#080b10;--bg-2:#0c1016;--panel:#10151d;--panel-2:#151c26;--line:#1d2632;--line-2:#293445;
+  --text:#dde4ec;--muted:#8d9aab;--faint:#5f6c7d;--cold:#4ea3ff;--hot:#ff7a3d;--ok:#3ecf8e;--warn:#f5b942;--violet:#8b5cf6;
+  --peach:#ffb88a;--top:102px;--mono:"Cascadia Mono","Cascadia Code",Consolas,monospace;
+  --sans:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;
+  --thermal:linear-gradient(90deg,#3b82f6,#8b5cf6,#ef5b7f,#ff9a3d)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.62 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--peach);text-decoration:none;border-bottom:1px dotted #ffb88a66}
+a:hover{border-bottom-style:solid}
+
+/* ---- header, search, tabs ---- */
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;height:56px;padding:0 24px;
+  background:var(--bg-2);border-bottom:1px solid var(--line)}
+header img{width:24px;height:24px;border-radius:6px}
+header b{font-family:var(--mono);color:var(--peach)}
+header .hsub{color:var(--muted)}
+.search{margin-left:auto;position:relative}
+.search input{width:260px;height:32px;border-radius:9px;border:1px solid var(--line-2);background:var(--panel);
+  color:var(--text);font:13px var(--sans);padding:0 12px 0 32px;outline:none;transition:width .2s,border-color .2s}
+.search input:focus{width:340px;border-color:var(--hot)}
+.search::before{content:"⌕";position:absolute;left:11px;top:4px;color:var(--faint);font-size:17px}
+.search kbd{position:absolute;right:8px;top:6px;font-size:11px;padding:0 5px;color:var(--faint)}
+.results{position:absolute;right:0;top:38px;width:420px;max-height:60vh;overflow:auto;background:var(--panel);
+  border:1px solid var(--line-2);border-radius:12px;box-shadow:0 20px 60px #000c;padding:6px;display:none}
+.results.on{display:block}
+.results a{display:block;border:0;padding:7px 10px;border-radius:8px;color:var(--text)}
+.results a small{display:block;color:var(--faint);font-size:11.5px}
+.results a.sel,.results a:hover{background:var(--panel-2)}
+.results .none{padding:10px;color:var(--faint)}
+.tabs{position:sticky;top:56px;z-index:4;display:flex;flex-wrap:wrap;gap:4px;padding:8px 24px;
+  background:var(--bg-2);border-bottom:1px solid var(--line)}
+.tabs button{font:13px var(--sans);color:var(--muted);background:transparent;border:1px solid transparent;
+  border-radius:8px;padding:5px 11px;cursor:pointer;transition:background .15s,color .15s}
+.tabs button:hover{color:var(--text);background:var(--panel)}
+.tabs button[aria-selected="true"]{color:var(--peach);background:var(--panel);border-color:var(--line-2)}
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--thermal);z-index:6;width:0}
+
+/* ---- layout ---- */
+.wrap{display:grid;grid-template-columns:210px minmax(0,1fr);gap:40px;max-width:1180px;margin:0 auto;padding:28px 24px 80px}
+nav{position:sticky;top:calc(var(--top) + 28px);align-self:start;font-size:13px;max-height:calc(100vh - var(--top) - 40px);overflow:auto}
+nav a{display:block;padding:4px 10px;border:0;border-left:2px solid var(--line);color:var(--muted)}
+nav a:hover{color:var(--text);border-left-color:var(--hot)}
+nav a.sub{padding-left:22px;font-size:12.5px}
+nav a.cur{color:var(--text);border-left-color:var(--hot)}
+main{min-width:0}
+body.no-toc .wrap{grid-template-columns:minmax(0,1fr)}
+section.page{display:none}
+section.page.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h1{font-size:28px;margin:0 0 6px;font-weight:650;letter-spacing:-.01em}
+.lead{color:var(--muted);font-size:15px;margin:0 0 22px;max-width:780px}
+h2{font-size:19px;margin:42px 0 12px;padding-top:8px;font-weight:620;scroll-margin-top:calc(var(--top) + 14px)}
+h2::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--hot);margin-right:10px;vertical-align:middle}
+h3{font-size:15px;margin:28px 0 8px;color:var(--peach);font-weight:600;scroll-margin-top:calc(var(--top) + 14px)}
+h4{margin:20px 0 6px;font-size:13.5px}
+p,li{color:#c3ccd7}
+p{max-width:820px}
+code,kbd{font:12.5px var(--mono);background:var(--panel-2);border:1px solid var(--line-2);border-radius:5px;padding:0 5px;color:var(--text)}
+kbd{border-bottom-width:2px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+td:first-child{white-space:nowrap;color:var(--text)}
+tr{transition:background .12s}
+tbody tr:hover,table tr:hover td{background:#10151d}
+svg text{font-family:var(--mono)}
+svg.fig{width:100%;display:block;margin:14px 0}
+figure{margin:14px 0}
+figure img{display:block;max-width:100%;border:1px solid var(--line);border-radius:10px;cursor:zoom-in;background:var(--bg-2)}
+figcaption{color:var(--faint);font-size:12.5px;margin-top:6px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.side{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:22px;align-items:start}
+.side.wide{grid-template-columns:minmax(0,1fr) minmax(0,300px)}
+@media (max-width:900px){.wrap{grid-template-columns:1fr}nav{display:none}.cols,.cols3,.side,.side.wide{grid-template-columns:1fr}
+  td:first-child{white-space:normal}.search input,.search input:focus{width:170px}.results{width:300px}}
+
+/* ---- blocks ---- */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:14px 0}
+.card>b:first-child{color:var(--text)}
+.note{border-left:3px solid var(--warn)}
+.tip{border-left:3px solid var(--cold)}
+.card ul{padding-left:20px;margin:6px 0 0}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0}
+.flow span{padding:6px 12px;border-radius:8px;background:var(--panel-2);border:1px solid var(--line-2);font-size:13px}
+.flow i{color:var(--faint);font-style:normal}
+.tree{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;
+  font:12.5px/1.75 var(--mono);color:#c3ccd7;white-space:pre;overflow-x:auto}
+.tree b{color:var(--peach);font-weight:600}
+.tree i{color:var(--faint);font-style:normal}
+details.more{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:var(--bg-2)}
+details.more>summary{cursor:pointer;list-style:none;padding:10px 16px;color:var(--muted);font-size:13px;user-select:none}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::before{content:"›";display:inline-block;width:16px;color:var(--hot);transition:transform .2s}
+details.more[open]>summary::before{transform:rotate(90deg)}
+details.more>summary:hover{color:var(--text)}
+details.more>div{padding:0 16px 12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chips span{font-size:12.5px;padding:3px 10px;border-radius:20px;background:var(--panel-2);border:1px solid var(--line-2);color:#c3ccd7}
+.chips span b{color:var(--peach);font-weight:600}
+
+/* numbered legend of an image */
+ol.keys{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px}
+ol.keys li{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start;font-size:13px;padding:5px 8px;border-radius:8px}
+ol.keys li:hover{background:var(--panel)}
+ol.keys li>i{font-style:normal;display:grid;place-items:center;width:22px;height:22px;border-radius:11px;background:#ffb14e;
+  color:#10151d;font-weight:700;font-size:12px}
+ol.keys li b{color:var(--text)}
+ol.keys.two{grid-template-columns:1fr 1fr}
+@media (max-width:760px){ol.keys.two{grid-template-columns:1fr}}
+
+/* tour = animated capture + chapters */
+.tour{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:16px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;padding:12px;margin:16px 0}
+.tour .screen{position:relative}
+.tour img{display:block;width:100%;border-radius:9px;border:1px solid var(--line);cursor:zoom-in;background:var(--bg-2);min-height:120px}
+.tour .replay{position:absolute;right:10px;top:10px;font:12px var(--sans);color:var(--text);background:#0c1016d9;
+  border:1px solid var(--line-2);border-radius:8px;padding:4px 10px;cursor:pointer;opacity:.75}
+.tour .replay:hover{opacity:1;border-color:var(--hot)}
+.tour h4{margin:4px 0 8px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.tour ol{margin:0;padding-left:0;list-style:none;counter-reset:c;font-size:13px}
+.tour ol li{counter-increment:c;position:relative;padding-left:30px;margin:0 0 7px;color:#c3ccd7}
+.tour ol li::before{content:counter(c);position:absolute;left:0;top:1px;display:grid;place-items:center;width:20px;height:20px;
+  border-radius:10px;background:var(--hot);color:#10151d;font-weight:700;font-size:11px}
+@media (max-width:900px){.tour{grid-template-columns:1fr}}
+
+/* gallery: one picture at a time, chosen with the buttons */
+.gal{margin:14px 0}
+.gal .gbar{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.gal .gbar button{font:12.5px var(--sans);color:var(--muted);background:var(--panel);border:1px solid var(--line-2);
+  border-radius:20px;padding:4px 12px;cursor:pointer;transition:all .15s}
+.gal .gbar button:hover{color:var(--text)}
+.gal .gbar button.on{color:#10151d;background:var(--peach);border-color:var(--peach)}
+.gal figure{display:none;margin:0}
+.gal figure.on{display:block;animation:fade .25s ease}
+.gal.narrow img{max-width:300px}
+
+/* start page */
+.hero{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line-2);padding:26px 28px;margin:0 0 20px;
+  background:radial-gradient(ellipse at 15% 20%,#3b82f633,transparent 55%),radial-gradient(ellipse at 85% 80%,#ff7a3d30,transparent 55%),var(--panel)}
+.hero h1{font-size:34px;letter-spacing:.12em}
+.hero h1 span{font-size:15px;letter-spacing:0;color:var(--muted);font-weight:400;margin-left:12px}
+.hero p{margin:6px 0 0;color:#c3ccd7;font-size:15px}
+.tasks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0}
+.tasks a{display:block;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:14px 16px;color:var(--text);
+  transition:transform .15s,border-color .15s}
+.tasks a:hover{transform:translateY(-2px);border-color:var(--hot)}
+.tasks a b{display:block;font-size:14px;margin-bottom:3px}
+.tasks a small{color:var(--muted);font-size:12.5px}
+.tasks a em{font-style:normal;font-size:20px;display:block;margin-bottom:4px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;counter-reset:s;margin:14px 0}
+.steps div{counter-increment:s;position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:11px 14px 11px 48px;font-size:13px;color:#c3ccd7}
+.steps div::before{content:counter(s);position:absolute;left:13px;top:12px;display:grid;place-items:center;width:24px;height:24px;
+  border-radius:12px;background:var(--thermal);color:#fff;font-weight:700;font-size:12px}
+.steps div b{display:block;color:var(--text)}
+
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:18px;border-top:1px solid var(--line)}
+.pager button{font:13px var(--sans);color:var(--muted);background:var(--panel);border:1px solid var(--line-2);border-radius:10px;
+  padding:9px 14px;cursor:pointer;max-width:48%}
+.pager button:hover{color:var(--text);border-color:var(--hot)}
+.pager button small{display:block;font-size:11px;color:var(--faint)}
+
+/* zoom of a picture */
+.lb{position:fixed;inset:0;z-index:20;background:#05070acc;backdrop-filter:blur(4px);display:none;place-items:center;cursor:zoom-out;padding:24px}
+.lb.on{display:grid;animation:fade .2s ease}
+.lb img{max-width:96vw;max-height:92vh;border-radius:10px;border:1px solid var(--line-2);box-shadow:0 30px 90px #000}
+</style></head><body>
+<div class="progress" id="progress"></div>
+<header><img src="../tops.png" alt=""><b>TOPS</b><span class="hsub">Domus co-simulation · help</span>
+  <div class="search"><input id="q" type="search" placeholder="Search a field, a button…" autocomplete="off"><kbd>/</kbd>
+    <div class="results" id="results"></div></div></header>
+<div class="tabs" id="tabs" role="tablist"></div>
+<div class="wrap">
+<nav id="toc"></nav>
+<main>
+
+<!-- ================================================================================================= START -->
+<section class="page" id="tab-start" data-label="Start">
+<div class="hero">
+  <h1>TOPS<span>Domus co-simulation</span></h1>
+  <p>Energy optimisation of the topology and the shape of a building wall: Domus simulates an urban scene, a 2D
+  wall model computes the heat through the studied façade, and the hub drives both from a window of its own.</p>
+</div>
+
+<h2 id="tour">A simulation in one minute</h2>
+<div class="tour">
+  <div class="screen"><img src="img/tour_simulation.webp" alt="tour of the hub: parameters, drawings, run, graphs" loading="lazy">
+    <button class="replay" type="button">↻ replay</button></div>
+  <div><h4>In the video</h4><ol>
+    <li>Pick the IDF of the case</li>
+    <li>Open a group of parameters</li>
+    <li>Change a value: the drawings follow</li>
+    <li>The studied wall and its interface</li>
+    <li><kbd>▶ Run simulation</kbd></li>
+    <li><kbd>↻ Regenerate IDF</kbd> only rewrites the IDF</li>
+    <li>Results in the panel Graphs</li>
+    <li>Tabs of the graphs</li>
+  </ol></div>
+</div>
+
+<h2 id="quick">Quick start</h2>
+<div class="steps">
+  <div><b>Open the hub</b>desktop shortcut <i>TOPS</i>, or <code>hubgui\TOPS.bat</code>; on its home: <i>Domus co-simulation</i></div>
+  <div><b>Choose a case</b>IDF file, city, scene</div>
+  <div><b>Draw the wall</b>layers and interface</div>
+  <div><b>Run</b><kbd>▶ Run simulation</kbd></div>
+  <div><b>Read the results</b>panel Graphs, Export icon</div>
+</div>
+
+<h2 id="tasks">I want to…</h2>
+<div class="tasks">
+  <a href="#workflow"><em>🧭</em><b>Find my way in the hub</b><small>panels, buttons, 3D viewer</small></a>
+  <a href="#params"><em>🏙️</em><b>Set up the case</b><small>scene, walls, heating, windows</small></a>
+  <a href="#curve"><em>〰️</em><b>Shape the studied wall</b><small>spline, bezier, rbf, blocks, level-set</small></a>
+  <a href="#optim"><em>🎯</em><b>Optimise the wall</b><small>kriging, budget, results</small></a>
+  <a href="#cluster"><em>🖧</em><b>Run on the cluster</b><small>32 Domus at once</small></a>
+  <a href="#graphs"><em>📈</em><b>Put a figure in a report</b><small>PDF, SVG, CSV</small></a>
+  <a href="#ct_pack"><em>📦</em><b>Install, uninstall, share</b><small>package, shortcut, uninstaller</small></a>
+  <a href="#trouble"><em>🛟</em><b>Something went wrong</b><small>troubleshooting</small></a>
+</div>
+</section>
+
+<!-- ================================================================================================= MODEL -->
+<section class="page" id="tab-model" data-label="The model">
+<h2 id="model">The model</h2>
+<p>Domus simulates the building (one thermal zone per apartment); the heat through the studied façade is computed by
+a <b>2D wall model</b>. They exchange data at every Domus time step.</p>
+<svg class="fig" viewBox="0 0 720 230" style="max-width:720px">
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0L10 5L0 10z" fill="#8d9aab"/></marker>
+    <linearGradient id="gw" x1="0" x2="1"><stop offset="0" stop-color="#ffb14e"/><stop offset="1" stop-color="#ff7a3d"/></linearGradient></defs>
+  <rect x="10" y="14" width="300" height="200" rx="14" fill="#10151d" stroke="#293445"/>
+  <text x="30" y="40" fill="#dde4ec" font-size="14">Domus</text>
+  <text x="30" y="58" fill="#5f6c7d" font-size="10.5">building energy simulation</text>
+  <g stroke="#3a475b" fill="#1b2330">
+    <rect x="40" y="80" width="56" height="36"/><rect x="96" y="80" width="56" height="36"/><rect x="152" y="80" width="56" height="36"/>
+    <rect x="40" y="116" width="56" height="36"/><rect x="152" y="116" width="56" height="36"/>
+    <rect x="40" y="152" width="56" height="36"/><rect x="96" y="152" width="56" height="36"/><rect x="152" y="152" width="56" height="36"/>
+  </g>
+  <rect x="96" y="116" width="56" height="36" fill="#2a2016" stroke="#ff7a3d"/>
+  <rect x="94" y="116" width="4" height="36" fill="url(#gw)"/>
+  <text x="126" y="138" text-anchor="middle" fill="#ffb88a" font-size="10">Zone 1</text>
+  <text x="222" y="98" fill="#8d9aab" font-size="10.5">apartments</text>
+  <text x="222" y="112" fill="#8d9aab" font-size="10.5">= Domus zones</text>
+  <text x="222" y="162" fill="#8d9aab" font-size="10.5">sun, sky,</text>
+  <text x="222" y="176" fill="#8d9aab" font-size="10.5">heating…</text>
+  <rect x="410" y="14" width="300" height="200" rx="14" fill="#10151d" stroke="#ff7a3d" stroke-opacity=".5"/>
+  <text x="430" y="40" fill="#dde4ec" font-size="14">2D wall model</text>
+  <text x="430" y="58" fill="#5f6c7d" font-size="10.5">heat conduction T(x, y, t)</text>
+  <rect x="470" y="76" width="120" height="120" fill="#4ea3ff" fill-opacity=".28" stroke="#293445"/>
+  <path d="M470 76 H520 C548 106 500 150 530 196 H470 Z" fill="#ffb14e" fill-opacity=".55"/>
+  <text x="462" y="140" text-anchor="end" fill="#8d9aab" font-size="10">out</text>
+  <text x="596" y="140" fill="#8d9aab" font-size="10">in</text>
+  <text x="620" y="110" fill="#8d9aab" font-size="10.5">section of</text>
+  <text x="620" y="124" fill="#8d9aab" font-size="10.5">the studied</text>
+  <text x="620" y="138" fill="#8d9aab" font-size="10.5">facade</text>
+  <path d="M316 96 H404" stroke="#ffb88a" stroke-width="1.4" marker-end="url(#ar)"/>
+  <text x="360" y="86" text-anchor="middle" fill="#ffb88a" font-size="10.5">boundary</text>
+  <text x="360" y="112" text-anchor="middle" fill="#ffb88a" font-size="10.5">conditions</text>
+  <path d="M404 150 H316" stroke="#4ea3ff" stroke-width="1.4" marker-end="url(#ar)"/>
+  <text x="360" y="140" text-anchor="middle" fill="#4ea3ff" font-size="10.5">inside</text>
+  <text x="360" y="166" text-anchor="middle" fill="#4ea3ff" font-size="10.5">surface</text>
+</svg>
+<div class="cols">
+<div class="card"><b>id2d2l</b> — two materials separated by a curved <b>interface</b>. The volume of layer 1 stays
+<code>H·d<sub>1</sub></code>: only its distribution changes.</div>
+<div class="card"><b>sh2d1l</b> — one material; the curve is the <b>shape of the external face</b>.</div>
+</div>
+<h3 id="outputs">Outputs (Simulation options → Outputs)</h3>
+<table>
+<tr><th>Output</th><th>Graphs</th></tr>
+<tr><td>temperature field</td><td>movie of T</td></tr>
+<tr><td>temperature and fluxes field</td><td>movies of T, q<sub>x</sub>, q<sub>y</sub></td></tr>
+<tr><td>functionals field</td><td>flux into the zone and consumed work over time (W, over the whole studied façade)</td></tr>
+</table>
+<details class="more"><summary>Super time stepping (sh2d1l)</summary><div>
+<p>sh2d1l uses an explicit super time stepping scheme, chosen in <i>Super-Time-Stepping</i>: RKL1 (Runge-Kutta
+Legendre, order 1, default), RKG1 (Gegenbauer, order 1), RKL2, RKG2 (order 2).</p></div></details>
+
+<h3 id="coupling">Coupling with Domus</h3>
+<svg class="fig" viewBox="0 0 720 340" style="max-width:720px">
+  <defs>
+    <marker id="atO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#ffb88a"/></marker>
+    <marker id="atB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4ea3ff"/></marker>
+    <marker id="atY" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffb14e"/></marker>
+    <marker id="atG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8d9aab"/></marker>
+  </defs>
+  <text x="10" y="52" fill="#dde4ec" font-size="14">Domus</text>
+  <text x="10" y="68" fill="#5f6c7d" font-size="11">zones, sun, sky</text>
+  <text x="10" y="200" fill="#dde4ec" font-size="14">Wall model</text>
+  <text x="10" y="216" fill="#5f6c7d" font-size="11">2D field</text>
+  <rect x="130" y="36" width="160" height="40" rx="8" fill="#151c26" stroke="#293445"/>
+  <text x="210" y="61" text-anchor="middle" fill="#5f6c7d" font-size="12">previous step</text>
+  <rect x="300" y="36" width="300" height="40" rx="8" fill="#1b2431" stroke="#ff7a3d" stroke-opacity=".6"/>
+  <text x="450" y="61" text-anchor="middle" fill="#dde4ec" font-size="12">Domus step: zones, heating, surfaces</text>
+  <rect x="610" y="36" width="100" height="40" rx="8" fill="#151c26" stroke="#293445"/>
+  <text x="660" y="61" text-anchor="middle" fill="#5f6c7d" font-size="12">next step</text>
+  <rect x="300" y="182" width="300" height="40" rx="8" fill="#10151d" stroke="#293445"/>
+  <g fill="#ffb14e" fill-opacity=".18"><rect x="300" y="182" width="30" height="40"/><rect x="360" y="182" width="30" height="40"/>
+    <rect x="420" y="182" width="30" height="40"/><rect x="480" y="182" width="30" height="40"/><rect x="540" y="182" width="30" height="40"/></g>
+  <text x="450" y="244" text-anchor="middle" fill="#ffb14e" font-size="12">② n sub-steps dt_model, conditions held</text>
+  <path d="M302 262 H328" stroke="#ffb14e" marker-start="url(#atY)" marker-end="url(#atY)"/>
+  <text x="336" y="266" fill="#ffb14e" font-size="11">dt_model</text>
+  <path d="M302 284 H598" stroke="#8d9aab" marker-start="url(#atG)" marker-end="url(#atG)"/>
+  <text x="450" y="302" text-anchor="middle" fill="#8d9aab" font-size="11">dt_domus = n · dt_model</text>
+  <line x1="130" y1="322" x2="710" y2="322" stroke="#3a475b"/>
+  <line x1="300" y1="316" x2="300" y2="328" stroke="#8d9aab"/><line x1="600" y1="316" x2="600" y2="328" stroke="#8d9aab"/>
+  <text x="300" y="340" text-anchor="middle" fill="#dde4ec" font-size="12">t</text>
+  <text x="600" y="340" text-anchor="middle" fill="#dde4ec" font-size="12">t + dt_domus</text>
+  <path d="M300 78 V178" stroke="#ffb88a" stroke-width="1.6" marker-end="url(#atO)"/>
+  <text x="290" y="100" text-anchor="end" fill="#ffb88a" font-size="12">① boundary conditions</text>
+  <text x="290" y="118" text-anchor="end" fill="#8d9aab" font-size="11">indoor air, room faces</text>
+  <text x="290" y="134" text-anchor="end" fill="#8d9aab" font-size="11">outdoor air, sky, ground</text>
+  <text x="290" y="150" text-anchor="end" fill="#8d9aab" font-size="11">scene surfaces</text>
+  <text x="290" y="166" text-anchor="end" fill="#8d9aab" font-size="11">sun, sunny fraction</text>
+  <path d="M600 178 V78" stroke="#4ea3ff" stroke-width="1.6" marker-end="url(#atB)"/>
+  <text x="610" y="100" fill="#4ea3ff" font-size="12">③ T_surf, h_in</text>
+  <text x="610" y="118" fill="#8d9aab" font-size="11">inside surface</text>
+  <text x="610" y="134" fill="#8d9aab" font-size="11">of the facade</text>
+</svg>
+<p>The wall model returns the <b>mean inside surface temperature</b> and the <b>convection coefficient</b> of the
+façade<span class="det"> (one pair per floor for a façade over several floors)</span>.</p>
+<p class="det">Inside the model every boundary keeps its detail: convection along the height, sun on the sunny part
+only, long-wave with the scene strip by strip.</p>
+</section>
+
+<!-- ================================================================================================= HUB -->
+<section class="page" id="tab-workflow" data-label="Using the hub">
+<h2 id="workflow">Using the hub</h2>
+<div class="flow"><span>Parameters</span><i>→</i><span>check Geometry</span><i>→</i><span>▶ Run simulation</span><i>→</i><span>Terminal</span><i>→</i><span>Graphs</span></div>
+<figure><img src="img/ui_overview.webp" alt="the hub with numbered areas" loading="lazy"></figure>
+<ol class="keys two">
+  <li><i>1</i><span><b>Simulation | Optimisation</b> (the two icons at the top left) — one simulation, or an <a href="#optim">optimisation</a> of the wall.</span></li>
+  <li><i>2</i><span><b>Parameters</b> — groups fold on their title; the form is remembered for each IDF. The panel icon, after the house and the gear (settings), hides or shows them.</span></li>
+  <li><i>3</i><span><b>↻</b> Regenerate IDF — writes the parameters into the IDF, nothing is simulated.</span></li>
+  <li><i>4</i><span><b>▶ Run simulation</b> — regenerates the IDF, runs Domus and the wall model.</span></li>
+  <li><i>5</i><span><b>■ Stop</b> — shown while a job runs; stops the job of the selected terminal chip.</span></li>
+  <li><i>6</i><span><b>Section · Facade · Urban plan</b> — drawn from the form while you type.</span></li>
+  <li><i>7</i><span><b>3D IDF viewer</b> — the IDF on disk, with the sun.</span></li>
+  <li><i>8</i><span><b>Terminal</b> — live output, one chip per job. The running job and its progress are in the title of the window.</span></li>
+  <li><i>9</i><span>Icons at the top: Geometry, Terminal, Graphs (<kbd>Ctrl+1</kbd> <kbd>2</kbd> <kbd>3</kbd>) · <b>?</b> this page · <b>⏻</b> closes the hub<span class="det"> and its window (an optimisation goes on without it); <b>⌂ Help home</b>: the other help pages; <kbd>Esc</kbd>: back</span>.</span></li>
+</ol>
+<div class="card tip">A value outside what the model accepts (for instance a curve too close to a face) is outlined in
+red, not drawn, and the run is refused until it is fixed.</div>
+
+<h3 id="geometry">Section, facade, urban plan</h3>
+<div class="side">
+<div class="gal narrow">
+  <div class="gbar"><button type="button">Section</button><button type="button">Facade</button><button type="button">Urban plan</button></div>
+  <figure><img src="img/geo_section.webp" alt="Section tab" loading="lazy"><figcaption>Cross-section of the studied wall:
+    layers, interface. <kbd>‹</kbd> <kbd>›</kbd> another wall model.</figcaption></figure>
+  <figure><img src="img/geo_facade.webp" alt="Facade tab" loading="lazy"><figcaption>With windows on the studied
+    façade: one numbered wall model per piece of wall. Click a piece: its section.</figcaption></figure>
+  <figure><img src="img/geo_plan.webp" alt="Urban plan tab" loading="lazy"><figcaption>Top view of the scene of the
+    form: grey = floors, Zone 1 in orange. Hover a building: its apartments.</figcaption></figure>
+</div>
+<div>
+<table>
+<tr><th>Tab</th><th>Shows</th></tr>
+<tr><td>Section</td><td>Layers and curve of the studied wall, redrawn on every keystroke.</td></tr>
+<tr class="det"><td>Section, with windows</td><td>The section of one wall model, its windows and its cuts (red, no heat flow).</td></tr>
+<tr class="det"><td>Section, Optimisation</td><td>An animation of designs the optimisation may draw, between the bounds of
+its variables; once the run of the form has results, its best designs one after the other, up to the best one.</td></tr>
+<tr><td>Facade</td><td>Only with windows on the studied façade<span class="det">; a pale number = same column, computed once</span>.</td></tr>
+<tr><td>Urban plan</td><td>The scene of the form, nothing written; street width DX.</td></tr>
+</table>
+</div>
+</div>
+
+<h3 id="viewer">3D IDF viewer</h3>
+<p>Shows the IDF <b>as on disk</b>: regenerate it to see a change of the form. Zone 1 in orange, windows light blue.</p>
+<div class="tour">
+  <div class="screen"><img src="img/tour_viewer.webp" alt="the 3D viewer: rotate, zoom, views, sun, layers, realistic rendering" loading="lazy">
+    <button class="replay" type="button">↻ replay</button></div>
+  <div><h4>In the video</h4><ol>
+    <li>Drag: rotate</li><li>Scroll: zoom · right-drag: pan</li><li>Ready-made views</li>
+    <li>The sun over the day</li><li>Layers: colour maps</li><li>Realistic rendering, neighbourhood, evening</li>
+  </ol></div>
+</div>
+<div class="chips det"><span><b>drag</b> rotate</span><span><b>scroll</b> zoom</span><span><b>right-drag</b> pan</span>
+  <span><b>space</b> play</span><span><b>← →</b> hour</span><span><b>shift ← →</b> day</span>
+  <span><b>name of the IDF</b> list of zones (click: hide one)</span></div>
+<div class="side wide">
+<figure><img src="img/v3d_controls.webp" alt="controls of the 3D viewer" loading="lazy"></figure>
+<ol class="keys">
+  <li><i>1</i><span><b>▶</b> play the sun</span></li>
+  <li><i>2</i><span><b>Day</b> and play mode: 24 h, day by day, whole period</span></li>
+  <li><i>3</i><span><b>Hour</b> of the day</span></li>
+  <li><i>4</i><span><b>Views</b>: default, top, street, in front of the façade</span></li>
+  <li><i>5</i><span><b>PNG</b> image, <b>video</b> (WebM of one loop), full screen</span></li>
+  <li><i>6</i><span><b>Layers</b>: colour map and rendering</span></li>
+</ol>
+</div>
+<div class="gal">
+  <div class="gbar"><button type="button">Standard</button><button type="button">Sunlit hours</button><button type="button">View factors</button>
+    <button type="button">Realistic</button><button type="button">Evening</button></div>
+  <figure><img src="img/v3d_standard.webp" alt="standard rendering" loading="lazy"><figcaption>Standard rendering: flat colours.</figcaption></figure>
+  <figure><img src="img/v3d_sunlit.webp" alt="sunlit hours" loading="lazy"><figcaption>Layers → Sunlit hours: hours of direct sun
+    on the day chosen. Also: solar irradiance now, zone temperatures of the last simulation.</figcaption></figure>
+  <figure><img src="img/v3d_vf.webp" alt="view factors" loading="lazy"><figcaption>Layers → View factors: faces coloured by
+    their view factor from the studied façade (log scale).</figcaption></figure>
+  <figure><img src="img/v3d_realistic.webp" alt="realistic rendering with a neighbourhood" loading="lazy"><figcaption>Realistic
+    rendering, surroundings <i>Neighbourhood</i>: pictures only, the IDF is unchanged and the surroundings are not simulated.</figcaption></figure>
+  <figure><img src="img/v3d_evening.webp" alt="realistic rendering in the evening" loading="lazy"><figcaption>The light
+    follows the hour; at night some windows are lit.</figcaption></figure>
+</div>
+
+<h3 id="terminal">Terminal</h3>
+<p>Live output of the jobs, one chip per job (<a href="#several">several runs</a>). The icons of its head: <b>Latest</b> scrolls to
+the end, <b>Clear</b> empties it (hover an icon for its name).</p>
+<p class="det">Steps <code>[i/n]</code>, Domus and the wall model print their progress bars. Each job keeps its
+terminal: after a look at the Shape &amp; topology models, it is found as it was left. Every panel folds by clicking
+its header; a folded panel loads nothing (the 3D viewer comes back when Geometry opens again).</p>
+</section>
+
+<!-- ================================================================================================= PARAMETERS -->
+<section class="page" id="tab-params" data-label="Parameters">
+<h2 id="params">Parameters</h2>
+<p class="lead">The groups of the form, from top to bottom. Opening an IDF fills the form with the values it was
+built with.</p>
+
+<h3 id="location">Location</h3>
+<table>
+<tr><td>IDF file</td><td>Domus project of the case, rewritten from the urban template at each run.</td></tr>
+<tr><td>Country code</td><td>ISO-3 code (<code>FRA</code>, <code>BRA</code>…).</td></tr>
+<tr><td>City</td><td><b>✓ EPW</b> = weather file present. <b>⤓ Download EPW</b> fetches it from climate.onebuilding.org
+(also done at run time).</td></tr>
+</table>
+
+<h3 id="urban-scene">Urban scene</h3>
+<div class="side">
+<figure><img src="img/scenes.svg" alt="street, courtyard and open courtyard seen from above">
+<figcaption>The three scenes from above. Grey = floors.</figcaption></figure>
+<table>
+<tr><td>Scene</td><td><b>street</b> · <b>courtyard</b> (two wings) · <b>open courtyard</b> (one wing).</td></tr>
+<tr><td>DX</td><td>Street width in front of the studied façade (m).</td></tr>
+<tr><td>Orientation</td><td>Rotation of the project north (°).</td></tr>
+<tr><td>H, Z, X</td><td>Floor height, apartment width, apartment depth (m).</td></tr>
+<tr><td>Floors, apartments</td><td>One apartment = one Domus zone.</td></tr>
+<tr><td>Zone 1 floor / apt.</td><td>The studied apartment (floor 0 = ground).</td></tr>
+<tr><td>Studied facade</td><td><b>Zone 1 only</b> or <b>Whole façade</b> (<a href="#floors">every floor</a>).</td></tr>
+<tr><td>Vertical bands</td><td>1 – 5: the façade cut over its width, each band with its own sun (<a href="#bands">below</a>).</td></tr>
+<tr><td>Facade sun</td><td><b>Rays on the urban scene</b> or <b>Sunny area of Domus</b>: where the direct sun falls on the
+façade (<a href="#sun">below</a>).</td></tr>
+<tr><td>Other buildings</td><td>Row 0 = across the street; <i>Rows behind</i> adds rows; <i>Row</i> chooses the row edited.</td></tr>
+<tr><td>Surface temp. inputs</td><td>Surfaces of the scene with their own temperature in the <a href="#longwave">long-wave</a> exchange (1 – 20).</td></tr>
+<tr><td>Pitched roofs</td><td>none · all buildings · studied side · opposite side · row by row (<a href="#roofs">below</a>).</td></tr>
+</table>
+</div>
+
+<h3 id="roofs">Pitched roofs</h3>
+<svg class="fig" viewBox="0 0 720 200" style="max-width:720px">
+  <g stroke="#5f6c7d" fill="#2b3342">
+    <rect x="30" y="110" width="150" height="70"/><polygon points="30,110 105,67 180,110" fill="#3a3b42"/>
+    <rect x="260" y="110" width="80" height="70"/><polygon points="260,110 260,64 340,110" fill="#3a3b42"/>
+  </g>
+  <g stroke="#ffb14e" stroke-width="2.5"><line x1="30" y1="110" x2="180" y2="110"/><line x1="260" y1="110" x2="340" y2="110"/></g>
+  <g fill="#8d9aab" font-size="11">
+    <text x="105" y="196" text-anchor="middle">depth ≥ minimum: two slopes</text>
+    <text x="300" y="196" text-anchor="middle">narrower: one slope</text>
+    <text x="345" y="92">low eave on the street</text>
+    <text x="105" y="102" text-anchor="middle" fill="#c3ccd7">attic (unheated zone)</text>
+    <text x="190" y="114" fill="#ffb14e">insulated ceiling</text>
+  </g>
+  <g transform="translate(470,20)" stroke="#5f6c7d" fill="#2b3342">
+    <polygon points="0,0 200,0 200,160 0,160"/>
+    <polygon points="40,40 160,40 160,120 40,120" fill="#161d27"/>
+    <g stroke="#c3ccd7" stroke-dasharray="3 2" fill="none">
+      <line x1="0" y1="0" x2="40" y2="40"/><line x1="200" y1="0" x2="160" y2="40"/>
+      <line x1="0" y1="160" x2="40" y2="120"/><line x1="200" y1="160" x2="160" y2="120"/>
+      <line x1="20" y1="20" x2="180" y2="20"/><line x1="20" y1="140" x2="180" y2="140"/>
+      <line x1="20" y1="20" x2="20" y2="140"/><line x1="180" y1="20" x2="180" y2="140"/>
+    </g>
+    <text x="100" y="84" fill="#8d9aab" font-size="11" stroke="none" text-anchor="middle">courtyard</text>
+  </g>
+</svg>
+<p>Each building gets an unheated attic zone. <i>Roof slope</i> (°) and <i>Min. depth for two slopes</i> (m) set the
+shape.</p>
+<p class="det">Ridge along the street (or the wing), gables at free ends, hips and valleys at 45° in the corners of a
+courtyard.</p>
+<details class="more"><summary>Details: compositions, corners, long-wave</summary><div><table>
+<tr><td>Compositions</td><td>Clay tiles 15 mm on wooden boards 25 mm. Top-floor ceiling: insulation 180 mm, concrete
+200 mm, plaster 20 mm. Gables: exterior wall.</td></tr>
+<tr><td>Corners</td><td>Same height: hip on the outer diagonal, valley on the inner one. A lower building against a
+taller one: its ridge runs up to the taller wall, or ends with a hip.</td></tr>
+<tr><td>Long-wave</td><td>Slopes and gables are surfaces of the scene seen by the studied façade; attics hide what is
+behind them.</td></tr>
+<tr><td>Row by row</td><td>A <i>Roof</i> (pitched / flat) per row; a pitched roof next to a flat one of the same height
+ends with a gable.</td></tr></table></div></details>
+
+<h3 id="sun">Direct sun on the facade</h3>
+<svg class="fig" viewBox="0 20 720 225" style="max-width:720px">
+  <defs><pattern id="hs" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <line x1="0" y1="0" x2="0" y2="6" stroke="#5f6c7d" stroke-width="2"/></pattern></defs>
+  <line x1="10" y1="220" x2="420" y2="220" stroke="#3a475b"/>
+  <rect x="40" y="70" width="110" height="150" fill="#1b2330" stroke="#293445"/>
+  <text x="95" y="140" text-anchor="middle" fill="#8d9aab" font-size="11">studied</text>
+  <text x="95" y="154" text-anchor="middle" fill="#8d9aab" font-size="11">building</text>
+  <rect x="300" y="110" width="100" height="110" fill="#1b2330" stroke="#293445"/>
+  <text x="350" y="160" text-anchor="middle" fill="#8d9aab" font-size="11">building</text>
+  <text x="350" y="174" text-anchor="middle" fill="#8d9aab" font-size="11">in front</text>
+  <rect x="150" y="160" width="8" height="60" fill="url(#hs)" stroke="#5f6c7d"/>
+  <rect x="150" y="70" width="8" height="90" fill="#f5b942"/>
+  <line x1="424" y1="66" x2="158" y2="160" stroke="#f5b942" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <circle cx="436" cy="62" r="12" fill="#f5b942"/>
+  <path d="M172 162 V218" stroke="#dde4ec"/><path d="M168 162 H176 M168 218 H176" stroke="#dde4ec"/>
+  <text x="180" y="196" fill="#dde4ec" font-size="12">h_shad</text>
+  <path d="M28 72 V218" stroke="#8d9aab"/><text x="16" y="150" fill="#8d9aab" font-size="12">H</text>
+  <rect x="470" y="60" width="12" height="16" fill="#f5b942"/>
+  <text x="490" y="73" fill="#dde4ec" font-size="11">sunny: direct + diffuse + reflected</text>
+  <rect x="470" y="92" width="12" height="16" fill="url(#hs)" stroke="#5f6c7d"/>
+  <text x="490" y="105" fill="#dde4ec" font-size="11">shade: diffuse + reflected</text>
+  <text x="470" y="140" fill="#dde4ec" font-size="11">h_shad = (1 − Asun)·H</text>
+  <text x="470" y="160" fill="#8d9aab" font-size="11">Asun: sunny fraction</text>
+  <text x="470" y="176" fill="#8d9aab" font-size="11">of the facade (Domus, 3D scene)</text>
+</svg>
+<p><b>Facade sun</b> chooses where the direct sun falls on each face of the façade:</p>
+<table>
+<tr><td>Rays on the urban scene</td><td>Real shadows: from the side, under overhangs.</td></tr>
+<tr><td>Sunny area of Domus</td><td>Shadow at the bottom of each face, on (1 − Asun) of its height (figure).</td></tr>
+</table>
+<p class="det"><b>Rays on the urban scene</b>: from points 10 cm apart on the façade (one face per floor and band), a
+ray goes towards the sun; a point is in the shade when the ray meets a building, a roof or the overhang of a window.
+A shadow from the side, or a taller building in front of part of the width, falls where it really is. In both cases
+each face receives the sun energy Domus gives it. Graphs → <a href="#g_sim">Facade sun</a> shows it.</p>
+<details class="more"><summary>Approximations</summary><div><ul>
+<li>Rays: the overhangs of the windows of the studied façade are taken, not those of the other façades; a face whose
+rays see no sun while Domus sees some takes the shadow at its bottom.</li>
+<li>Sunny area of Domus: a shadow from the side is converted into the same area at the bottom.</li>
+<li>Diffuse and reflected radiation are uniform over the height.</li></ul></div></details>
+
+<h3 id="longwave">External long-wave of an urban scene</h3>
+<svg class="fig" viewBox="0 0 640 250" style="max-width:640px">
+  <defs><marker id="al" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0L10 5L0 10z" fill="#c3ccd7"/></marker></defs>
+  <rect x="30" y="220" width="580" height="10" fill="#2a2418"/>
+  <text x="560" y="244" fill="#8d9aab" font-size="11">ground</text>
+  <rect x="60" y="80" width="100" height="140" fill="#1b2330" stroke="#293445"/>
+  <g fill="#ffd2b0">
+    <rect x="160" y="80" width="7" height="22"/><rect x="160" y="104" width="7" height="22"/>
+    <rect x="160" y="128" width="7" height="22"/><rect x="160" y="152" width="7" height="22"/>
+    <rect x="160" y="176" width="7" height="22"/><rect x="160" y="200" width="7" height="20"/>
+  </g>
+  <text x="70" y="70" fill="#ffd2b0" font-size="11">studied facade: Ny strips</text>
+  <rect x="330" y="120" width="90" height="100" fill="#1b2330" stroke="#293445"/>
+  <rect x="330" y="120" width="6" height="100" fill="#c65b3a"/>
+  <text x="345" y="210" fill="#8d9aab" font-size="11">T_ext_1</text>
+  <rect x="470" y="40" width="100" height="180" fill="#1b2330" stroke="#293445"/>
+  <rect x="470" y="40" width="6" height="80" fill="#7a3d6b"/>
+  <text x="485" y="80" fill="#8d9aab" font-size="11">T_ext_2</text>
+  <path d="M168 164 L328 170" stroke="#c3ccd7" marker-end="url(#al)"/>
+  <path d="M168 139 L466 82" stroke="#c3ccd7" marker-end="url(#al)"/>
+  <path d="M168 190 L300 218" stroke="#c3ccd7" marker-end="url(#al)"/>
+  <path d="M168 110 L260 20" stroke="#4ea3ff" marker-end="url(#al)"/>
+  <text x="228" y="16" fill="#4ea3ff" font-size="11">sky (the rest)</text>
+  <path d="M168 150 L468 180" stroke="#ff5d73" stroke-dasharray="4 3" stroke-opacity=".7"/>
+  <text x="318" y="172" fill="#ff5d73" font-size="15">✕</text>
+  <text x="232" y="238" fill="#ff5d73" font-size="11">hidden part: not counted</text>
+</svg>
+<div class="side wide">
+<div>
+<p>Each strip of the façade exchanges long-wave radiation with the sky, the ground and every surface of the scene it
+sees, weighted by its <b>view factor</b>.</p>
+<p class="det">View factors: exact 3D, hidden parts removed, printed in the terminal.</p>
+<p class="det" style="text-align:center"><code>q<sub>lw</sub>(y) = − ε σ [ F<sub>sky</sub>(T<sub>s</sub>⁴ − T<sub>sky</sub>⁴) +
+F<sub>sol</sub>(T<sub>s</sub>⁴ − T<sub>sol</sub>⁴) + Σ<sub>k</sub> F<sub>k</sub>(T<sub>s</sub>⁴ − T<sub>ext,k</sub>⁴) ]</code></p>
+<p class="det">The surfaces most seen get their own temperature (<i>Surface temperature inputs</i>); the others take
+the temperature of a neighbour.</p>
+</div>
+<figure><img src="img/longwave_vf.svg" alt="scene coloured by view factor"><figcaption>Faces coloured by their view factor
+from the studied façade (white); grey = not seen.</figcaption></figure>
+</div>
+<details class="more"><summary>Approximations</summary><div><ul>
+<li>Surfaces of the scene are black bodies at their temperature (no reflection between them).</li>
+<li>One temperature per Domus face; windows of other buildings are treated as wall.</li>
+<li>Sky isotropic, ground uniform.</li>
+<li>sh2d1l: the strips follow the curved shape and the façade also sees itself (hollows).</li></ul></div></details>
+
+<h3 id="walls">Wall (walls of the scene)</h3>
+<table>
+<tr><td>Exterior walls</td><td>Concrete and insulation (mm, 0 = none), then plasterboard. <b>⇅</b> swaps them
+(external / internal insulation). Default 200 / 180, internal insulation.</td></tr>
+<tr><td>Walls between zones</td><td>Plasterboard / concrete / plasterboard (default 100 mm); floors are the same.</td></tr>
+<tr><td>Emissivities, absorptivity</td><td>One set per type of wall.</td></tr>
+</table>
+
+<h3 id="wall">Studied wall · time and mesh · options</h3>
+<table>
+<tr><td>Layers</td><td>Thickness d (mm), conductivity k (W/m·K), volumetric heat capacity ρc (J/m³·K), from outside to
+inside. Up to 4; sh2d1l uses layer 1 only.</td></tr>
+<tr><td>Emissivities, absorptivity</td><td>Internal / external ε and external solar absorptivity a.</td></tr>
+<tr><td>Start / end</td><td>Simulated period in the weather year.</td></tr>
+<tr><td>Domus / model time step</td><td><code>dt_domus</code> must be a multiple of <code>dt_model</code> (adjusted if needed).</td></tr>
+<tr><td>Nx, Ny</td><td>Nodes of the 2D wall mesh (Ny per floor). Field outputs grow with Nx × Ny × duration.</td></tr>
+<tr><td>Other zones results</td><td><i>not recorded</i>: only the studied zones are kept; faster, smaller results.</td></tr>
+</table>
+
+<h3 id="boundary-conditions">Boundary conditions</h3>
+<p>By edge of the wall: <b>External</b> and <b>Internal</b> (convection and radiation), <b>Bottom</b> and <b>Top</b>
+(convection). Convection: Dirichlet, constant, space dependant, McAdams (external), corner model (internal);
+the bottom also offers a <a href="#foundation">foundation on ground</a>.</p>
+<div class="card tip">A <b>Dirichlet</b> mode imposes the surface temperature, so the radiation of that side is set to
+<i>No radiation</i>. The foundation needs a wall that reaches the ground.</div>
+
+<h3 id="foundation">Foundation on ground</h3>
+<svg class="fig" viewBox="0 0 720 300" style="max-width:720px">
+  <defs><marker id="af" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0L10 5L0 10z" fill="#c3ccd7"/></marker></defs>
+  <rect x="20" y="100" width="365" height="170" fill="#2a2418"/>
+  <rect x="385" y="100" width="315" height="170" fill="#221f17"/>
+  <rect x="352" y="100" width="66" height="48" fill="#3a3b42" stroke="#5f6c7d"/>
+  <rect x="352" y="10" width="66" height="90" fill="#1b2330" stroke="#4ea3ff"/>
+  <rect x="418" y="100" width="282" height="10" fill="#3a3b42" stroke="#5f6c7d"/>
+  <text x="385" y="58" text-anchor="middle" fill="#4ea3ff" font-size="11">wall</text>
+  <text x="385" y="72" text-anchor="middle" fill="#4ea3ff" font-size="11">model</text>
+  <text x="385" y="130" text-anchor="middle" fill="#dde4ec" font-size="10">footing</text>
+  <circle cx="300" cy="46" r="11" fill="#f5b942"/>
+  <line x1="292" y1="56" x2="240" y2="96" stroke="#f5b942" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#af)"/>
+  <text x="30" y="92" fill="#f5b942" font-size="11">ground surface (Domus, sunlit)</text>
+  <text x="426" y="92" fill="#3ecf8e" font-size="11">floor of Zone 1</text>
+  <g fill="#c3ccd7">
+    <circle cx="180" cy="112" r="3"/><circle cx="180" cy="140" r="3"/><circle cx="180" cy="170" r="3"/>
+    <circle cx="180" cy="200" r="3"/><circle cx="180" cy="230" r="3"/><circle cx="180" cy="262" r="3"/>
+    <circle cx="565" cy="112" r="3"/><circle cx="565" cy="140" r="3"/><circle cx="565" cy="170" r="3"/>
+    <circle cx="565" cy="200" r="3"/><circle cx="565" cy="230" r="3"/><circle cx="565" cy="262" r="3"/>
+  </g>
+  <line x1="180" y1="112" x2="180" y2="262" stroke="#c3ccd7" stroke-dasharray="2 4"/>
+  <line x1="565" y1="112" x2="565" y2="262" stroke="#c3ccd7" stroke-dasharray="2 4"/>
+  <text x="196" y="205" fill="#8d9aab" font-size="11">exterior soil column</text>
+  <text x="581" y="205" fill="#8d9aab" font-size="11">column under the building</text>
+  <line x1="20" y1="148" x2="700" y2="148" stroke="#ff7a3d" stroke-dasharray="6 4"/>
+  <text x="24" y="164" fill="#ff7a3d" font-size="11">base of the footing — read by the wall</text>
+  <line x1="20" y1="270" x2="700" y2="270" stroke="#8d9aab"/>
+  <text x="24" y="286" fill="#8d9aab" font-size="11">4 m — deep ground temperature (weather file)</text>
+</svg>
+<p>The bottom of the wall rests on a concrete footing instead of seeing the sunlit ground surface. Nothing to fill
+in; meaningful only when Zone 1 is on the ground floor.</p>
+<p class="det">Two soil columns (outside, under the building) give the temperature at the base of the footing; the
+ground temperatures come from the weather file.</p>
+<details class="more"><summary>Numerical details</summary><div><p>Footing 0.20 m / 1.75 W/m·K, soil 1.5 W/m·K and
+2.0×10⁶ J/m³·K, slab 0.15 m²·K/W, columns 4 m deep with 25 nodes. The terminal prints them (block
+<i>Foundation</i>). <i>Constant zero</i> = h = 20 W/m²·K towards the ground surface.</p></div></details>
+
+<h3 id="floors">Studied facade over the whole building height</h3>
+<svg class="fig" viewBox="0 0 720 250" style="max-width:720px">
+  <defs><marker id="afl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0L10 5L0 10z" fill="#c3ccd7"/></marker></defs>
+  <rect x="300" y="15" width="60" height="225" fill="#2b3342" stroke="#4ea3ff"/>
+  <path d="M322 15 C300 70 345 120 318 165 C300 200 335 220 326 240" fill="none" stroke="#ffd2b0" stroke-width="2"/>
+  <g fill="#3a3b42" stroke="#5f6c7d"><rect x="360" y="85" width="300" height="10"/><rect x="360" y="160" width="300" height="10"/></g>
+  <g fill="#ffb14e" opacity=".85"><rect x="360" y="84" width="6" height="12"/><rect x="360" y="159" width="6" height="12"/></g>
+  <g fill="#8d9aab" font-size="11">
+    <text x="520" y="55">floor 3</text><text x="520" y="130">floor 2 = Zone 1</text><text x="520" y="205">floor 1</text>
+    <text x="100" y="55" text-anchor="middle">sun of floor 3</text>
+    <text x="100" y="130" text-anchor="middle">sun of Zone 1</text>
+    <text x="100" y="205" text-anchor="middle">sun of floor 1</text>
+    <text x="330" y="12" text-anchor="middle">one wall model, all floors</text>
+  </g>
+  <g stroke="#c3ccd7" marker-end="url(#afl)"><line x1="365" y1="50" x2="440" y2="50"/><line x1="365" y1="125" x2="440" y2="125"/>
+    <line x1="365" y1="200" x2="440" y2="200"/></g>
+  <g fill="#c3ccd7" font-size="10"><text x="445" y="47">T_surf f3</text><text x="445" y="122">T_surf</text><text x="445" y="197">T_surf f1</text></g>
+  <text x="372" y="112" fill="#ffb14e" font-size="10">slab: thermal bridge</text>
+</svg>
+<p><i>Studied facade</i> = <b>Whole façade</b>: one 2D wall over all the floors of the building of Zone 1 (at most
+4), each floor coupled with its own apartment. Cost of the wall model: n times one floor.</p>
+<p class="det">The curve spans the whole height. All these apartments are studied zones: the optimisation sums their
+consumptions.</p>
+<details class="more"><summary>Details: inside, slabs, outside</summary><div><table>
+<tr><td>Inside</td><td>Air, convection and long-wave of the apartment of each floor.</td></tr>
+<tr><td>Floor slabs</td><td>Within 10 cm of each floor the wall touches the slab (fin towards the two apartments).</td></tr>
+<tr><td>Outside</td><td>Sun of the face of each floor; long-wave over the whole height.</td></tr>
+<tr><td>Bottom / top</td><td>Bottom mode on the ground floor; top adiabatic.</td></tr></table></div></details>
+
+<h3 id="bands">Vertical bands of the studied facade</h3>
+<svg class="fig" viewBox="0 0 640 200" style="max-width:640px" font-size="11">
+  <rect x="20" y="20" width="300" height="150" fill="#1b2330" stroke="#3a475b"/>
+  <polygon points="20,20 110,20 20,120" fill="#0b0f14" opacity=".55"/>
+  <g fill="#9fd3ff" fill-opacity=".45" stroke="#9fd3ff"><rect x="140" y="60" width="60" height="55"/></g>
+  <g stroke="#ffd166" stroke-width="2"><line x1="116" y1="20" x2="116" y2="170"/><line x1="224" y1="20" x2="224" y2="170"/></g>
+  <g fill="#ffd166" text-anchor="middle"><text x="68" y="186">band 1</text><text x="170" y="186">band 2</text><text x="272" y="186">band 3</text></g>
+  <text x="170" y="52" fill="#8d9aab" text-anchor="middle">window + 20 cm</text>
+  <g fill="#8d9aab"><text x="350" y="50">each band: its own Domus wall,</text><text x="350" y="68">its own sun and shadow,</text>
+    <text x="350" y="86">its own wall model</text><text x="350" y="122">a window is always one band;</text>
+    <text x="350" y="140">the plain wall shares the others,</text><text x="350" y="158">cut symmetrically</text></g>
+</svg>
+<p><b>Vertical bands</b> cut the façade over its width: each band gets its own sun and shadow.</p>
+<div class="chips"><span>no window <b>1 – 5</b></span><span>1 window <b>1 · 3 · 5</b></span><span>2 windows <b>1 · 5</b></span></div>
+<p>Cost of the wall model: about one more model per band.</p>
+<p class="det">With 1 band (default) each floor of the façade is one Domus wall with one sun. With more bands, a shadow
+that does not cross the façade horizontally (the corner of a building in front, a wing of the courtyard) is seen band
+by band. A window is always one band (window + 20 cm on each side); the plain wall shares the other bands, cut
+symmetrically. The numbers this façade cannot take are greyed in the form.</p>
+<p class="det">Tab <a href="#geometry">Facade</a> and the 3D view show the bands (yellow). Graphs: the fluxes of the
+façade are the mean of its bands; <i>direct, band k</i> in the legend shows one band.</p>
+
+<h3 id="heating-cooling">Heating / cooling</h3>
+<div class="side">
+<figure><img src="img/form_heating_law.webp" alt="Heating / cooling group, control off, outdoor law" loading="lazy">
+<figcaption>Control <i>off</i>, indoor temperature <i>outdoor law</i>.</figcaption></figure>
+<div>
+<p><i>Configure</i> = <b>Studied zone(s)</b> or <b>Other zones</b>, each with its own <i>Control</i>:</p>
+<table>
+<tr><th>Control</th><th>What Domus simulates</th></tr>
+<tr><td><b>on/off</b></td><td>electric heater and split air conditioner, all-or-nothing: sizing, setpoint, hysteresis</td></tr>
+<tr><td><b>PID</b></td><td>the same systems, PID control</td></tr>
+<tr><td><b>off</b></td><td>no system, indoor temperature imposed: <i>constant</i> or <i>outdoor law</i></td></tr>
+<tr><td><b>thermal load</b></td><td>kept between two setpoints; Domus reports the load needed</td></tr>
+</table>
+<svg class="fig" viewBox="0 0 420 190" style="max-width:420px" aria-label="outdoor law">
+  <line x1="50" y1="150" x2="400" y2="150" stroke="#3a475b"/><line x1="50" y1="20" x2="50" y2="150" stroke="#3a475b"/>
+  <text x="400" y="168" text-anchor="end" fill="#8d9aab" font-size="11">outdoor T (°C)</text>
+  <text x="56" y="18" fill="#8d9aab" font-size="11">indoor setpoint</text>
+  <line x1="150" y1="150" x2="150" y2="110" stroke="#293445" stroke-dasharray="3 3"/>
+  <line x1="290" y1="150" x2="290" y2="50" stroke="#293445" stroke-dasharray="3 3"/>
+  <path d="M55 110 H150 L290 50 H395" fill="none" stroke="url(#lawg)" stroke-width="3"/>
+  <defs><linearGradient id="lawg" x1="0" x2="1"><stop offset="0" stop-color="#4ea3ff"/><stop offset="1" stop-color="#ff7a3d"/></linearGradient></defs>
+  <text x="150" y="166" text-anchor="middle" fill="#4ea3ff" font-size="11">17</text>
+  <text x="290" y="166" text-anchor="middle" fill="#ff7a3d" font-size="11">27</text>
+  <text x="44" y="114" text-anchor="end" fill="#4ea3ff" font-size="11">19</text>
+  <text x="44" y="54" text-anchor="end" fill="#ff7a3d" font-size="11">24</text>
+  <text x="95" y="102" text-anchor="middle" fill="#4ea3ff" font-size="10.5">winter</text>
+  <text x="345" y="42" text-anchor="middle" fill="#ff7a3d" font-size="10.5">summer</text>
+</svg>
+<p style="margin-top:0"><b>Outdoor law</b> (defaults): 19 °C while it is 17 °C or colder outside, 24 °C from 27 °C,
+a straight line in between; the value of each hour holds for the whole hour.</p>
+</div>
+</div>
+<p><b>Power of the heater and of the air conditioner</b>, field <i>Sizing</i>:</p>
+<div class="side">
+<figure><img src="img/form_heating_sizing.webp" alt="Heating / cooling group, control on/off, sizing auto" loading="lazy">
+<figcaption>Control <i>on/off</i>, sizing <i>auto</i>: the zones, their power and <i>Size with Domus</i>.</figcaption></figure>
+<div>
+<table>
+<tr><th>Sizing</th><th>Power of each zone</th></tr>
+<tr><td><b>auto</b></td><td>1.2 × its peak load, computed by Domus once per case<span class="det"> (at least 10 W/m²;
+coldest week for heating, hottest week for cooling, with the plane wall), then reused</span></td></tr>
+<tr><td><b>manual</b></td><td>the value in W/m² × the floor area of the zone (0 = no system)</td></tr>
+</table>
+<p>Under the field: the power of each zone and the recommended power, with a warning when they are far apart.</p>
+<p class="det">The recommended power is the one of <i>Size with Domus</i> when the case was sized, else an estimate from
+the walls and windows (heating only). The warning appears below 0.8 × (the setpoint may not be held) or above 3 × the
+recommended power (short cycles). An optimisation sizes its base case once and keeps these powers for every design.</p>
+</div>
+</div>
+<div class="card tip"><b>PID.</b> Keep <b>Ki = 0</b> and <b>Kd = 0</b> for long runs.<span class="det"> Gains are
+per m² of floor of each zone, so they follow the size of the zone. Ki: no anti-windup, after a warm spell the heater
+stays off for days.</span> The control of the other zones matters for Zone 1: heat crosses the shared walls.</div>
+
+<h3 id="windows">Windows</h3>
+<svg class="fig" viewBox="0 0 640 185" style="max-width:640px">
+  <rect x="20" y="20" width="420" height="130" fill="#1b2330" stroke="#293445"/>
+  <g fill="#9fd3ff" fill-opacity=".35" stroke="#9fd3ff"><rect x="80" y="55" width="80" height="60"/><rect x="300" y="55" width="80" height="60"/></g>
+  <path d="M74 51 H166 M74 51 V115 M166 51 V115" stroke="#8d9aab" stroke-width="3" fill="none"/>
+  <line x1="20" y1="160" x2="230" y2="160" stroke="#f5b942"/><line x1="230" y1="160" x2="440" y2="160" stroke="#f5b942"/>
+  <text x="125" y="178" fill="#f5b942" font-size="11" text-anchor="middle">wall width per window</text>
+  <line x1="190" y1="115" x2="190" y2="150" stroke="#dde4ec"/><text x="196" y="138" fill="#dde4ec" font-size="11">sill height</text>
+  <text x="120" y="42" fill="#8d9aab" font-size="10" text-anchor="middle">overhang</text>
+  <text x="340" y="90" fill="#dde4ec" font-size="11" text-anchor="middle">width × height</text>
+  <text x="460" y="60" fill="#8d9aab" font-size="11">one wall of an apartment</text>
+  <text x="460" y="80" fill="#8d9aab" font-size="11">(here 2 windows)</text>
+</svg>
+<table>
+<tr><td>Windows in</td><td>Zone 1 only · Zone 1 + neighbours · <b>Studied building</b> (advised) · All zones. CPU
+cost: low → high.</td></tr>
+<tr><td>Glazing</td><td>single (U 5.94) or double (U 2.8), always closed.</td></tr>
+<tr><td>On the studied facade</td><td><b>on</b>: the same windows on the façade of the wall model (see below).</td></tr>
+</table>
+<h4>Windows on the studied facade</h4>
+<svg class="fig" viewBox="0 0 640 250" style="max-width:640px" font-size="11">
+  <text x="140" y="14" fill="#8d9aab" text-anchor="middle">facade: 2 floors, 2 window columns</text>
+  <rect x="20" y="22" width="240" height="190" fill="#f5b942" fill-opacity=".18" stroke="#293445"/>
+  <g fill="#4ea3ff" fill-opacity=".2"><rect x="70" y="22" width="40" height="190"/><rect x="170" y="22" width="40" height="190"/></g>
+  <line x1="20" y1="117" x2="260" y2="117" stroke="#8d9aab" stroke-dasharray="4 3"/>
+  <g fill="#9fd3ff" fill-opacity=".45" stroke="#9fd3ff">
+    <rect x="70" y="47" width="40" height="40"/><rect x="170" y="47" width="40" height="40"/>
+    <rect x="70" y="142" width="40" height="40"/><rect x="170" y="142" width="40" height="40"/></g>
+  <text x="140" y="230" fill="#f5b942" text-anchor="middle">A = wall beside the windows</text>
+  <text x="140" y="245" fill="#4ea3ff" text-anchor="middle">B = wall through a column of windows</text>
+  <path d="M272 117 H320" stroke="#dde4ec" marker-end="url(#hw_ar)"/>
+  <defs><marker id="hw_ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#dde4ec"/></marker></defs>
+  <rect x="350" y="22" width="36" height="190" fill="#f5b942" fill-opacity=".35" stroke="#f5b942"/>
+  <text x="368" y="14" fill="#f5b942" text-anchor="middle">A</text>
+  <text x="368" y="230" fill="#8d9aab" text-anchor="middle">whole height</text>
+  <g fill="#4ea3ff" fill-opacity=".35" stroke="#4ea3ff">
+    <rect x="480" y="22" width="36" height="25"/><rect x="480" y="87" width="36" height="55"/><rect x="480" y="182" width="36" height="30"/></g>
+  <g fill="#9fd3ff" fill-opacity=".45" stroke="#9fd3ff"><rect x="480" y="47" width="36" height="40"/><rect x="480" y="142" width="36" height="40"/></g>
+  <g stroke="#ff6b6b" stroke-width="2.5"><line x1="480" y1="47" x2="516" y2="47"/><line x1="480" y1="87" x2="516" y2="87"/>
+    <line x1="480" y1="142" x2="516" y2="142"/><line x1="480" y1="182" x2="516" y2="182"/></g>
+  <text x="498" y="14" fill="#4ea3ff" text-anchor="middle">B</text>
+  <text x="498" y="230" fill="#8d9aab" text-anchor="middle">pieces of wall</text>
+  <text x="528" y="70" fill="#9fd3ff">window</text>
+  <text x="528" y="120" fill="#ff6b6b">cut: no heat flow</text>
+  <text x="344" y="104" fill="#8d9aab" text-anchor="end">out</text><text x="392" y="104" fill="#8d9aab">in</text>
+  <text x="498" y="245" fill="#8d9aab" text-anchor="middle">both columns: computed once</text>
+</svg>
+<p>The façade is split into vertical strips; each kind of strip is one wall model (tab <a href="#geometry">Facade</a>).</p>
+<p class="det">Each apartment receives the mean of A and B over its wall, windows excluded; the glazing itself is
+simulated by Domus.</p>
+<details class="more"><summary>Approximations</summary><div><ul>
+<li>No heat flows across the width: A and B do not exchange heat.</li>
+<li>Sill, head and reveals are cut (no thermal bridge, no frame).</li>
+<li>A column of windows sees the scene from its own place.</li></ul></div></details>
+
+<h3 id="pixel">Pixel count</h3>
+<p>Before simulating, Domus computes the shading of every face from a series of sun positions<span class="det">
+(skipped when the geometry has not changed)</span>. Windows weigh the most.</p>
+<table>
+<tr><th>Field</th><th>Meaning</th><th>CPU cost</th></tr>
+<tr><td>Sun position step</td><td>Minutes between two sun positions (default 20).</td><td>6 min high · 30 min low</td></tr>
+<tr class="det"><td>Horizontal / vertical</td><td>Image size (128 – 1024 px): finer shading.</td><td>none</td></tr>
+<tr class="det"><td>Sides to compute</td><td>External, or also the sun entering through windows (forced with windows).</td><td>external lower</td></tr>
+</table>
+</section>
+
+<!-- ================================================================================================= CURVE -->
+<section class="page" id="tab-curve" data-label="Interface / shape">
+<h2 id="curve">Interface / wall shape</h2>
+<p class="lead">The curve that the optimisation varies: the boundary between the two layers (id2d2l, <i>Interface
+definition</i>) or the external face (sh2d1l, <i>Wall shape definition</i>). The material volume always stays that of
+a flat wall of thickness d<sub>1</sub>.</p>
+<div class="gal">
+  <div class="gbar"><button type="button">id2d2l interfaces</button><button type="button">sh2d1l shapes</button></div>
+  <figure><img src="img/interfaces_id2d2l.svg" alt="the five interface types of id2d2l"><figcaption>Orange = layer 1,
+    blue = layer 2, dotted = flat interface, yellow = parameters.</figcaption></figure>
+  <figure><img src="img/shapes_sh2d1l.svg" alt="the three wall shapes of sh2d1l"><figcaption>The same curves used as
+    the external face.</figcaption></figure>
+</div>
+<table>
+<tr><th>Type</th><th>Parameters</th><th>Curve</th></tr>
+<tr><td>spline</td><td><code>p0</code> amplitude, <code>p1</code> position of the bulge</td><td>a cubic</td></tr>
+<tr><td>bezier</td><td>particles: x of the ends, (x, y) of the middle ones</td><td><b>attracted</b> by the points</td></tr>
+<tr><td>rbf</td><td>the same particles + a kernel</td><td>passes <b>through</b> every point</td></tr>
+<tr><td>blocks</td><td>grid nx × ny, click a cell (id2d2l)</td><td>staircase, any topology</td></tr>
+<tr><td>level-set</td><td>coefficients c<sub>k</sub> (sliders) on a grid (id2d2l)</td><td>smooth field → blocks</td></tr>
+</table>
+
+<h3 id="bezier-and-rbf">bezier and rbf particles</h3>
+<ul>
+<li>P1 is at the bottom, the last particle at the top: only their x is editable. <kbd>+ Add particle</kbd> inserts one.</li>
+<li class="det">Example: <code>0.2,0.2,0.4,1,0,2</code> = points (0.2, 0), (0.4, 1), (0, 2), (0.2, H).</li>
+<li>rbf kernels: multiquadric, inverse multiquadric, thin-plate spline (not for sh2d1l), Gaussian.</li>
+</ul>
+
+<h3 id="level-set">level-set</h3>
+<p>A smooth field is evaluated on each block; the blocks with the highest values become layer 1, as many as the
+volume needs. <b>c = 0</b> (<i>Zero</i>) gives the flat interface; <i>Random</i> draws a valid design.</p>
+<table>
+<tr><td>nbx, nby</td><td>Blocks along x and y.</td></tr>
+<tr><td>Basis, mx, my</td><td>cosine modes or Gaussian bumps (m = mx·my coefficients).</td></tr>
+<tr><td>amp</td><td>Weight of the perturbation: larger = more tortuous, more rejected designs.</td></tr>
+</table>
+<div class="card note"><b>Rejected designs</b>: a block smaller than 4 mesh cells, or an empty layer. Islands are allowed.</div>
+</section>
+
+<!-- ================================================================================================= OPTIM -->
+<section class="page" id="tab-optim" data-label="Optimisation">
+<h2 id="optim">Optimisation</h2>
+<p class="lead">Searches the interface (id2d2l) or the wall shape (sh2d1l) that uses the least energy in Zone 1.
+The rest of the form is the fixed case.</p>
+<div class="tour">
+  <div class="screen"><img src="img/tour_optimisation.webp" alt="an optimisation from the hub" loading="lazy">
+    <button class="replay" type="button">↻ replay</button></div>
+  <div><h4>In the video</h4><ol>
+    <li>Switch to Optimisation</li><li>What varies: the interface</li><li>Name the run, set the budget</li>
+    <li><kbd>Run optimisation</kbd></li><li>Results in the panel Graphs</li><li>Convergence, interface, monthly
+    energy, kriging model, table</li></ol></div>
+</div>
+
+<h3 id="how-it-works">How it works</h3>
+<div class="flow"><span>1. flat wall</span><i>→</i><span>2. N<sub>s</sub> random designs</span><i>→</i>
+<span>3. kriging model of kWh = f(design)</span><i>→</i><span>4. simulate the most promising</span><i>→</i>
+<span>back to 3 until N<sub>tot</sub></span></div>
+<p>Invalid designs are rejected before any simulation. The field <b>Method</b> offers a second way: a <b>genetic
+algorithm</b>, which needs many more simulations (made for the cluster or for short periods).</p>
+<p class="det">The kriging model predicts the energy of any design <i>and</i> its uncertainty; the next designs
+simulated balance a low prediction and a large uncertainty. Variables: p0, p1 (spline), the particles (bezier, rbf,
+within the bounds of <code>opt/krige/input/minmax</code>, written for a wall 0.4 m thick and 3 m high and scaled to
+the thickness of the wall and the height of the studied façade), the coefficients (level-set).</p>
+<p class="det">Genetic algorithm (NSGA-II): a population of designs is simulated, the best ones are kept and crossed,
+generation after generation (individuals × generations simulations); on the cluster it can use several nodes.</p>
+
+<h3 id="group-optimisation">Group Optimisation</h3>
+<div class="side">
+<figure><img src="img/form_optimisation.webp" alt="group Optimisation" loading="lazy"></figure>
+<table>
+<tr><th>Field</th><th>Default · advice</th></tr>
+<tr><td>Run name</td><td>A new name = a new run; an existing one shows its state and <i>Load its settings</i>.</td></tr>
+<tr><td>Method</td><td>kriging (few simulations) or genetic algorithm. A run keeps the method it was started with:
+choosing the other method gives a new run name.</td></tr>
+<tr><td>Objectives</td><td>heating + cooling (kWh) · heating · cooling · both separately (Pareto front) of the studied
+zones (every floor with <i>Whole façade</i>) · absolute flux through the internal face · net consumed work (Carnot)
+of the studied façade (kWh, also with a zone held at a constant temperature).</td></tr>
+<tr><td>Goal</td><td>Minimise (default) or maximise each objective.</td></tr>
+<tr class="det"><td>Min slope at the bottom, at the top</td><td>Developer mode, bezier and rbf: the curve must leave
+each end at least this steep (degrees from the horizontal), so that it never starts almost flat. 0 = the rule of the
+mesh.</td></tr>
+<tr><td>Simulations N<sub>tot</sub></td><td>Kriging. Budget, reference included. 100.</td></tr>
+<tr><td>Individuals, Generations</td><td>Genetic. Simulations = individuals × (generations + 1), plus the flat wall.</td></tr>
+<tr class="det"><td>Stop: criterion</td><td>Genetic. Early stop when the population no longer moves. 0 = off.</td></tr>
+<tr class="det"><td>Cluster nodes</td><td>Genetic, on the cluster: each node runs <i>Domus runs at once</i> simulations.</td></tr>
+<tr class="det"><td>Initial sampling N<sub>s</sub></td><td>0 = automatic.</td></tr>
+<tr><td>Domus runs at once</td><td>4 here; on the cluster, the cores of the job.</td></tr>
+<tr class="det"><td>Trust region</td><td>on beyond about 6 variables.</td></tr>
+<tr class="det"><td>Stop: γ1, γ2, λ</td><td>Early stop when the best energy (γ1) or the best design (γ2) no longer changes
+over λ iterations. 0 = off. γ1 = 0.001 and λ = 10: stops when the best energy has improved by less than 0.1 % over the
+last 10 iterations.</td></tr>
+<tr class="det"><td>Seed</td><td>Same seed + same settings = same designs.</td></tr>
+<tr class="det"><td>Simulations kept</td><td>Domus folders kept for the best designs (3).</td></tr>
+<tr class="det"><td>Other simulations</td><td>deleted, recycle bin or kept.</td></tr>
+</table>
+</div>
+
+<h3 id="buttons">Run, stop, resume</h3>
+<ul>
+<li><kbd>Run optimisation</kbd> starts the run in its <b>own process</b>: closing the hub does not stop it. On an
+existing name: <i>running</i> → followed again; <i>stopped</i> → resumed; <i>finished</i> → raise N<sub>tot</sub>
+(kriging) or the generations (genetic) to go on.</li>
+<li><kbd>Stop</kbd> once = clean stop after the simulations running; twice = kill now.</li>
+<li class="det"><kbd>Regenerate IDF</kbd> builds the run's own copy of the IDF; the IDF of the form is never touched.</li>
+</ul>
+
+<h3 id="several">Several runs at the same time</h3>
+<svg class="fig" viewBox="0 0 640 60" style="max-width:640px">
+  <rect x="6" y="18" width="70" height="26" rx="13" fill="#151c26" stroke="#293445"/><circle cx="24" cy="31" r="3.5" fill="#5f6c7d"/>
+  <text x="36" y="35" fill="#8d9aab" font-size="11">Hub</text>
+  <rect x="86" y="18" width="196" height="26" rx="13" fill="#1b2431" stroke="#ff7a3d"/><circle cx="104" cy="31" r="3.5" fill="#3ecf8e"/>
+  <text x="116" y="35" fill="#dde4ec" font-size="11">bez8_y_EWI · cluster · 58 %</text>
+  <rect x="292" y="18" width="150" height="26" rx="13" fill="#151c26" stroke="#293445"/><circle cx="310" cy="31" r="3.5" fill="#3ecf8e"/>
+  <text x="322" y="35" fill="#8d9aab" font-size="11">essai_local · 12 %</text>
+  <rect x="452" y="18" width="150" height="26" rx="13" fill="#151c26" stroke="#293445"/><circle cx="470" cy="31" r="3.5" fill="#4ea3ff"/>
+  <text x="482" y="35" fill="#8d9aab" font-size="11">shape_1 · finished</text><text x="590" y="35" fill="#5f6c7d" font-size="10">✕</text>
+</svg>
+<p>One chip per run above the terminal: click it for its terminal, progress and <kbd>Stop</kbd>. <b>One local run at
+a time</b>, any number on the cluster.</p>
+<p class="det">Closing the hub changes nothing: at the next start it follows the runs still alive again and fetches the
+cluster jobs that ended meanwhile.</p>
+<details class="more"><summary>Files of a run</summary><div><ul>
+<li><code>opt/krige/runs/&lt;name&gt;/</code> (kriging) or <code>opt/nsga2/runs/xdomf90/&lt;name&gt;/</code> (genetic):
+settings and form, log, every simulation, the kept Domus folders (<code>best/</code>).</li>
+<li>Working copies in the working folder (<code>temp_opti/&lt;name&gt;</code>), deleted when the run is finished,
+kept while it is stopped.</li>
+<li>Command line: <code>python opt/krige/main.py status|stop|resume &lt;name&gt;</code>.</li></ul></div></details>
+</section>
+
+<!-- ================================================================================================= PLATFORMS -->
+<section class="page" id="tab-container" data-label="Windows / Linux / Cluster">
+<h2 id="container">Windows, Linux and the cluster</h2>
+<p class="lead">The same hub, model and optimiser everywhere. Domus is a Windows program: on Linux it runs under
+<b>Wine</b>, inside a container image.</p>
+<svg class="fig" viewBox="0 0 720 190" style="max-width:720px">
+  <defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5f6c7d"/></marker></defs>
+  <g font-size="12">
+  <rect x="6" y="10" width="220" height="150" rx="14" fill="#10151d" stroke="#4ea3ff" stroke-opacity=".6"/>
+  <text x="116" y="36" text-anchor="middle" fill="#4ea3ff" font-size="14">Windows</text>
+  <rect x="30" y="52" width="172" height="36" rx="8" fill="#151c26" stroke="#293445"/><text x="116" y="75" text-anchor="middle" fill="#dde4ec">hub · Domus · model</text>
+  <text x="116" y="120" text-anchor="middle" fill="#8d9aab">runs as is</text>
+  <text x="116" y="140" text-anchor="middle" fill="#5f6c7d" font-size="11">TOPS.bat</text>
+
+  <rect x="250" y="10" width="220" height="150" rx="14" fill="#10151d" stroke="#8b5cf6" stroke-opacity=".6"/>
+  <text x="360" y="36" text-anchor="middle" fill="#b39cff" font-size="14">Linux · WSL</text>
+  <rect x="274" y="52" width="172" height="36" rx="8" fill="#151c26" stroke="#293445"/><text x="360" y="75" text-anchor="middle" fill="#dde4ec">hub · Domus · model</text>
+  <rect x="266" y="96" width="188" height="24" rx="6" fill="#1a1530" stroke="#8b5cf6" stroke-opacity=".5"/><text x="360" y="113" text-anchor="middle" fill="#b39cff" font-size="11">Wine, in the image</text>
+  <text x="360" y="140" text-anchor="middle" fill="#5f6c7d" font-size="11">tops.sh</text>
+
+  <rect x="494" y="10" width="220" height="150" rx="14" fill="#10151d" stroke="#ff7a3d" stroke-opacity=".6"/>
+  <text x="604" y="36" text-anchor="middle" fill="#ffb88a" font-size="14">Cluster</text>
+  <g fill="#151c26" stroke="#293445"><rect x="522" y="52" width="36" height="36" rx="6"/><rect x="566" y="52" width="36" height="36" rx="6"/><rect x="610" y="52" width="36" height="36" rx="6"/><rect x="654" y="52" width="36" height="36" rx="6"/></g>
+  <g fill="#8d9aab" font-size="10" text-anchor="middle"><text x="540" y="74">Domus</text><text x="584" y="74">Domus</text><text x="628" y="74">Domus</text><text x="672" y="74">…</text></g>
+  <rect x="510" y="96" width="188" height="24" rx="6" fill="#241a12" stroke="#ff7a3d" stroke-opacity=".5"/><text x="604" y="113" text-anchor="middle" fill="#ffb88a" font-size="11">the same image, 32 at once</text>
+  <text x="604" y="140" text-anchor="middle" fill="#5f6c7d" font-size="11">from the hub, via ssh</text>
+  </g>
+  <path d="M226 180 H494" stroke="#5f6c7d" stroke-dasharray="4 4" marker-end="url(#pa)"/>
+  <text x="360" y="176" text-anchor="middle" fill="#8d9aab" font-size="11">same IDF, same results, same runs/ folder</text>
+</svg>
+
+<h3 id="ct_start">Start the hub</h3>
+<div class="cols">
+<div class="card"><b>Windows</b><div class="steps" style="grid-template-columns:1fr">
+  <div><b>Once</b><code>install.bat</code> (double-click) — modules, folders, desktop shortcut if you want it.</div>
+  <div><b>Then</b>shortcut <i>TOPS</i>, or <code>hubgui\TOPS.bat</code>. <kbd>⏻</kbd> closes it.</div></div></div>
+<div class="card"><b>Linux or WSL</b><div class="steps" style="grid-template-columns:1fr">
+  <div><b>Once</b><code>bash install.sh</code> (unzip with <code>unzip</code> in a Linux terminal).</div>
+  <div><b>Then</b>the <i>TOPS</i> icon, or <code>bash hubgui/tops.sh</code>; from WSL the Windows browser works.</div></div></div>
+</div>
+<p class="det">The <b>TOPS</b> page shows while the hub starts and while it closes. The hub opens in a window of its own,
+drawn by Edge, Chrome, Brave or another Chromium browser of the computer; with none of them (Firefox only), in a
+tab. Each hub started on another port is another window.</p>
+<details class="more"><summary>What is Wine, the image, the screen?</summary><div><table>
+<tr><td>Wine</td><td>Not an emulator: the Windows functions Domus calls, for Linux. Each Domus runs in its own
+<b>prefix</b> (a fake <code>C:\</code>).</td></tr>
+<tr><td>The image</td><td><code>domus-wine.sif</code>: a small Ubuntu with Wine, a virtual screen and Python, run by
+<code>apptainer</code> without administrator rights.</td></tr>
+<tr><td>A screen</td><td>Domus counts sunlit pixels with OpenGL: the image brings a screen in memory, one per Domus.</td></tr>
+</table></div></details>
+
+<h2 id="cluster">On the cluster</h2>
+<p>An optimisation can send its simulations to a Slurm cluster (built for the mésocentre of Aix-Marseille): up to
+<b>32 Domus at once</b>, and this computer stays free.</p>
+<div class="tour">
+  <div class="screen"><img src="img/tour_cluster.webp" alt="setting up a cluster run" loading="lazy">
+    <button class="replay" type="button">↻ replay</button></div>
+  <div><h4>In the video</h4><ol>
+    <li>Run on: cluster</li><li>Cores and time limit</li><li>Cluster settings…</li><li>Test connection</li>
+    <li>Prepare the cluster</li><li>Run optimisation</li></ol></div>
+</div>
+
+<h3 id="cl_settings">Set up once</h3>
+<div class="cols">
+<div class="steps" style="grid-template-columns:1fr">
+  <div><b>An ssh key</b><code>ssh-keygen</code> then <code>ssh-copy-id &lt;host&gt;</code>, so the cluster opens without
+  a password (on Windows, in WSL).</div>
+  <div><b>Cluster settings…</b>connection, Slurm account, partitions, folder. Kept on this computer only, never in a run or a package.</div>
+  <div><b>Test connection</b>checks ssh, Slurm, apptainer and the partition.</div>
+  <div><b>Prepare the cluster</b>sends the image, Domus, the scripts, the model and the code — only what is missing.</div>
+</div>
+<figure><img src="img/cluster_settings.webp" alt="Cluster settings window (example values)" loading="lazy">
+<figcaption>Example values.</figcaption></figure>
+</div>
+
+<h3 id="cl_fields">A cluster run</h3>
+<div class="side">
+<figure><img src="img/form_opt_cluster.webp" alt="group Optimisation with Run on = cluster" loading="lazy"></figure>
+<div>
+<table>
+<tr><td>Run on</td><td><b>cluster (Slurm)</b>.</td></tr>
+<tr><td>Domus runs at once</td><td>= cores of the job (32 at most, one node). Memory asked: 8 + 1.5 per run GB.</td></tr>
+<tr><td>Cluster time limit</td><td>1 – 168 h. Reached: resume the run, only the simulations in progress are lost.
+Less time usually starts sooner.</td></tr>
+</table>
+<svg class="fig" viewBox="0 0 520 110" style="max-width:520px">
+  <defs><marker id="cf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8d9aab"/></marker></defs>
+  <g font-size="11.5">
+  <rect x="4" y="20" width="140" height="60" rx="10" fill="#151c26" stroke="#4ea3ff" stroke-opacity=".6"/>
+  <text x="74" y="46" text-anchor="middle" fill="#dde4ec">this computer</text><text x="74" y="64" text-anchor="middle" fill="#5f6c7d" font-size="10.5">the hub</text>
+  <rect x="190" y="20" width="140" height="60" rx="10" fill="#151c26" stroke="#293445"/>
+  <text x="260" y="46" text-anchor="middle" fill="#dde4ec">cluster</text><text x="260" y="64" text-anchor="middle" fill="#5f6c7d" font-size="10.5">~/opt/krige</text>
+  <rect x="376" y="20" width="140" height="60" rx="10" fill="#151c26" stroke="#ff7a3d" stroke-opacity=".6"/>
+  <text x="446" y="46" text-anchor="middle" fill="#dde4ec">one node</text><text x="446" y="64" text-anchor="middle" fill="#5f6c7d" font-size="10.5">q Domus + optimiser</text>
+  <path d="M146 40 H186" stroke="#ffb88a" marker-end="url(#cf)"/><path d="M332 40 H372" stroke="#ffb88a" marker-end="url(#cf)"/>
+  <path d="M186 62 H146" stroke="#4ea3ff" marker-end="url(#cf)"/><path d="M372 62 H332" stroke="#3ecf8e" marker-end="url(#cf)"/>
+  <text x="166" y="12" text-anchor="middle" fill="#ffb88a" font-size="10.5">send</text>
+  <text x="352" y="12" text-anchor="middle" fill="#ffb88a" font-size="10.5">submit</text>
+  <text x="166" y="100" text-anchor="middle" fill="#4ea3ff" font-size="10.5">results every 30 s</text>
+  <text x="352" y="100" text-anchor="middle" fill="#3ecf8e" font-size="10.5">writes</text>
+  </g>
+</svg>
+</div>
+</div>
+<table>
+<tr><td><kbd>Stop</kbd> once</td><td>Ends cleanly after the simulations in progress; the run becomes <i>stopped</i>.</td></tr>
+<tr><td><kbd>Stop</kbd> twice</td><td>Job cancelled now; those simulations are done again when resumed.</td></tr>
+<tr><td>Close the hub</td><td>Changes nothing; everything is fetched when it opens again.</td></tr>
+<tr class="det"><td>Job failed</td><td>The hub shows the end of the Slurm output of the job.</td></tr>
+</table>
+<details class="more"><summary>Files on the cluster</summary><div>
+<div class="tree"><b>~/opt/krige/</b>          <i>kriging (the genetic algorithm: ~/opt/nsga2, same layout)</i>
+├── domus-wine.sif      <i>the image</i>
+├── wine/               <i>Domus and the model Wine prefix</i>
+├── code/, fmu/         <i>versions of the code and of the wall model, pinned for each run</i>
+├── scripts/            <i>the job</i>
+├── jobs/               <i>Slurm output of each job</i>
+└── runs/&lt;run&gt;/         <i>the run, the same files as on this computer</i></div>
+<p>Each job works in the memory of its node, erased at the end. Command line (WSL, Linux):
+<code>bash mod/xdomf90/unix/run.sh test|status|fetch|stop</code>.</p></div></details>
+
+<h2 id="ct_pack">Install, uninstall, share</h2>
+<div class="flow"><span>setup/export.py</span><i>→</i><span>one zip</span><i>→</i><span>unzip anywhere</span><i>→</i>
+<span>install.bat / install.sh</span><i>→</i><span>shortcut TOPS</span></div>
+<div class="cols3">
+<div class="card"><b>📦 Make a package</b><br><code>python hubgui/setup/export.py</code><span class="det">: hub, model,
+optimiser, Domus, an example case. <code>--linux</code> adds the image (needed for a cluster)</span>.</div>
+<div class="card"><b>🖥️ Install</b><br>No administrator rights; keep the path short.<span class="det"> No compiler. The
+installer copies Domus's <code>Documents</code> folder and offers a <b>desktop shortcut</b>. Windows stops at 260
+characters.</span></div>
+<div class="card"><b>🗑️ Uninstall</b><br>Results kept in <code>Documents\TOPS results &lt;date&gt;</code>, the rest to the
+<b>recycle bin</b>.<span class="det"> <code>uninstall.bat</code> / <code>uninstall.sh</code>.</span></div>
+</div>
+<p>Your cluster settings never travel: the recipient enters their own.</p>
+</section>
+
+<!-- ================================================================================================= GRAPHS -->
+<section class="page" id="tab-graphs" data-label="Graphs">
+<h2 id="graphs">Graphs</h2>
+<p>The last simulation of the IDF (Simulation) or the run named in the form (Optimisation).<span class="det"> Every
+figure is interactive: drag to zoom, double-click to reset, click a legend item to hide a curve.</span></p>
+
+<h3 id="g_sim">Simulation</h3>
+<div class="gal">
+  <div class="gbar"><button type="button">Domus</button><button type="button">Temperature field</button>
+    <button type="button">Facade sun</button><button type="button">Functionals</button></div>
+  <figure><img src="img/g_domus.webp" alt="Domus tab" loading="lazy"><figcaption>Outdoor and zone temperatures, heating /
+    cooling power, long-wave and short-wave fluxes of the façade. <i>Façade zones</i> / <i>Other zones</i> choose the
+    apartments.</figcaption></figure>
+  <figure><img src="img/g_field.webp" alt="Temperature field tab" loading="lazy"><figcaption>Façade with windows and
+    3 bands: one field per piece of wall, side by side, windows not modelled.</figcaption></figure>
+  <figure><img src="img/g_sun.webp" alt="Facade sun tab" loading="lazy"><figcaption>The façade seen from the street
+    (sun yellow, shade grey, windows blue, % = sunny area of each Domus face) and the sunlit part χ of each band at
+    each height, same height axis.</figcaption></figure>
+  <figure><img src="img/g_functionals.webp" alt="Functionals tab" loading="lazy"><figcaption>Flux through the internal face
+    and consumed work, with their integrals.</figcaption></figure>
+</div>
+<table>
+<tr><td>Temperature field</td><td>Movie of T (▶, slider, date), one per wall model with windows.</td></tr>
+<tr><td>Movie player</td><td><kbd>▶</kbd>, slider, speed; <b>Whole period</b>, <b>One day</b> or <b>Day by day,
+  same hour</b>.</td></tr>
+<tr class="det"><td>Movie instants</td><td>Speed × 0.5 to × 8. <b>One day</b>: ◀ ▶ the day before or after; every Domus
+  step of the day for one wall model. The count tells how many instants are shown.</td></tr>
+<tr><td>Horizontal / vertical flux</td><td>Movies of q<sub>x</sub> and q<sub>y</sub> (output <i>temperature and fluxes</i>).</td></tr>
+<tr class="det"><td>Facade sun</td><td>Movie of the façade seen from the street: wall in the sun or in the shade, sunny
+area of each face; beside it the sunlit part of each band at each height. Opens on one day.</td></tr>
+<tr><td>Simulation list</td><td>Every simulation of the IDF, newest first; the icon <kbd>↻</kbd> (Load the latest results) comes back
+to the newest.</td></tr>
+</table>
+
+<h3 id="g_opt">Optimisation</h3>
+<div class="gal">
+  <div class="gbar"><button type="button">Convergence</button><button type="button">Interface</button>
+    <button type="button">Monthly energy</button><button type="button">Kriging model</button></div>
+  <figure><img src="img/g_conv.webp" alt="Convergence" loading="lazy"><figcaption>Energy of every simulation (star = flat
+    wall, grey = initial sampling, blue = kriging), best so far.</figcaption></figure>
+  <figure><img src="img/g_iface.webp" alt="Interface" loading="lazy"><figcaption>The reference and the selected designs,
+    coloured by conductivity.</figcaption></figure>
+  <figure><img src="img/g_monthly.webp" alt="Monthly energy" loading="lazy"><figcaption>Energy by month; below, the
+    difference with the reference.</figcaption></figure>
+  <figure><img src="img/g_gp.webp" alt="Kriging model" loading="lazy"><figcaption>Prediction μ ± 2σ along one variable at a
+    time through the best design, the most influential first.</figcaption></figure>
+</div>
+<p>Click a point or a row of <i>Table</i> to select a design (5 at most); <kbd>Load … into the form</kbd> puts it in
+mode Simulation, to simulate it alone with every output. <i>Pareto front</i> appears with two objectives.</p>
+
+<h3 id="g_export">Export a figure for a report</h3>
+<div class="tour">
+  <div class="screen"><img src="img/tour_export.webp" alt="export of a figure" loading="lazy">
+    <button class="replay" type="button">↻ replay</button></div>
+  <div><h4>In the video</h4><ol><li><kbd>⤓ Export</kbd>: print preview</li><li>Presets full / half page</li>
+    <li><kbd>⤓ Export PDF</kbd> · <kbd>⤓ CSV</kbd></li></ol></div>
+</div>
+<table>
+<tr><td>Top bar</td><td>Figure, panels, <kbd>PDF</kbd> · <kbd>PNG</kbd> · <kbd>CSV</kbd> · <kbd>Matlab</kbd> · <kbd>All figures</kbd>, <kbd>×</kbd> (Esc).</td></tr>
+<tr><td>Instant</td><td>Films (maps): ◀ ▶ and the slider choose the instant exported.</td></tr>
+<tr><td>Panels</td><td><i>all together</i>, one panel alone, or <i>each panel as a subfigure</i>: one PDF per panel, the legend and the colour bar in their own PDF, LaTeX code ready to copy.</td></tr>
+<tr><td>Size</td><td>Document (article, two columns, thesis, Beamer, poster), width as a fraction of <code>\textwidth</code>, ratio.</td></tr>
+<tr><td>Colour bars</td><td>Range of this instant or of the whole film, for each panel or shared, ends rounded; min / max of each bar.</td></tr>
+<tr class="det"><td>Look</td><td><i>Article</i>: Latin Modern labels, Helvetica ticks inside, box, no grid, W.m⁻², symbols in italics. Fonts, units, grid, palette, legend.</td></tr>
+<tr class="det"><td>Titles, curves</td><td>Title of each panel, axis and colour-bar titles, name, colour and visibility of each curve.</td></tr>
+<tr><td>PDF</td><td><code>hubgui/exports/&lt;name&gt;.pdf</code> + <code>.svg</code>, exact size: <code>\includegraphics</code> without scaling keeps the font size.</td></tr>
+<tr><td>Matlab</td><td><code>exports/&lt;name&gt;_matlab/</code>: the data (<code>.mat</code>) and a script that draws and exports each panel.</td></tr>
+<tr><td>CSV</td><td>Every sample of the figure at this instant, for Matlab (<code>readtable</code>) or a spreadsheet.</td></tr>
+</table>
+<p>The export keeps what the panel shows: zoom, hidden curves, selected zones and designs.</p>
+</section>
+
+<!-- ================================================================================================= FILES -->
+<section class="page" id="tab-files" data-label="Files">
+<h2 id="files">Where are my files?</h2>
+<div class="tree"><b>mod/xdomf90/idf/</b>
+├── &lt;name&gt;.idf                   <i>the Domus project, rewritten at each run</i>
+└── #&lt;name&gt;/saidas/             <i>what Domus keeps between runs (sunny areas, state)</i>
+<b>mod/xdomf90/runs/&lt;name&gt;/&lt;run&gt;/</b> <i>one simulation: Domus database, wall model *.bin, its idf, run.json</i>
+<b>opt/krige/runs/xdomf90/&lt;run&gt;/</b>  <i>an optimisation (kriging): settings, log, every simulation, best/</i>
+<b>opt/nsga2/runs/xdomf90/&lt;run&gt;/</b>  <i>an optimisation (genetic algorithm): the same, one file per generation</i>
+<b>hubgui/exports/</b>                   <i>exported figures (PDF, SVG, CSV)</i>
+<b>Documents\TOPS results &lt;date&gt;</b>   <i>results kept by the uninstaller</i></div>
+<p>A simulation is named by its start and its case, e.g. <code>2026-10-06_2103_id2d2l_bezier5_Nice</code>. In the list of the
+simulations (Graphs): <b>Rename</b> gives it a name in the hub, <b>Export</b> makes a <code>.zip</code> to send it
+(<code>hubgui/exports/runs</code>), <b>Import</b> adds a simulation sent by someone else (its folder or its <code>.zip</code>):
+its project is chosen (a new one, made from its idf, if this computer has none of the same geometry) and its form loaded.</p>
+<details class="more"><summary>Format of the <code>.bin</code> files</summary><div><p>Two <code>int32</code>
+(<code>nx, ny</code>, <code>ny = 0</code> for vectors) then <code>float64</code> values, column-major (one column per
+model time step; the fields <code>T</code>, <code>fH</code>, <code>fV</code>: one column per Domus time step, see
+<code>fields.txt</code>).</p></div></details>
+<details class="more"><summary>For developers</summary><div><table>
+<tr><td><code>idf/templates/urban_pattern.idf</code></td><td>Frozen template of the scenes; never run it in Domus.</td></tr>
+<tr><td><code>mod/xdomf90/lib/py/</code></td><td>Pipeline: IDF, weather, results; hub entry of the model; 3D viewer.</td></tr>
+<tr><td><code>mod/xdomf90/unix/</code></td><td>Linux side: image recipe, cluster scripts, <code>README.md</code>.</td></tr>
+<tr><td><code>hubgui/setup/</code> export.py · install.py · uninstall.py</td><td>Package, installation, removal.</td></tr>
+<tr><td><code>hubgui/settings/hub.json</code></td><td>Places of a package (Domus, working folder, runs); absent on the development machine.</td></tr>
+<tr><td><code>hubgui/web/</code> index.html · css/ · js/</td><td>The interface: the page, its styles, its code.</td></tr>
+<tr><td><code>hubgui/tools/help/</code></td><td>Remake the figures and the captures of this page (on a test hub).</td></tr>
+</table></div></details>
+</section>
+
+<!-- ================================================================================================= TROUBLE -->
+<section class="page" id="tab-trouble" data-label="Troubleshooting">
+<h2 id="trouble">Troubleshooting</h2>
+<table>
+<tr><th>Symptom</th><th>What to do</th></tr>
+<tr><td>Domus exit code 1</td><td>Normal: success is read from the simulation log.</td></tr>
+<tr><td>No model graph</td><td>The <code>.bin</code> files may still be in the working folder: move them to the simulation folder.</td></tr>
+<tr><td>EPW download fails</td><td>Check the city and the ISO-3 country code on climate.onebuilding.org.</td></tr>
+<tr><td>The hub opens in a tab, not in a window</td><td>No Chromium browser found (Edge, Chrome, Brave…): install
+one, or name it in the variable <code>HUB_BROWSER</code>.</td></tr>
+<tr><td>Server offline / TOPS page waits</td><td>Relaunch <code>TOPS.bat</code> or <code>tops.sh</code>; see <code>hubgui/_runs/server_&lt;pc&gt;.log</code>.</td></tr>
+<tr><td>Red field, run refused</td><td>A value outside the limits of the model: the message under the field says which.</td></tr>
+<tr><td>Linux: <code>…:Zone.Identifier</code> files</td><td>The package was unzipped by the Windows explorer; use <code>unzip</code> in a Linux terminal.</td></tr>
+<tr><td>Cluster: <i>No cluster set yet</i></td><td><a href="#cl_settings">Cluster settings</a>, then <i>Test connection</i> and <i>Prepare the cluster</i>.</td></tr>
+</table>
+</section>
+</main>
+</div>
+<div class="lb" id="lb"><img alt=""></div>
+<script>
+'use strict';
+const PAGES = [...document.querySelectorAll('section.page')], BAR = document.getElementById('tabs'),
+      TOC = document.getElementById('toc');
+PAGES.forEach(p => { const b = document.createElement('button');
+  b.textContent = p.dataset.label; b.onclick = () => show(p.id); BAR.appendChild(b); });
+
+function layout() { document.documentElement.style.setProperty('--top', (56 + BAR.offsetHeight) + 'px'); }
+addEventListener('resize', layout);
+layout();
+
+// ---- previous / next at the bottom of each page
+PAGES.forEach((p, i) => {
+  const d = document.createElement('div'); d.className = 'pager';
+  const mk = (q, lab) => { const b = document.createElement('button'); b.type = 'button';
+    b.innerHTML = '<small>' + lab + '</small>' + q.dataset.label; b.onclick = () => show(q.id); return b; };
+  d.appendChild(i > 0 ? mk(PAGES[i - 1], '← previous') : document.createElement('span'));
+  if (i < PAGES.length - 1) d.appendChild(mk(PAGES[i + 1], 'next →'));
+  p.appendChild(d);
+});
+
+function buildToc(p) {
+  TOC.innerHTML = '';
+  const hs = [...p.querySelectorAll('h2[id],h3[id]')];
+  document.body.classList.toggle('no-toc', hs.length < 2);
+  if (hs.length < 2) return;
+  for (const h of hs) { const a = document.createElement('a');
+    a.href = '#' + h.id; a.textContent = [...h.childNodes].filter(n => !n.classList?.contains('lvmore')).map(n => n.textContent).join('');
+    if (h.tagName === 'H3') a.className = 'sub';
+    TOC.appendChild(a); }
+}
+function show(id, anchor) {
+  PAGES.forEach((p, i) => { const on = p.id === id;
+    p.classList.toggle('on', on); BAR.children[i].setAttribute('aria-selected', on); if (on) buildToc(p); });
+  const t = anchor && document.getElementById(anchor);
+  if (t) { const d = t.closest('details'); if (d) d.open = true; t.scrollIntoView(); } else window.scrollTo(0, 0);
+  try { localStorage.setItem('help.tab', id); } catch (e) {}
+  mark();
+}
+function goTo(anchor) {          // any element of the document, whatever its tab
+  const t = document.getElementById(anchor), p = t && t.closest('section.page');
+  if (!p) return false;
+  show(p.id, anchor);
+  return true;
+}
+function mark() {
+  const p = document.querySelector('section.page.on');
+  const h = document.documentElement, f = h.scrollHeight - innerHeight;
+  document.getElementById('progress').style.width = (f > 0 ? 100 * scrollY / f : 0) + '%';
+  if (!p) return;
+  let cur = null;
+  for (const h of p.querySelectorAll('h2[id],h3[id]')) if (h.getBoundingClientRect().top < 150) cur = h.id;
+  for (const a of TOC.children) a.classList.toggle('cur', a.getAttribute('href') === '#' + cur);
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  const id = a.getAttribute('href').slice(1);
+  if (goTo(id)) { e.preventDefault(); history.replaceState(null, '', '#' + id); closeResults(); }
+});
+addEventListener('hashchange', () => { if (location.hash) goTo(location.hash.slice(1)); });
+addEventListener('scroll', mark, {passive: true});
+
+// ---- galleries: one picture at a time
+document.querySelectorAll('.gal').forEach(g => {
+  const bs = [...g.querySelectorAll('.gbar button')], fs = [...g.querySelectorAll('figure')];
+  const pick = i => { bs.forEach((b, k) => b.classList.toggle('on', k === i)); fs.forEach((f, k) => f.classList.toggle('on', k === i)); };
+  bs.forEach((b, i) => b.onclick = () => pick(i));
+  pick(0);
+});
+
+// ---- tours: replay from the start
+document.querySelectorAll('.tour .replay').forEach(b => b.onclick = () => {
+  const img = b.parentElement.querySelector('img'), src = img.src.split('?')[0];
+  img.src = ''; img.src = src + '?r=' + Date.now();
+});
+
+// ---- zoom of a picture
+const LB = document.getElementById('lb');
+document.addEventListener('click', e => {
+  const img = e.target.closest('figure img, .tour img');
+  if (img && !LB.contains(img)) { LB.querySelector('img').src = img.src; LB.classList.add('on'); return; }
+  if (LB.contains(e.target)) LB.classList.remove('on');
+});
+
+// ---- search: headings, field names (first cell of the tables), numbered keys
+const Q = document.getElementById('q'), RES = document.getElementById('results');
+const INDEX = [];
+PAGES.forEach(p => {
+  let head = null;
+  for (const el of p.querySelectorAll('h1,h2[id],h3[id],td:first-child,ol.keys b,.tasks b')) {
+    if (el.matches('h2,h3')) { head = el; INDEX.push({t: el.textContent, where: p.dataset.label, id: el.id, w: 2}); continue; }
+    const t = el.textContent.trim();
+    if (t && t.length < 60 && head) INDEX.push({t, where: p.dataset.label + ' › ' + head.textContent, id: head.id, w: 1});
+  }
+});
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+let SEL = 0;
+function closeResults() { RES.classList.remove('on'); }
+function search() {
+  const q = norm(Q.value.trim());
+  if (!q) return closeResults();
+  const seen = new Set(), hits = [];
+  for (const e of INDEX) {
+    const t = norm(e.t), i = t.indexOf(q);
+    if (i < 0) continue;
+    const key = e.t + e.id; if (seen.has(key)) continue; seen.add(key);
+    hits.push([e, (i === 0 ? 0 : 1) - e.w]);
+  }
+  hits.sort((a, b) => a[1] - b[1]);
+  SEL = 0;
+  RES.innerHTML = hits.length ? hits.slice(0, 10).map(([e]) =>
+    `<a href="#${e.id}">${e.t.replace(/</g, '&lt;')}<small>${e.where.replace(/</g, '&lt;')}</small></a>`).join('')
+    : '<div class="none">Nothing found</div>';
+  RES.classList.add('on');
+  hl();
+}
+function hl() { [...RES.querySelectorAll('a')].forEach((a, i) => a.classList.toggle('sel', i === SEL)); }
+Q.addEventListener('input', search);
+Q.addEventListener('focus', search);
+Q.addEventListener('keydown', e => {
+  const as = [...RES.querySelectorAll('a')];
+  if (e.key === 'ArrowDown') { SEL = Math.min(SEL + 1, as.length - 1); hl(); e.preventDefault(); }
+  else if (e.key === 'ArrowUp') { SEL = Math.max(SEL - 1, 0); hl(); e.preventDefault(); }
+  else if (e.key === 'Enter' && as[SEL]) { as[SEL].click(); Q.blur(); }
+  else if (e.key === 'Escape') { Q.value = ''; closeResults(); Q.blur(); }
+});
+document.addEventListener('click', e => { if (!e.target.closest('.search')) closeResults(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') LB.classList.remove('on');
+  if (e.key === '/' && document.activeElement !== Q) { e.preventDefault(); Q.focus(); }
+});
+
+let start = PAGES[0].id;
+try { const s = localStorage.getItem('help.tab'); if (s && document.getElementById(s)) start = s; } catch (e) {}
+if (!(location.hash && goTo(location.hash.slice(1)))) show(start);
+</script>
+<script src="nav.js"></script>
+</body></html>

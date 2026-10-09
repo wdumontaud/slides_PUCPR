@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOPS — Help</title>
+<link rel="icon" href="../tops.png">
+<style>
+:root{color-scheme:dark;--bg:#080b10;--bg-2:#0c1016;--panel:#10151d;--panel-2:#151c26;--line:#1d2632;--line-2:#293445;
+  --text:#dde4ec;--muted:#8d9aab;--faint:#5f6c7d;--hot:#ff7a3d;--ok:#3ecf8e;--violet:#8b5cf6;--peach:#ffb88a;
+  --mono:"Cascadia Mono","Cascadia Code",Consolas,monospace;--sans:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;
+  --thermal:linear-gradient(90deg,#3b82f6,#8b5cf6,#ef5b7f,#ff9a3d)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.62 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--peach);text-decoration:none;border-bottom:1px dotted #ffb88a66}
+a:hover{border-bottom-style:solid}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;height:56px;padding:0 24px;
+  background:var(--bg-2);border-bottom:1px solid var(--line)}
+header img{width:24px;height:24px;border-radius:6px}
+header b{font-family:var(--mono);color:var(--peach)}
+header span{color:var(--muted)}
+main{max-width:980px;margin:0 auto;padding:34px 24px 80px}
+h1{font-size:28px;margin:0 0 6px;font-weight:650}
+.lead{color:var(--muted);font-size:15px;margin:0 0 26px;max-width:760px}
+h2{font-size:19px;margin:40px 0 12px;font-weight:620}
+h2::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--hot);margin-right:10px;vertical-align:middle}
+p,li{color:#c3ccd7}
+code,kbd{font:12.5px var(--mono);background:var(--panel-2);border:1px solid var(--line-2);border-radius:5px;padding:0 5px;color:var(--text)}
+kbd{border-bottom-width:2px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.card{display:flex;gap:16px;padding:18px;border-radius:16px;border:1px solid var(--line-2);background:var(--panel);color:var(--text);
+  transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-2px);border-color:var(--violet)}
+.card svg{width:44px;height:44px;flex:none;color:#a78bfa}
+.card b{display:block;font-size:15px}
+.card small{display:block;color:var(--muted);font-size:12.5px;margin-top:4px}
+.card em{display:block;font-style:normal;color:var(--peach);font-size:12px;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{white-space:nowrap;color:var(--text);width:230px}
+svg.fig{width:100%;max-width:760px;display:block;margin:14px 0}
+</style></head><body>
+<header><img src="../tops.png" alt=""><b>TOPS</b><span class="hsub">help</span></header>
+<main>
+<h1>TOPS</h1>
+<p class="lead">Models of building walls, alone or coupled with the building simulated by Domus. The hub opens on its
+<b>home</b>: choose a model there; the house logo at the top left brings you back to it.</p>
+
+<svg class="fig" viewBox="0 0 760 150" aria-label="Home of the hub">
+  <rect x="1" y="1" width="758" height="148" rx="14" fill="#0c1016" stroke="#293445"/>
+  <path d="M30 40 42 30l12 10v14H30z" fill="url(#g)"/>
+  <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset=".5" stop-color="#8b5cf6"/><stop offset="1" stop-color="#ff9a3d"/></linearGradient></defs>
+  <text x="66" y="48" fill="#dde4ec" font-size="15">TOPS · home</text>
+  <rect x="30" y="66" width="220" height="56" rx="10" fill="#10151d" stroke="#8b5cf6"/>
+  <text x="44" y="90" fill="#dde4ec" font-size="12">Domus co-simulation</text><text x="44" y="108" fill="#5f6c7d" font-size="10">model card</text>
+  <rect x="266" y="66" width="220" height="56" rx="10" fill="#10151d" stroke="#293445"/>
+  <text x="280" y="90" fill="#dde4ec" font-size="12">Shape &amp; topology models</text><text x="280" y="108" fill="#3ecf8e" font-size="10">● running</text>
+  <g font-size="11" fill="#8d9aab"><rect x="510" y="66" width="104" height="24" rx="7" fill="#10151d" stroke="#1d2632"/><text x="522" y="82">⚙ Settings</text>
+  <rect x="624" y="66" width="104" height="24" rx="7" fill="#10151d" stroke="#1d2632"/><text x="636" y="82">⌨ Shortcuts</text>
+  <rect x="510" y="98" width="104" height="24" rx="7" fill="#10151d" stroke="#1d2632"/><text x="522" y="114">? Help</text>
+  <rect x="624" y="98" width="104" height="24" rx="7" fill="#10151d" stroke="#1d2632"/><text x="636" y="114">⏻ Exit</text></g>
+</svg>
+
+<h2>The models</h2>
+<div class="cards">
+  <a class="card" href="xdomf90.html"><svg viewBox="0 0 48 48"><path d="M6 42V20l12-8v30M18 42V8l16 8v26M34 42V24l8 4v14M3 42h42" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg>
+    <span><b>Domus co-simulation</b><small>The building is simulated by Domus, the studied wall by a 2D model. Simulation and optimisation of the wall.</small><em>Help of the co-simulation →</em></span></a>
+  <a class="card" href="sh2d1l.html"><svg viewBox="0 0 48 48"><path d="M10 6h14c-6 8 6 14 0 22s6 10 0 14H10z" fill="currentColor" opacity=".28"/><path d="M10 6h28v36H10zM24 6c-6 8 6 14 0 22s6 10 0 14" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+    <span><b>Shape &amp; topology models</b><small>The studied wall alone in a street canyon: shape of its external face (shape model) or interface between two layers (topology model).</small><em>Help of these models →</em></span></a>
+  <a class="card" href="bench.html"><svg viewBox="0 0 48 48"><path d="M4 10h40v28H4z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M22 10c-3 6 3 10 0 14s-3 10 2 14h4V10z" fill="currentColor" opacity=".28"/><path d="M19 11h3v13h-3z" fill="currentColor"/></svg>
+    <span><b>Experimental bench</b><small>The shape model on the cases of the reduced-scale bench: optimised wall compared with the flat wall using the temperatures measured on the bench.</small><em>Help of the bench →</em></span></a>
+</div>
+
+<h2>Everywhere in the hub</h2>
+<table>
+  <tr><td>House logo</td><td>Home: models, settings, keyboard shortcuts, help (this page), exit.</td></tr>
+  <tr><td><b>?</b> (top right)</td><td>Help of the model shown, inside the hub. At the top of every help page: this
+    page (<b>⌂ Help home</b>), the help of each model, and <b>✕ Back to the hub</b> (or <kbd>Esc</kbd>).</td></tr>
+  <tr><td><b>⏻</b> (top right, or Exit on the home)</td><td>Closes the app and stops the server. A running optimisation goes on.</td></tr>
+  <tr><td>Bell (top right)</td><td>The messages of this session (the bubbles at the bottom right) with their hour; a dot:
+    an error or a warning you have not seen. An error bubble stays until you click it.</td></tr>
+  <tr><td>Terminal</td><td>One per run: you find it as you left it when you come back to a model.</td></tr>
+  <tr><td>Top bar</td><td>Icons: settings (gear, Ctrl+,), the parameters (shown / hidden), Simulation | Optimisation, then Geometry, Terminal,
+    Graphs (<kbd>Ctrl+1</kbd> <kbd>2</kbd> <kbd>3</kbd>). Hover an icon for its name. The running job and its progress
+    are in the title of the window.</td></tr>
+  <tr><td>Parameters</td><td>Kept per model. <i>modified</i>: value changed since you opened the model.</td></tr>
+</table>
+
+<h2>Keyboard shortcuts</h2>
+<table>
+  <tr><td><kbd>Ctrl</kbd> <kbd>K</kbd></td><td>Go to a parameter or an action</td></tr>
+  <tr><td><kbd>Ctrl</kbd> <kbd>Enter</kbd></td><td>Run</td></tr>
+  <tr><td><kbd>Ctrl</kbd> <kbd>,</kbd></td><td>Settings</td></tr>
+  <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Previous / next tab of the figures (of the panel under the mouse)</td></tr>
+  <tr><td><kbd>Space</kbd>, <kbd>Shift</kbd> <kbd>←</kbd> <kbd>→</kbd></td><td>Movie: play / pause, image before / after
+    (<kbd>Home</kbd>, <kbd>End</kbd>: first, last image)</td></tr>
+  <tr><td><kbd>Esc</kbd></td><td>Close (on the home: back to the current model)</td></tr>
+  <tr><td><kbd>?</kbd></td><td>List of the shortcuts</td></tr>
+</table>
+</main>
+<script src="nav.js"></script>
+</body></html>
