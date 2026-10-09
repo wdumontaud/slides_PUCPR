@@ -7,6 +7,7 @@
 import json, sys, time
 from pathlib import Path
 import bib
+import math_render
 
 ROOT = Path(__file__).resolve().parent
 
@@ -47,9 +48,10 @@ def build():
     parts = "\n".join(f"<!-- ==== {p} ==== -->\n{read(p)}" for p in cfg["parts"])
     if cfg.get("bibliography"):                     # \cite{key} -> numbers, slide footers, References appendix
         parts = bib.process(parts, bib.parse(read(cfg["bibliography"])))
+    parts = math_render.process(parts)              # \( inline \) and \[ display \] LaTeX -> KaTeX HTML
     values = dict(
         title=cfg.get("title", "Presentation"),
-        css=read("theme/style.css"),
+        css=read("theme/katex/katex.min.css").replace("url(fonts/", "url(theme/katex/fonts/") + "\n" + read("theme/style.css"),
         parts=parts,
         config=json.dumps(cfg, ensure_ascii=False),
         field=read("theme/field.js"),
@@ -63,7 +65,7 @@ def build():
 
 
 def stamp():
-    files = [ROOT / "main.json", ROOT / "refs.bib", *(ROOT / "theme").glob("*"), *(ROOT / "parts").glob("*.html")]
+    files = [ROOT / "main.json", ROOT / "refs.bib", *(ROOT / "theme").glob("*.*"), *(ROOT / "parts").glob("*.html")]
     return {f: f.stat().st_mtime for f in files if f.exists()}
 
 

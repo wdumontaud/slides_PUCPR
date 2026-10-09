@@ -45,3 +45,10 @@ Open `index.html` directly (double-click), no server needed.
 ## Viewing
 `← →` / space / click: navigate · `F`: fullscreen · `Home` / `End` · click a bubble to jump.
 Buttons "Fullscreen" and "PDF" appear top right when the mouse moves.
+
+## Equations (LaTeX)
+
+In `parts/*.html`, write LaTeX as in a .tex file: inline `\( ... \)`, display `\[ ... \]`.
+They are rendered at build time by KaTeX (`theme/katex/`, works offline; needs `node`).
+Shortcuts (`\x`, `\n` bold vectors, `\dd`) are defined in `math_render.py` (`MACROS`).
+`\htmlData{from=1}{...}` shows part of an equation from step 1 on.
