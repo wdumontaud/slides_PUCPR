@@ -81,10 +81,12 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 <!-- ==== parts/01-title.html ==== -->
 <!-- Title slide: animated contour background, logos and text stay still -->
 <style>
-.s-title .box{left:0;right:0;top:300px}
+.s-title .box{left:0;right:0;top:285px}
 .s-title .l1{font-size:25px;line-height:1.5}
 .s-title h1{font-size:38px;margin:26px 80px 0}
 .s-title .logo{height:auto}
+.s-title .author{font-size:27px;margin-top:34px;font-weight:700}
+.s-title .sup{font-size:19px;margin-top:8px;opacity:.85}
 </style>
 <section class="slide" data-layout="title">
   <canvas class="field" data-line="255,255,255" data-alpha="0.5"></canvas>
@@ -96,24 +98,26 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
   <div class="box">
     <div class="l1">Seminar presentation - Pontifícia Universidade Católica do Paraná<br>20 August 2026</div>
     <h1>Shape and insulation domain optimization regarding wall energy efficiency</h1>
+    <div class="author">William DUMONTAUD</div>
+    <div class="sup">Supervisors: Julien BERGER (LaSIE) · Benjamin KADOCH (IUSTI)</div>
   </div>
 </section>
 
 <!-- ==== parts/02-who.html ==== -->
-<!-- Who I am (before the first section: no bubble in the top bar) -->
+<!-- Who am I (before the first section: no bubble in the top bar) -->
 <style>
 .s-who .photo{right:0;top:calc(var(--navH) + var(--titleH));bottom:var(--footH);width:556px;background:url(assets/who_I_am.jpg) center/cover}
 .s-who .txt{left:44px;top:calc(var(--navH) + var(--titleH) + 22px);width:620px;font-size:25px;line-height:1.4}
 .s-who .txt img{height:1.5em;vertical-align:middle}
 .s-who .small{font-size:21px}
 </style>
-<section class="slide s-who" data-title="Who I am ?" data-layout="free">
+<section class="slide s-who" data-title="Who am I?" data-layout="free">
   <div class="photo"></div>
   <div class="txt">
     I am William DUMONTAUD and I have been a <img src="assets/logoCNRS.png" alt="CNRS"> PhD student since 1<sup>st</sup> November 2024 at LaSIE.
     <ul class="small">
-      <li>Supervisor :<br>Julien BERGER, CNRS researcher for LaSIE, UMR 7356.</li>
-      <li>Co-Supervisor :<br>Benjamin KADOCH, teacher-researcher for IUSTI, UMR 7343.</li>
+      <li>Supervisor:<br>Julien BERGER, CNRS researcher for LaSIE, UMR 7356.</li>
+      <li>Co-Supervisor:<br>Benjamin KADOCH, teacher-researcher for IUSTI, UMR 7343.</li>
     </ul>
     <p><span class="purple">Funding:</span> <a href="https://anr.fr/Projet-ANR-23-CE22-0008" target="_blank"><b>ANR JCJC 2023 TOPS</b></a> (Optimisation topologique et de forme des parois opaques de bâtiments) project.</p>
   </div>
@@ -179,30 +183,43 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 })();
 </script>
 
-<section class="slide" data-title="Global strategy : stage 1"><div class="todo">to be written</div></section>
-<section class="slide" data-title="Global strategy : stage 2"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Global strategy: insulation domain"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Global strategy: shape"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Global strategy: shape &amp; insulation domain"><div class="todo">to be written</div></section>
+<section class="slide" data-title="How to assess the wall energy efficiency?"><div class="todo">to be written</div></section>
+<section class="slide" data-title="State of the art"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Manufacturing advances: 3D printing"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Action plan"><div class="todo">to be written</div></section>
 
 <!-- ==== parts/05-physical.html ==== -->
 <!-- section: Physical problem -->
-<!-- subsection: Governing equation -->
-<section class="slide" data-title="Governing equation"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Physical problem: street canyon configuration"><div class="todo">to be written</div></section>
+<!-- subsection: Governing equations -->
+<section class="slide" data-title="Governing equations"><div class="todo">to be written</div></section>
 <!-- subsection: Boundary conditions -->
-<section class="slide" data-title="Boundary conditions"><div class="todo">to be written</div></section>
+<section class="slide" data-title="External boundary conditions"><div class="todo">to be written</div></section>
+<section class="slide" data-title="External boundary conditions: short- and long-wave radiation"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Internal, top and bottom boundary conditions"><div class="todo">to be written</div></section>
 
-<!-- ==== parts/06-insulation.html ==== -->
-<!-- section: Insulation domain optimization -->
-<section class="slide" data-title="Insulation domain optimization"><div class="todo">to be written</div></section>
+<!-- ==== parts/06-cosimulation.html ==== -->
+<!-- section: Co-simulation -->
+<!-- subsection: Motivation -->
+<section class="slide" data-title="Why a co-simulation?"><div class="todo">to be written</div></section>
+<!-- subsection: Architecture and coupling -->
+<section class="slide" data-title="Architecture and coupling"><div class="todo">to be written</div></section>
+<!-- subsection: Data exchange and time steps -->
+<section class="slide" data-title="Data exchange and time steps"><div class="todo">to be written</div></section>
+<!-- subsection: Results -->
+<section class="slide" data-title="Results: shape"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Results: insulation domain"><div class="todo">to be written</div></section>
+<section class="slide" data-title="Towards optimization"><div class="todo">to be written</div></section>
 
-<!-- ==== parts/07-shape.html ==== -->
-<!-- section: Shape optimization -->
-<section class="slide" data-title="Shape optimization"><div class="todo">to be written</div></section>
-
-<!-- ==== parts/08-why.html ==== -->
-<!-- section: Why do I come here ? -->
-<section class="slide" data-title="Why do I come here ?"><div class="todo">to be written</div></section>
+<!-- ==== parts/07-conclusion.html ==== -->
+<!-- section: Conclusion -->
+<section class="slide" data-title="Conclusion and perspectives"><div class="todo">to be written</div></section>
 
 </div>
-<script>window.CONFIG={"title": "Seminar presentation – PUCPR", "short_title": "Seminar presentation – PUCPR", "author": "William DUMONTAUD", "parts": ["parts/01-title.html", "parts/02-who.html", "parts/03-contents.html", "parts/04-introduction.html", "parts/05-physical.html", "parts/06-insulation.html", "parts/07-shape.html", "parts/08-why.html"]};</script>
+<script>window.CONFIG={"title": "Seminar presentation – PUCPR", "short_title": "Seminar presentation – PUCPR", "author": "William DUMONTAUD", "parts": ["parts/01-title.html", "parts/02-who.html", "parts/03-contents.html", "parts/04-introduction.html", "parts/05-physical.html", "parts/06-cosimulation.html", "parts/07-conclusion.html"]};</script>
 <script>
 // theme/field.js — live contour field (WebGL2)
 // Height field = sum of smooth travelling waves (no grid => no rectangles); iso-lines are drawn with an
