@@ -42,6 +42,13 @@ b,strong,h1{font-weight:700}
 a{color:var(--purple)}
 ul{margin:.4em 0;padding-left:1.1em} li{margin:.35em 0}
 ul li::marker{color:var(--purple)}
+.step-hidden{opacity:0;visibility:hidden}
+[data-from],[data-until]{transition:opacity .45s ease,visibility .45s}
+.noanim [data-from],.noanim [data-until]{transition:none}
+/* references at the bottom of a slide (like beamer footnotes) */
+.refs{position:absolute;left:0;right:0;bottom:0;font-size:13px;line-height:1.35;color:#555;border-top:1px solid #ccd;padding-top:5px}
+.refs sup,.cite{color:var(--purple)}
+.lead{text-align:center;font-weight:700;margin:0 0 14px}
 .todo{color:#888;font-size:24px;margin-top:40px;text-align:center}
 
 /* ---- automatic table of contents ---- */

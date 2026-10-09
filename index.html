@@ -51,6 +51,13 @@ b,strong,h1{font-weight:700}
 a{color:var(--purple)}
 ul{margin:.4em 0;padding-left:1.1em} li{margin:.35em 0}
 ul li::marker{color:var(--purple)}
+.step-hidden{opacity:0;visibility:hidden}
+[data-from],[data-until]{transition:opacity .45s ease,visibility .45s}
+.noanim [data-from],.noanim [data-until]{transition:none}
+/* references at the bottom of a slide (like beamer footnotes) */
+.refs{position:absolute;left:0;right:0;bottom:0;font-size:13px;line-height:1.35;color:#555;border-top:1px solid #ccd;padding-top:5px}
+.refs sup,.cite{color:var(--purple)}
+.lead{text-align:center;font-weight:700;margin:0 0 14px}
 .todo{color:#888;font-size:24px;margin-top:40px;text-align:center}
 
 /* ---- automatic table of contents ---- */
@@ -133,63 +140,289 @@ body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;bre
 <!-- ==== parts/04-introduction.html ==== -->
 <!-- section: Introduction -->
 <style>
-.topic .lead{text-align:center;font-weight:700;margin:4px 0 14px}
-.topic .row{display:flex;gap:24px;align-items:center;height:400px}
-.topic .row img{height:100%;width:auto;max-width:300px;object-fit:cover;border-radius:4px}
-.topic figure{margin:0;flex:1;text-align:center}
-.topic figcaption{font-size:15px;color:#444;margin-top:6px}
-.topic svg text{font-family:inherit}
+.ctx .content>*,.why .content>*,.print3d .content>*,.sota .content>*,.gap .content>*,.plan .content>*{position:absolute}
+.why .lead{left:0;right:0;top:0}
+/* ---- context: video of the street canyon -> zoom on band 1 -> 2D section ---- */
+.ctx .vid{left:0;top:0;width:640px;height:412px;overflow:hidden;border-radius:4px;background:#000}
+.ctx .zoom{position:absolute;inset:0;transform-origin:270px 200px;transition:transform 1.4s ease}
+.ctx[data-step="1"] .zoom,.ctx[data-step="2"] .zoom{transform:translate(50px,6px) scale(1.6)}
+.ctx video,.ctx .zoom img,.ctx .zoom svg{position:absolute;inset:0;width:100%;height:100%}
+.ctx .mask,.ctx .cut{opacity:0;transition:opacity .8s ease .6s}
+.ctx[data-step="1"] .mask,.ctx[data-step="2"] .mask,.ctx[data-step="1"] .cut,.ctx[data-step="2"] .cut{opacity:1}
+.ctx .cap{left:0;top:420px;width:640px;font-size:15px;color:#444;text-align:center}
+.ctx .txt{left:675px;top:0;width:517px;font-size:23px;line-height:1.35}
+.ctx .txt li{margin:.5em 0}
+.ctx .sec{left:665px;top:-6px;width:527px;height:440px}
+.ctx .sec text{font-family:inherit}
+.ctx .bottom{left:0;right:0;top:455px;font-size:22px;text-align:center}
+.ctx .bottom b{color:var(--purple)}
+
+/* ---- why optimise: three small before/after drawings ---- */
+.why .row{left:0;right:0;top:56px;display:flex;justify-content:space-between}
+.why figure{margin:0;width:385px;text-align:center}
+.why figure svg{width:385px;height:243px}
+.why figcaption{font-size:18px;line-height:1.3;margin-top:2px}
+.why svg text{font-family:inherit}
+.why .this{color:var(--purple);font-weight:700}
+
+/* ---- 3D printing ---- */
+.print3d img{left:0;top:10px;width:560px;border-radius:4px}
+.print3d .cap{left:0;top:388px;width:560px;font-size:15px;color:#444;text-align:center}
+.print3d .txt{left:595px;top:6px;width:597px;font-size:23px;line-height:1.35}
+.print3d .txt li{margin:.55em 0}
+.print3d .arrow{color:var(--purple);font-weight:700}
+
+/* ---- state of the art: timeline ---- */
+.sota .line{left:0;right:0;top:247px;height:6px;background:var(--blueCNRS);border-radius:3px}
+.sota .item{width:140px;margin-left:-70px;text-align:center;font-size:16px;line-height:1.2}
+.sota .item img{height:118px;border:1px solid #bbb;box-shadow:0 1px 4px rgba(0,0,0,.25);display:block;margin:4px auto}
+.sota .up{bottom:calc(572px - 228px)}
+.sota .down{top:272px}
+.sota .tag{display:inline-block;padding:1px 7px;border-radius:9px;color:#fff;font-size:14px}
+.sota .topo{background:var(--purple)} .sota .shape{background:#c47f00}
+.sota .dot{width:16px;height:16px;margin-left:-8px;top:242px;border-radius:50%;background:#fff;border:3px solid var(--blueCNRS)}
+.sota .yr{width:60px;margin-left:-30px;font-size:15px;font-weight:700;text-align:center}
+.sota .yr.u{top:220px} .sota .yr.d{top:258px}
+.sota .refs{font-size:12.5px}
+
+/* ---- state of the art: gap ---- */
+.gap .txt{left:0;top:10px;width:640px;font-size:24px;line-height:1.35}
+.gap .txt li{margin:.45em 0}
+.gap .box{left:680px;top:40px;width:512px;padding:22px 26px;border:2px solid var(--purple);border-radius:8px;
+  background:#f6f2fd;font-size:23px;line-height:1.4}
+.gap .box b{color:var(--purple)}
+
+/* ---- action plan ---- */
+.plan .row{left:0;right:0;top:40px;display:flex;align-items:stretch;gap:14px}
+.plan .card{flex:1;border:2px solid #c8cfd8;border-radius:10px;padding:16px 18px 18px;font-size:19px;line-height:1.35;position:relative;background:#fff}
+.plan .card h3{margin:0 0 8px;font-size:23px;color:var(--blueCNRS)}
+.plan .card ul{margin:0}
+.plan .num{position:absolute;right:14px;top:10px;font-size:34px;font-weight:700;color:#d9dee6}
+.plan .badge{display:inline-block;margin-top:12px;padding:3px 10px;border-radius:12px;font-size:16px;color:#fff}
+.plan .done{background:#2e8b57} .plan .now{background:var(--purple)} .plan .next{background:#8c9fae}
+.plan .card.cur{border-color:var(--purple);box-shadow:0 0 0 3px rgba(77,13,171,.15)}
+.plan .arr{align-self:center;font-size:34px;color:var(--purple)}
+.plan .bottom{left:0;right:0;top:440px;text-align:center;font-size:22px}
 </style>
 
-<section class="slide topic" data-title="My research topic">
-  <p class="lead">Shape and insulation domain optimization regarding wall energy efficiency.</p>
-  <div class="row">
-    <img src="assets/context3.png" alt="context">
-    <figure>
-      <svg viewBox="-5.6 -0.3 9.6 3.9" width="100%" height="340" xmlns="http://www.w3.org/2000/svg">
-        <g transform="translate(0,3.3) scale(1,-1)" id="fig-wall"></g>
+<section class="slide ctx" data-title="Context: a wall under heterogeneous conditions" data-steps="2">
+  <div class="vid">
+    <div class="zoom">
+      <video src="assets/canyon_street.webm" poster="assets/canyon_street_poster.jpg" muted loop playsinline preload="auto"></video>
+      <!-- frame coordinates of the 1280x824 video; band 1 = between the left red line and the first yellow line -->
+      <svg viewBox="0 0 1280 824" preserveAspectRatio="none">
+        <path class="mask" fill="rgba(0,20,40,.42)" fill-rule="evenodd"
+              d="M0,0H1280V824H0Z M477,140 L598,154 L606,672 L505,648 Z"/>
+        <g class="cut"><!-- shadow edge on band 1 (frame 182) -->
+          <line x1="477" y1="352" x2="602" y2="400" stroke="#FEEA6D" stroke-width="5"/>
+          <text x="612" y="300" fill="#FEEA6D" font-size="26" font-weight="700" stroke="#000" stroke-width=".8">sunlit</text>
+          <text x="612" y="470" fill="#fff" font-size="26" font-weight="700" stroke="#000" stroke-width=".8">shadow</text>
+        </g>
+        <g class="cut">
+          <line x1="546" y1="146" x2="550" y2="657" stroke="#fff" stroke-width="5" stroke-dasharray="14 9"/>
+          <circle cx="546" cy="146" r="11" fill="var(--purple)"/><circle cx="550" cy="657" r="11" fill="var(--purple)"/>
+          <text x="566" y="190" fill="#fff" font-size="34" font-weight="700" stroke="#000" stroke-width="1">A</text>
+        </g>
       </svg>
-      <figcaption>Figure 1: Illustration of non-uniform boundary conditions [Rocha 2017; McAdams 1954].</figcaption>
-    </figure>
+    </div>
   </div>
+  <div class="cap" data-until="0">Sun and shadows on a street-canyon façade during one day.</div>
+  <div class="cap" data-from="1">Band 1 at the instant when the shadow edge crosses it; A: vertical cut.</div>
+
+  <ul class="txt" data-until="1">
+    <li>The surrounding buildings cast <b>moving shadows</b> on the façade.</li>
+    <li>Sun, sky, ground and wind exchanges vary along the height and over time.</li>
+    <li>⇒ the wall is subject to <b>heterogeneous boundary conditions in space and time</b>.</li>
+  </ul>
+
+  <svg class="sec" data-from="2" viewBox="0 0 527 440">
+    <defs>
+      <linearGradient id="ctx-sun"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#FEEA6D"/></linearGradient>
+      <linearGradient id="ctx-shd"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#8c8c8c"/></linearGradient>
+      <marker id="ctx-ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="#111"/></marker>
+    </defs>
+    <text x="263" y="22" text-anchor="middle" font-size="20" font-weight="700" fill="var(--purple)">Section A: 2D model of band 1</text>
+    <!-- wind profile -->
+    <g stroke="#111" stroke-width="2" marker-end="url(#ctx-ar)">
+      <line x1="40" y1="70"  x2="150" y2="70"/><line x1="40" y1="120" x2="146" y2="120"/>
+      <line x1="40" y1="170" x2="140" y2="170"/><line x1="40" y1="220" x2="131" y2="220"/>
+      <line x1="40" y1="270" x2="118" y2="270"/><line x1="40" y1="320" x2="98"  y2="320"/>
+      <line x1="40" y1="370" x2="70"  y2="370"/>
+    </g>
+    <path d="M152,70 C148,170 135,260 100,320 L72,370" fill="none" stroke="#111" stroke-width="2"/>
+    <text x="95" y="55" text-anchor="middle" font-size="16">wind</text>
+    <!-- external boundary: sun on the top, shadow on the bottom (as on the video frame) -->
+    <rect x="182" y="50" width="30" height="155" fill="url(#ctx-sun)"/>
+    <rect x="182" y="205" width="30" height="185" fill="url(#ctx-shd)"/>
+    <text transform="translate(176,128) rotate(-90)" text-anchor="middle" font-size="16" fill="#b39d00">sunlit</text>
+    <text transform="translate(176,298) rotate(-90)" text-anchor="middle" font-size="16" fill="#666">shadow</text>
+    <!-- wall: two materials -->
+    <rect x="212" y="50" width="70" height="340" fill="#bfbfbf"/>
+    <rect x="282" y="50" width="70" height="340" fill="#fef6b6"/>
+    <rect x="212" y="50" width="140" height="340" fill="none" stroke="#111" stroke-width="2.5"/>
+    <line x1="282" y1="50" x2="282" y2="390" stroke="#111" stroke-width="2" stroke-dasharray="7 5"/>
+    <text x="247" y="90" text-anchor="middle" font-size="22">Ω₁</text>
+    <text x="317" y="90" text-anchor="middle" font-size="22">Ω₂</text>
+    <text x="110" y="420" text-anchor="middle" font-size="20" fill="blue">outside</text>
+    <text x="420" y="225" text-anchor="middle" font-size="20" fill="red">inside</text>
+    <!-- axes -->
+    <g stroke="#111" stroke-width="1.6" marker-end="url(#ctx-ar)"><line x1="400" y1="400" x2="440" y2="400"/><line x1="400" y1="400" x2="400" y2="360"/></g>
+    <text x="446" y="405" font-size="16">x</text><text x="395" y="352" font-size="16">y</text>
+  </svg>
+
+  <div class="bottom" data-from="2">The problem is <b>3D</b>; each band is assumed uniform along its width ⇒ <b>2D vertical section</b> (x, y).</div>
 </section>
 <script>
-// ---- wall figure (port of the TikZ drawing; y axis up like TikZ) ----
 (function(){
-  const g=document.getElementById('fig-wall'),ns='http://www.w3.org/2000/svg',Y='#FEEA6D';
-  const add=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt)e.textContent=txt;g.appendChild(e);return e};
-  const defs=document.createElementNS(ns,'defs');
-  defs.innerHTML=`<linearGradient id="gy"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="${Y}"/></linearGradient>
-  <linearGradient id="gg"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="gray"/></linearGradient>
-  <marker id="ar" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0L6,3L0,6z" fill="#000"/></marker>`;
-  g.parentNode.insertBefore(defs,g);
-  const sw=.03;
-  add('rect',{x:0,y:0,width:1,height:3,fill:'#bfbfbf'});
-  add('rect',{x:1,y:0,width:1,height:3,fill:'#fef6b6'});
-  add('rect',{x:0,y:0,width:2,height:3,fill:'none',stroke:'#000','stroke-width':sw*1.5});
-  add('line',{x1:1,y1:0,x2:1,y2:3,stroke:'#000','stroke-width':sw*1.5,'stroke-dasharray':'.1 .08'});
-  add('rect',{x:-.5,y:1.5,width:.5,height:1.5,fill:'url(#gy)'});
-  add('rect',{x:-.5,y:0,width:.5,height:1.5,fill:'url(#gg)'});
-  const T=(x,y,s,fill,size,rot)=>add('text',{x:0,y:0,fill,'font-size':size,'text-anchor':'middle',
-    transform:`translate(${x},${y}) scale(1,-1)${rot?' rotate(90)':''}`},s);
-  T(-.6,2.2,'sunlit','#c9b400',.2,true);
-  T(-.6,.8,'shadow','gray',.2,true);
-  T(.5,2.4,'Ω₁','#000',.3); T(1.5,2.4,'Ω₂','#000',.3);
-  T(-2,.95,'outside','blue',.28); T(3,.95,'inside','red',.28);
-  [[0,-4.3],[.5,-3.9],[1,-3.4],[1.5,-3.15],[2,-3],[2.5,-2.9],[3,-2.9]].forEach(([y,x])=>
-    add('line',{x1:-4.5,y1:y,x2:x,y2:y,stroke:'#000','stroke-width':sw*1.2,'marker-end':'url(#ar)'}));
-  add('path',{d:'M-2.9,3 C-3,2.3 -3.1,1.8 -3.15,1.5 S-3.4,1 -3.4,1 L-3.9,.5 L-4.3,0',fill:'none',stroke:'#000','stroke-width':sw*1.2});
-  T(-5,2.5,'v∞','#000',.3); T(-3.8,3.2,'wind velocity','#000',.2);
+  const s=document.currentScript.previousElementSibling, v=s.querySelector('video'), T=182/29.97;   // frame 182: shadow edge on band 1
+  s.addEventListener('step',e=>{
+    if(document.body.classList.contains('print')){          // PDF: still frame instead of the video
+      const im=new Image(); im.src=v.poster; v.replaceWith(im); return; }
+    if(e.detail.step===0){ v.play().catch(()=>{}); }
+    else { v.pause(); v.currentTime=T; }
+  });
+  s.addEventListener('leave',()=>v.pause());
 })();
 </script>
 
-<section class="slide" data-title="Global strategy: insulation domain"><div class="todo">to be written</div></section>
-<section class="slide" data-title="Global strategy: shape"><div class="todo">to be written</div></section>
-<section class="slide" data-title="Global strategy: shape &amp; insulation domain"><div class="todo">to be written</div></section>
-<section class="slide" data-title="How to assess the wall energy efficiency?"><div class="todo">to be written</div></section>
-<section class="slide" data-title="State of the art"><div class="todo">to be written</div></section>
-<section class="slide" data-title="Manufacturing advances: 3D printing"><div class="todo">to be written</div></section>
-<section class="slide" data-title="Action plan"><div class="todo">to be written</div></section>
+<section class="slide why" data-title="Why optimise the shape and the insulation domain?" data-steps="2">
+  <p class="lead">Non-uniform conditions ⇒ a uniform wall does not use its material at best.</p>
+  <div class="row">
+    <figure><svg data-k="topo" viewBox="0 0 385 243"></svg>
+      <figcaption>(a) Insulation domain (topology)<sup class="cite">1</sup></figcaption></figure>
+    <figure data-from="1"><svg data-k="shape" viewBox="0 0 385 243"></svg>
+      <figcaption>(b) Shape of the external face<sup class="cite">2</sup></figcaption></figure>
+    <figure data-from="2"><svg data-k="both" viewBox="0 0 385 243"></svg>
+      <figcaption class="this">(c) Shape &amp; insulation domain<br>this thesis</figcaption></figure>
+  </div>
+  <div class="refs">
+    <sup>1</sup> Karashbayeva, Gasparin and Berger, “Optimisation of the insulation domain for heat transfer in building wall”, 2024.<br>
+    <sup>2</sup> Alpar et al., “Shape optimization of the energy efficiency of building retrofitted facade”, 2024.
+  </div>
+</section>
+<script>
+// before -> after drawings: (a) curved interface, (b) wavy external face, (c) both
+(function(){
+  const sec=document.currentScript.previousElementSibling;
+  const G='#bfbfbf', Y='#fef6b6', K='#111';
+  const OUT='M240,22 C214,62 262,92 236,128 S256,182 242,212';          // optimised external face
+  const INT='M296,22 C272,62 318,98 290,132 S306,186 296,212';          // optimised interface
+  sec.querySelectorAll('svg[data-k]').forEach((svg,n)=>{
+    const k=svg.dataset.k, topo=k!=='shape', shape=k!=='topo', id='why'+n;
+    const before = topo
+      ? `<rect x="30" y="22" width="55" height="190" fill="${G}"/><rect x="85" y="22" width="55" height="190" fill="${Y}"/>
+         <line x1="85" y1="22" x2="85" y2="212" stroke="${K}" stroke-width="2" stroke-dasharray="6 4"/>
+         <text x="57" y="56" text-anchor="middle" font-size="19">Ω₁</text><text x="112" y="56" text-anchor="middle" font-size="19">Ω₂</text>`
+      : `<rect x="30" y="22" width="110" height="190" fill="${G}"/><text x="85" y="56" text-anchor="middle" font-size="19">Ω</text>`;
+    const face = shape ? OUT : 'M240,22 L240,212';
+    const region = `${face} L350,212 L350,22 Z`;
+    const after = topo
+      ? `<clipPath id="${id}c"><path d="${region}"/></clipPath>
+         <path d="${region}" fill="${Y}"/>
+         <path d="M200,22 L296,22 ${INT.replace('M296,22','')} L200,212 Z" fill="${G}" clip-path="url(#${id}c)"/>
+         <path d="${INT}" fill="none" stroke="${K}" stroke-width="2" stroke-dasharray="6 4"/>
+         <text x="262" y="56" text-anchor="middle" font-size="19">Ω₁*</text><text x="326" y="56" text-anchor="middle" font-size="19">Ω₂*</text>`
+      : `<path d="${region}" fill="${G}"/><text x="300" y="56" text-anchor="middle" font-size="19">Ω*</text>`;
+    svg.innerHTML=`<defs><marker id="${id}a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="${K}"/></marker></defs>
+      ${before}<rect x="30" y="22" width="110" height="190" fill="none" stroke="${K}" stroke-width="2.2"/>
+      <line x1="155" y1="117" x2="208" y2="117" stroke="${K}" stroke-width="2.2" marker-end="url(#${id}a)"/>
+      <text x="181" y="104" text-anchor="middle" font-size="14">optimisation</text>
+      ${after}<path d="${region}" fill="none" stroke="${K}" stroke-width="2.2"/>
+      <text x="30" y="234" font-size="15" fill="blue">outside</text><text x="140" y="234" text-anchor="end" font-size="15" fill="red">inside</text>
+      <text x="236" y="234" font-size="15" fill="blue">outside</text><text x="350" y="234" text-anchor="end" font-size="15" fill="red">inside</text>`;
+  });
+})();
+</script>
+
+<section class="slide print3d" data-title="Manufacturing advances: 3D printing">
+  <img src="assets/3d_printing.jpg" alt="On-site 3D printing of a concrete building">
+  <div class="cap">On-site concrete 3D printing of a building (PERI printer).</div>
+  <ul class="txt">
+    <li>Large-scale 3D printing of concrete is now used for real buildings<sup class="cite">1</sup>.</li>
+    <li>Complex geometries at almost no extra cost: curved faces, variable thickness, internal cavities.</li>
+    <li class="arrow">⇒ Optimised wall shapes and insulation domains become buildable.</li>
+  </ul>
+  <div class="refs"><sup>1</sup> Gosselin et al., “Large-scale 3D printing of ultra-high performance concrete – a new processing route for architects and builders”, 2016.</div>
+</section>
+
+<section class="slide sota" data-title="State of the art">
+  <div class="line"></div>
+  <!-- above the line -->
+  <div class="item up" style="left:70px"><span class="tag topo">Topology</span><sup class="cite">1</sup><img src="assets/sota/sousa2011.jpg" alt=""></div>
+  <div class="item up" style="left:420px"><span class="tag topo">Topology</span><sup class="cite">3</sup><img src="assets/sota/gasparin2019.jpg" alt=""></div>
+  <div class="item up" style="left:640px"><span class="tag shape">Shape</span><sup class="cite">5</sup><img src="assets/sota/ciardiello2020.jpg" alt=""></div>
+  <div class="item up" style="left:860px"><span class="tag shape">Shape</span><sup class="cite">6</sup><img src="assets/sota/alpar2024.jpg" alt=""></div>
+  <!-- below the line -->
+  <div class="item down" style="left:230px"><img src="assets/sota/bruggi2013.jpg" alt=""><span class="tag topo">Topology</span><sup class="cite">2</sup></div>
+  <div class="item down" style="left:530px"><img src="assets/sota/vantyghem2019.jpg" alt=""><span class="tag topo">Topology</span><sup class="cite">4</sup></div>
+  <div class="item down" style="left:1060px"><img src="assets/sota/karashbayeva2025.jpg" alt=""><span class="tag topo">Topology</span><sup class="cite">7</sup></div>
+  <!-- dots and years -->
+  <div class="dot" style="left:70px"></div><div class="yr d" style="left:70px">2011</div>
+  <div class="dot" style="left:230px"></div><div class="yr u" style="left:230px">2013</div>
+  <div class="dot" style="left:475px"></div><div class="yr d" style="left:475px">2019</div>
+  <div class="dot" style="left:640px"></div><div class="yr d" style="left:640px">2020</div>
+  <div class="dot" style="left:860px"></div><div class="yr d" style="left:860px">2024</div>
+  <div class="dot" style="left:1060px"></div><div class="yr u" style="left:1060px">2025</div>
+  <div class="refs">
+    <sup>1</sup> Sousa et al., “Topology optimisation of masonry units from the thermal point of view using a genetic algorithm”, 2011.
+    <sup>2</sup> Bruggi and Taliercio, “Design of masonry blocks with enhanced thermomechanical performances by topology optimization”, 2013.
+    <sup>3</sup> Gasparin et al., “An innovative method to determine optimum insulation thickness based on non-uniform adaptive moving grid”, 2019.
+    <sup>4</sup> Vantyghem et al., “Multi-material topology optimization involving simultaneous structural and thermal analyses”, 2019.
+    <sup>5</sup> Ciardiello et al., “Multi-objective approach to the optimization of shape and envelope in building energy design”, 2020.
+    <sup>6</sup> Alpar et al., “Shape optimization of the energy efficiency of building retrofitted facade”, 2024.
+    <sup>7</sup> Karashbayeva, Gasparin and Berger, “Optimization of the insulation domain for heat transfer in building walls”, 2025.
+  </div>
+</section>
+
+<section class="slide gap" data-title="State of the art: what is missing" data-steps="1">
+  <div class="txt">
+    <b>None of these approaches combines:</b>
+    <ul>
+      <li>a <b>two-dimensional</b> wall model;</li>
+      <li>the <b>transient</b> regime;</li>
+      <li>boundary conditions varying in <b>space and time</b>;</li>
+      <li>the <b>continuity of the heat flux</b> at the interface between two materials;</li>
+      <li>optimisation of the <b>shape</b> and of the <b>insulation domain</b> together.</li>
+    </ul>
+  </div>
+  <div class="box" data-from="1">
+    <b>Aim of the thesis</b><br>
+    Optimise the shape and the insulation domain of a wall in 2D and in transient regime,
+    under <b>realistic</b> boundary conditions given by the building and its urban environment.
+  </div>
+</section>
+
+<section class="slide plan" data-title="Action plan">
+  <div class="row">
+    <div class="card"><span class="num">1</span>
+      <h3>2D wall models</h3>
+      <ul>
+        <li>Transient heat conduction in 2D.</li>
+        <li>Two materials with a curved interface (Ghost Fluid Method).</li>
+        <li>Free shape of the external face.</li>
+      </ul>
+      <span class="badge done">done</span>
+    </div>
+    <div class="arr">➜</div>
+    <div class="card cur"><span class="num">2</span>
+      <h3>Realistic boundary conditions</h3>
+      <ul>
+        <li>Co-simulation with <b>Domus</b> (building energy simulation).</li>
+        <li>Urban scene: sun, shadows, long-wave exchanges, indoor zones.</li>
+      </ul>
+      <span class="badge now">in progress: this talk</span>
+    </div>
+    <div class="arr">➜</div>
+    <div class="card"><span class="num">3</span>
+      <h3>Optimisation</h3>
+      <ul>
+        <li>Shape and insulation domain of the wall.</li>
+        <li>Surrogate-based optimisation (kriging).</li>
+      </ul>
+      <span class="badge next">next</span>
+    </div>
+  </div>
+</section>
 
 <!-- ==== parts/05-physical.html ==== -->
 <!-- section: Physical problem -->
@@ -288,6 +521,10 @@ in vec2 p;out vec2 uv;void main(){uv=p*.5+.5;gl_Position=vec4(p,0,1);}`));
 //     data-layout="free"   children are positioned freely (no .content wrapper)
 //     data-layout="title"  title slide (no header / footer)
 //     data-auto="toc"      the slide content is the automatic table of contents
+//     data-steps="2"       2 extra steps inside the slide (like beamer \pause): → reveals them one by one
+//       <div data-from="1">  shown from step 1 on      <div data-until="0">  shown up to step 0 only
+//       the slide also gets data-step="k" (for CSS) and receives a 'step' event {detail:{step,instant}} (for JS),
+//       and a 'leave' event when another slide is shown
 (()=>{
 const CFG=window.CONFIG||{};
 const stage=document.getElementById('stage');
@@ -324,6 +561,14 @@ slides.forEach(s=>{
   }
 });
 const isTitle=s=>s.classList.contains('s-title');
+const nSteps=s=>parseInt(s.dataset.steps)||0;
+function setStep(s,k,instant){
+  s.dataset.step=k;
+  s.querySelectorAll('[data-from],[data-until]').forEach(e=>{
+    const f=parseInt(e.dataset.from), u=parseInt(e.dataset.until);
+    e.classList.toggle('step-hidden',(!isNaN(f)&&k<f)||(!isNaN(u)&&k>u)); });
+  s.dispatchEvent(new CustomEvent('step',{detail:{step:k,instant:!!instant}}));
+}
 const dots=[]; slides.forEach((s,k)=>{ if(s.dataset.section) dots.push({k,sec:s.dataset.section}); });
 const secNames=[...new Set(dots.map(d=>d.sec))];
 
@@ -394,7 +639,7 @@ async function printMode(){
       const f=FIELD(cv); if(!f) return; f.draw(33);
       const img=new Image(); img.className='field'; img.src=cv.toDataURL(); cv.replaceWith(img); });
     const pg=document.createElement('div'); pg.className='page'; pages.appendChild(pg);
-    s.classList.add('active'); pg.appendChild(s);
+    s.classList.add('active','noanim'); pg.appendChild(s); setStep(s,nSteps(s),true);
     if(!isTitle(s)){
       const nv=makeNav(), ft=makeFoot(); nv.el.classList.add('noanim');
       pg.appendChild(nv.el); pg.appendChild(ft.el); nv.set(k); ft.set(k); }
@@ -407,13 +652,15 @@ async function printMode(){
 if(PRINT){ printMode(); return; }
 
 // ---------- 4b. interactive mode ----------
-let i=Math.min(slides.length-1,Math.max(0,(parseInt(location.hash.slice(1))||1)-1));
-const nav=makeNav(k=>show(k)), foot=makeFoot();
+let i=Math.min(slides.length-1,Math.max(0,(parseInt(location.hash.slice(1))||1)-1)), st=0;
+const nav=makeNav(k=>show(k,0)), foot=makeFoot();
 stage.appendChild(nav.el); stage.appendChild(foot.el);
 const fields=[...stage.querySelectorAll('canvas.field')].map(FIELD).filter(Boolean);
 
-function show(n){
-  i=Math.max(0,Math.min(slides.length-1,n));
+function show(n,step){
+  const prev=i; i=Math.max(0,Math.min(slides.length-1,n));
+  if(prev!==i) slides[prev].dispatchEvent(new CustomEvent('leave'));
+  if(prev!==i||step!=null){ st=step==null?0:Math.min(step,nSteps(slides[i])); setStep(slides[i],st,true); }
   slides.forEach((s,k)=>s.classList.toggle('active',k===i));
   const t=isTitle(slides[i]);
   nav.el.style.opacity=foot.el.style.opacity=t?0:1; nav.el.style.pointerEvents=t?'none':'auto';
@@ -422,15 +669,17 @@ function show(n){
 }
 function fit(){const k=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform=`translate(-50%,-50%) scale(${k})`}
 function toggleFullscreen(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
-addEventListener('resize',fit); fit(); show(i);
+function next(){ if(st<nSteps(slides[i])) setStep(slides[i],++st); else show(i+1); }
+function prev(){ if(st>0) setStep(slides[i],--st); else if(i>0){ const k=i-1; show(k,nSteps(slides[k])); } }
+addEventListener('resize',fit); fit(); show(i,0);
 
 addEventListener('keydown',e=>{
-  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();show(i+1)}
-  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();show(i-1)}
+  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next()}
+  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev()}
   else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
   else if(e.key==='f'||e.key==='F') toggleFullscreen();
 });
-addEventListener('click',e=>{ if(e.target.closest('a,#tools'))return; show(e.clientX>innerWidth/2?i+1:i-1); });
+addEventListener('click',e=>{ if(e.target.closest('a,#tools'))return; e.clientX>innerWidth/2?next():prev(); });
 
 // viewer UI: fullscreen + PDF buttons (visible while the mouse moves), hint fading after a few seconds
 const hint=Object.assign(document.createElement('div'),{className:'hint',textContent:'← → / space: navigate · F: fullscreen'});

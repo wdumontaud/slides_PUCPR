@@ -7,6 +7,10 @@
 //     data-layout="free"   children are positioned freely (no .content wrapper)
 //     data-layout="title"  title slide (no header / footer)
 //     data-auto="toc"      the slide content is the automatic table of contents
+//     data-steps="2"       2 extra steps inside the slide (like beamer \pause): → reveals them one by one
+//       <div data-from="1">  shown from step 1 on      <div data-until="0">  shown up to step 0 only
+//       the slide also gets data-step="k" (for CSS) and receives a 'step' event {detail:{step,instant}} (for JS),
+//       and a 'leave' event when another slide is shown
 (()=>{
 const CFG=window.CONFIG||{};
 const stage=document.getElementById('stage');
@@ -43,6 +47,14 @@ slides.forEach(s=>{
   }
 });
 const isTitle=s=>s.classList.contains('s-title');
+const nSteps=s=>parseInt(s.dataset.steps)||0;
+function setStep(s,k,instant){
+  s.dataset.step=k;
+  s.querySelectorAll('[data-from],[data-until]').forEach(e=>{
+    const f=parseInt(e.dataset.from), u=parseInt(e.dataset.until);
+    e.classList.toggle('step-hidden',(!isNaN(f)&&k<f)||(!isNaN(u)&&k>u)); });
+  s.dispatchEvent(new CustomEvent('step',{detail:{step:k,instant:!!instant}}));
+}
 const dots=[]; slides.forEach((s,k)=>{ if(s.dataset.section) dots.push({k,sec:s.dataset.section}); });
 const secNames=[...new Set(dots.map(d=>d.sec))];
 
@@ -113,7 +125,7 @@ async function printMode(){
       const f=FIELD(cv); if(!f) return; f.draw(33);
       const img=new Image(); img.className='field'; img.src=cv.toDataURL(); cv.replaceWith(img); });
     const pg=document.createElement('div'); pg.className='page'; pages.appendChild(pg);
-    s.classList.add('active'); pg.appendChild(s);
+    s.classList.add('active','noanim'); pg.appendChild(s); setStep(s,nSteps(s),true);
     if(!isTitle(s)){
       const nv=makeNav(), ft=makeFoot(); nv.el.classList.add('noanim');
       pg.appendChild(nv.el); pg.appendChild(ft.el); nv.set(k); ft.set(k); }
@@ -126,13 +138,15 @@ async function printMode(){
 if(PRINT){ printMode(); return; }
 
 // ---------- 4b. interactive mode ----------
-let i=Math.min(slides.length-1,Math.max(0,(parseInt(location.hash.slice(1))||1)-1));
-const nav=makeNav(k=>show(k)), foot=makeFoot();
+let i=Math.min(slides.length-1,Math.max(0,(parseInt(location.hash.slice(1))||1)-1)), st=0;
+const nav=makeNav(k=>show(k,0)), foot=makeFoot();
 stage.appendChild(nav.el); stage.appendChild(foot.el);
 const fields=[...stage.querySelectorAll('canvas.field')].map(FIELD).filter(Boolean);
 
-function show(n){
-  i=Math.max(0,Math.min(slides.length-1,n));
+function show(n,step){
+  const prev=i; i=Math.max(0,Math.min(slides.length-1,n));
+  if(prev!==i) slides[prev].dispatchEvent(new CustomEvent('leave'));
+  if(prev!==i||step!=null){ st=step==null?0:Math.min(step,nSteps(slides[i])); setStep(slides[i],st,true); }
   slides.forEach((s,k)=>s.classList.toggle('active',k===i));
   const t=isTitle(slides[i]);
   nav.el.style.opacity=foot.el.style.opacity=t?0:1; nav.el.style.pointerEvents=t?'none':'auto';
@@ -141,15 +155,17 @@ function show(n){
 }
 function fit(){const k=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform=`translate(-50%,-50%) scale(${k})`}
 function toggleFullscreen(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
-addEventListener('resize',fit); fit(); show(i);
+function next(){ if(st<nSteps(slides[i])) setStep(slides[i],++st); else show(i+1); }
+function prev(){ if(st>0) setStep(slides[i],--st); else if(i>0){ const k=i-1; show(k,nSteps(slides[k])); } }
+addEventListener('resize',fit); fit(); show(i,0);
 
 addEventListener('keydown',e=>{
-  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();show(i+1)}
-  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();show(i-1)}
+  if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next()}
+  else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev()}
   else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
   else if(e.key==='f'||e.key==='F') toggleFullscreen();
 });
-addEventListener('click',e=>{ if(e.target.closest('a,#tools'))return; show(e.clientX>innerWidth/2?i+1:i-1); });
+addEventListener('click',e=>{ if(e.target.closest('a,#tools'))return; e.clientX>innerWidth/2?next():prev(); });
 
 // viewer UI: fullscreen + PDF buttons (visible while the mouse moves), hint fading after a few seconds
 const hint=Object.assign(document.createElement('div'),{className:'hint',textContent:'← → / space: navigate · F: fullscreen'});

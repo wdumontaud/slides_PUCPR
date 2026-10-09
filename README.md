@@ -29,6 +29,9 @@ Open `index.html` directly (double-click), no server needed.
 ```
 * A part may contain its own `<style>` and `<script>`.
 * `data-layout="free"`: no content wrapper (position things yourself); `data-layout="title"`: title slide.
+* Steps inside a slide (like beamer `\pause`): `<section class="slide" data-steps="2">`, then
+  `<div data-from="1">` (shown from step 1) or `<div data-until="0">` (shown up to step 0).
+  The slide gets `data-step="k"` for CSS and a `step` event for JS; the PDF shows the last step.
 * To add a part: create `parts/09-xxx.html` and add it to `main.json`.
 
 ## Viewing
