@@ -41,7 +41,7 @@ def _render(html):
     found = list(MATH.finditer(html))
     if not found:
         return html
-    items = [[(m.group(1) if m.group(1) is not None else m.group(2)).strip(), m.group(1) is not None, MACROS] for m in found]
+    items = [[(m.group(1) if m.group(1) is not None else m.group(2)).strip(), m.group(1) is not None, dict(MACROS)] for m in found]
     out = _katex(items)
     for (tex, *_), r in zip(items, out):
         if 'katex-error' in r:

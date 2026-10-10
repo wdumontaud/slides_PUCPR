@@ -46,6 +46,12 @@ def main():
     out = Path(sys.argv[2] if len(sys.argv) > 2 else ROOT / "main.pdf").resolve()
     if not html.is_file():
         sys.exit(f"{html.name} not found: run  python build.py --standalone  first")
+    try:                                                 # fails now, not after a minute of rendering, if a viewer holds it
+        if out.exists():
+            with out.open("ab"):
+                pass
+    except OSError as e:
+        sys.exit(f"Cannot write {out.name} ({e.strerror or e}).\nClose it in your PDF viewer, then run again.")
 
     writer = PdfWriter()
     with sync_playwright() as p:
@@ -82,4 +88,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except RuntimeError as e:                            # no browser: say what to install, without a traceback
+        sys.exit(str(e))

@@ -141,7 +141,10 @@ def stamp():
 
 
 if __name__ == "__main__":
-    build(export="--standalone" in sys.argv)
+    try:
+        build(export="--standalone" in sys.argv)
+    except RuntimeError as e:          # e.g. no browser: say what to install, without a traceback
+        sys.exit(str(e))
     if "--watch" in sys.argv:
         print("watching parts/, theme/ and assets/*.svg (Ctrl+C to stop)")
         last = stamp()
