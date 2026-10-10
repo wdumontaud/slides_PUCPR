@@ -110,8 +110,11 @@ def include_svgs(html, used, warnings):
             warnings.append(f"missing file: {rel}")
             return m.group(0)
         used.add(rel)
-        text = re.sub(r"<\?xml.*?\?>", "", (ROOT / rel).read_text(encoding="utf-8"), flags=re.S).strip()
-        root = re.match(r"<svg\b([^>]*)>", text)
+        # utf-8-sig drops a BOM; the <svg> root may follow a comment (Inkscape writes one), so search for it
+        text = re.sub(r"<\?xml.*?\?>", "", (ROOT / rel).read_text(encoding="utf-8-sig"), flags=re.S).strip()
+        root = re.search(r"<svg\b([^>]*)>", text)
+        if root is None:
+            raise RuntimeError(f"{rel}: no <svg> element found")
         own = dict(ATTRS.findall(m.group(1) + " " + m.group(3)))      # class, style... from the placeholder come first
         for k, v in ATTRS.findall(root.group(1)):
             if k == "xmlns":                                          # the file needs it, the inline drawing does not
