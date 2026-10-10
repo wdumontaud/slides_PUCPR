@@ -52,11 +52,13 @@ Without the script: `python config/build.py` (main.html), `python config/build.p
   `<div data-from="1">` (shown from step 1) or `<div data-until="0">` (shown up to step 0).
   The slide gets `data-step="k"` for CSS and a `step` event for JS; the PDF has one page per step.
 * Videos: a video cannot play inside a PDF, so it is a still frame there, at `data-pdf-t="10"` seconds (default 0).
-* Drawings (`assets/**/*.svg`) are embedded as images with the deck's sans font, so their text looks the same everywhere.
-  Drawings that change with the steps of a slide (slides 9, 10 and 12) are included inline:
-  `<svg class="dom" data-include="assets/05-physical/governing.svg"></svg>`. Their step effects rely on classes inside
-  the SVG (`bnd`, `itf`, `nrm`, `wind`, `sunr`, `lw`, `adia`), which a PowerPoint export removes: edit those drawings
-  in Inkscape, or keep the classes when exporting.
+* Drawings (`assets/**/*.svg`) use the deck's sans font, so their text looks the same everywhere.
+* Drawings that change with the steps of a slide (slides 9, 10 and 12) are stacked: one complete drawing per step,
+  each in its own file (`governing-*.svg`, `external-*.svg`, `internal-*.svg`), shown with `data-from` / `data-until`
+  as on the radiation slide: `<svg data-until="0" data-include="assets/05-physical/governing-boundaries-faint.svg"></svg>`
+  inside a `<div class="fig layers">`. No step effect depends on a class inside the file, so a PowerPoint export keeps them.
+  Each file is one slide of `illustrations.pptx` (slides 13 to 22). Keep the transparent frame of each file
+  (the rectangle with no fill): it fixes the size of the drawing, so that the steps line up.
 * Citations: `\cite{key}` or `\cite{key1,key2}` with keys from `bib/refs.bib` -> numbers in order of first citation,
   a footer with the short references on the slide (disable with `data-footcite="off"` on the section),
   and a "References" appendix at the end with the full entries (click a number to jump to it).

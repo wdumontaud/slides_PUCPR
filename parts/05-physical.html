@@ -16,6 +16,8 @@
 .ph .src{font-size:15px;color:#666}
 .ph figure{margin:0}
 .ph figcaption{font-size:16px;color:#555;text-align:center;margin-top:6px}
+/* drawings that change with the steps: one full picture per step, stacked; each step shows one of them (data-from / data-until) */
+.ph .layers>*{position:absolute;inset:0;width:100%;height:100%}
 
 /* ---- slide 1: from the urban scene to the street canyon ---- */
 .city .vid{left:96px;top:0;width:1000px;height:562px;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.3);
@@ -35,21 +37,11 @@
 /* ---- slide 2: governing equations ---- */
 .gov .dom{left:0;top:-8px;width:380px;height:532px}
 .gov .eqs{left:410px;top:0;width:782px}
-.gov .dom .om1,.gov .dom .om2{transition:filter .5s}
-.gov .dom .bnd{transition:stroke-width .4s,opacity .4s;opacity:.35}
-.gov .dom .itf{transition:stroke-width .4s;stroke-width:3}
-.gov[data-step="1"] .dom .bnd{opacity:1;stroke-width:9}
-.gov[data-step="2"] .dom .bnd{opacity:.6}
-.gov[data-step="2"] .dom .itf{stroke-width:6}
-.gov .dom .nrm{opacity:0;transition:opacity .4s}
-.gov[data-step="2"] .dom .nrm{opacity:1}
 .gov[data-step="1"] .eq.cOm,.gov[data-step="2"] .eq.cOm,.gov[data-step="1"] .eq.cIc,.gov[data-step="2"] .eq.cIc,.gov[data-step="2"] .eq.cGj{filter:saturate(.25);opacity:.55}
 
 /* ---- slide 3: external BCs ---- */
 .ext .eqs{left:0;top:20px;width:690px}
 .ext .fig{left:730px;top:-8px;width:460px;height:540px}
-.ext .wind,.ext .sunr{transition:opacity .6s}
-.ext[data-step="0"] .sunr{opacity:0}
 .ext[data-step="1"] .eq.cConv{filter:saturate(.25);opacity:.55}
 
 /* ---- slide 4: short- / long-wave ---- */
@@ -65,8 +57,6 @@
 /* ---- slide 5: inside, top and bottom ---- */
 .inn .fig{left:0;top:-8px;width:540px;height:550px}
 .inn .eqs{left:566px;top:0;width:626px}
-.inn .lw,.inn .adia{transition:opacity .6s}
-.inn[data-step="0"] .lw,.inn[data-step="0"] .adia,.inn[data-step="1"] .adia{opacity:0}
 .inn[data-step="1"] .eq.cConv,.inn[data-step="2"] .eq.cConv,.inn[data-step="2"] .eq.cLw{filter:saturate(.25);opacity:.55}
 </style>
 
@@ -126,7 +116,12 @@
 <!-- ================================================================ 2. governing equations -->
 <!-- subsection: Governing equations -->
 <section class="slide ph gov" data-title="Governing equations" data-steps="2">
-  <svg class="dom" data-include="assets/05-physical/governing.svg"></svg>
+  <!-- drawing: one picture per step, stacked (see README, Drawings) -->
+  <div class="dom layers">
+    <svg data-until="0" data-include="assets/05-physical/governing-boundaries-faint.svg"></svg>
+    <svg data-from="1" data-until="1" data-include="assets/05-physical/governing-boundaries-bold.svg"></svg>
+    <svg data-from="2" data-include="assets/05-physical/governing-normals.svg"></svg>
+  </div>
   <div class="eqs">
     <div class="eq cOm"><h4>2D transient heat diffusion</h4>
       \[ c(\x)\,\frac{\partial T}{\partial t} = \frac{\partial}{\partial x}\Big(\lambda(\x)\,\frac{\partial T}{\partial \,x}\Big) + \frac{\partial}{\partial y}\Big(\lambda(\,\x)\,\frac{\partial T}{\partial \,y}\Big), \qquad \x \in \Omega,\ t \in\, ]\,0,t_f\,] \]
@@ -154,7 +149,11 @@
       \[ q_{\infty,1}(\x,t) = \underbrace{q_{sw}(\x,t)}_{\text{short-wave (sun)}} + \underbrace{q_{\ell w}(\x,t)}_{\text{long-wave (surroundings)}} \]
       <div class="note">both depend on the position on the façade: sunlit or shaded part, what each point sees.</div></div>
   </div>
-  <svg class="fig" data-include="assets/05-physical/external.svg"></svg>
+  <!-- drawing: one picture per step, stacked (see README, Drawings) -->
+  <div class="fig layers">
+    <svg data-until="0" data-include="assets/05-physical/external-convection.svg"></svg>
+    <svg data-from="1" data-include="assets/05-physical/external-radiation.svg"></svg>
+  </div>
 </section>
 
 <!-- ================================================================ 4. short- and long-wave -->
@@ -179,7 +178,12 @@
 
 <!-- ================================================================ 5. inside, top and bottom -->
 <section class="slide ph inn" data-title="Internal, top and bottom boundary conditions" data-steps="2">
-  <svg class="fig" data-include="assets/05-physical/internal.svg"></svg>
+  <!-- drawing: one picture per step, stacked (see README, Drawings) -->
+  <div class="fig layers">
+    <svg data-until="0" data-include="assets/05-physical/internal-convection.svg"></svg>
+    <svg data-from="1" data-until="1" data-include="assets/05-physical/internal-longwave.svg"></svg>
+    <svg data-from="2" data-include="assets/05-physical/internal-adiabatic.svg"></svg>
+  </div>
   <div class="eqs">
     <div class="eq cConv"><h4>Convection varying with height: corner model\cite{santos2009}</h4>
       \[ h_{\infty,3}(y) = h_{30} + \big(h_{31}-h_{30}\big)\,\sin\!\Big(\frac{\pi\,y}{H}\Big) \]

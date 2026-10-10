@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
+    <!-- Slide 9, step 0: boundaries faint, no normals. Layers of this slide are stacked in parts/05-physical.html. Keep the transparent frame: it fixes the size of the drawing. -->
+  <defs>
+      <pattern id="governing-boundaries-faint-ph-hat" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
+      <marker id="governing-boundaries-faint-ph-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
+      <marker id="governing-boundaries-faint-ph-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/></marker>
+    </defs>
+    <rect x="0" y="0" width="400" height="560" fill="none"/>
+  <!-- Ω1 structural (outside), Ω2 insulation (inside), interface Γi -->
+    <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#governing-boundaries-faint-ph-hat)"/>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
+    <text x="165" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
+    <text x="252" y="190" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
+    <text x="165" y="305" font-size="15" fill="#1d2733">structural</text>
+    <text x="250" y="215" font-size="15" fill="#1d2733">insulation</text>
+    <!-- boundaries -->
+    <g fill="none" stroke="#4D0DAB" stroke-linecap="round">
+      <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" stroke-width="4" opacity=".35"/>
+      <path d="M300,60 L300,480" stroke-width="4" opacity=".35"/>
+      <path d="M120,60 L300,60" stroke-width="4" opacity=".35"/>
+      <path d="M116,480 L300,480" stroke-width="4" opacity=".35"/>
+    </g>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480" fill="none" stroke="#d1495b" stroke-width="3"/>
+    <g font-size="25" font-style="italic" fill="#4D0DAB">
+      <text x="60" y="276">Γ<tspan font-size="16" dy="7">1</tspan></text><text x="312" y="276">Γ<tspan font-size="16" dy="7">3</tspan></text>
+      <text x="196" y="48">Γ<tspan font-size="16" dy="7">4</tspan></text><text x="196" y="512">Γ<tspan font-size="16" dy="7">2</tspan></text>
+    </g>
+    <text x="248" y="468" font-size="25" font-style="italic" fill="#d1495b">Γ<tspan font-size="16" dy="7">i</tspan></text>
+    <text x="20" y="110" font-size="19" fill="#1f5c99">outside</text><text x="310" y="110" font-size="19" fill="#c0392b">inside</text>
+    <!-- axes, H, L -->
+    <g stroke="#222" stroke-width="1.8" fill="none">
+      <line x1="30" y1="540" x2="30" y2="470" marker-end="url(#governing-boundaries-faint-ph-g)"/><line x1="30" y1="540" x2="100" y2="540" marker-end="url(#governing-boundaries-faint-ph-g)"/>
+      <line x1="372" y1="60" x2="372" y2="480" marker-start="url(#governing-boundaries-faint-ph-g)" marker-end="url(#governing-boundaries-faint-ph-g)"/>
+      <line x1="116" y1="530" x2="300" y2="530" marker-start="url(#governing-boundaries-faint-ph-g)" marker-end="url(#governing-boundaries-faint-ph-g)"/>
+    </g>
+    <g font-size="20" font-style="italic"><text x="38" y="480">y</text><text x="96" y="556">x</text><text x="380" y="276">H</text><text x="200" y="552">L</text></g>
+  </svg>
