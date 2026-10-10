@@ -146,6 +146,15 @@ async function printMode(){
 }
 if(PRINT){ printMode(); return; }
 
+// ---------- 4a'. export mode (export_pdf.py): the same deck, static backgrounds, no viewer buttons, driven step by step ----------
+if(params.has('export')){
+  document.body.classList.add('export');
+  slides.forEach(s=>s.querySelectorAll('canvas.field').forEach(cv=>{
+    const f=FIELD(cv); if(!f) return; f.draw(33);
+    const img=new Image(); img.className='field'; img.src=cv.toDataURL(); cv.replaceWith(img); }));
+  document.fonts.ready.then(()=>{ window.__ready=true; });
+}
+
 // ---------- 4b. interactive mode ----------
 let i=Math.min(slides.length-1,Math.max(0,(parseInt(location.hash.slice(1))||1)-1)), st=0;
 const nav=makeNav(k=>show(k,0)), foot=makeFoot();

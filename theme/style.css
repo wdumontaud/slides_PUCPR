@@ -77,3 +77,8 @@ body.print{overflow:visible;height:auto;background:#fff}
 body.print #stage,body.print .hint,body.print #tools{display:none}
 body.print .page{position:relative;width:1280px;height:720px;overflow:hidden;break-after:page;page-break-after:always;
   -webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* export_pdf.py (?export): one page per step, no viewer buttons; the window is exactly 1280x720, so no centring transform
+   (a transform makes Chrome split the footer onto a second page) */
+body.export .hint,body.export #tools{display:none}
+body.export #stage{left:0!important;top:0!important;transform:none!important}
+@media print{.hint,#tools{display:none!important}}
