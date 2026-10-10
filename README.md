@@ -22,6 +22,7 @@ bib/refs.bib         bibliography (cite with \cite{key} in the parts)
 assets/              pictures, videos and drawings, one folder per part:
   01-title/ 02-who/ 03-contents/ 04-introduction/ 05-physical/ 06-cosimulation/ 07-conclusion/
   illustrations.pptx   every drawing, one slide per file (editable in PowerPoint)
+  who_I_am.pptx        the "who I am" slide in PowerPoint (not read by the build)
 ```
 
 ## Workflow
