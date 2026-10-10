@@ -4,10 +4,12 @@ In parts/*.html:   inline \\( ... \\)      display \\[ ... \\]
 Extras (KaTeX "trust" commands), handy with the step engine:
   \\htmlData{from=1}{...}    part of an equation shown from step 1 (same as data-from on HTML)
   \\htmlClass{hl}{...}       part of an equation highlighted (see .hl in theme/style.css)
-Needs node on the PATH.
+Rendered by KaTeX in the headless browser of headless.py (Chrome or Edge): no Node.js needed.
 """
-import json, re, subprocess
+import re
 from pathlib import Path
+
+from headless import launch
 
 ROOT = Path(__file__).resolve().parent
 MATH = re.compile(r"\\\[(.+?)\\\]|\\\((.+?)\\\)", re.S)
@@ -19,13 +21,9 @@ MACROS = {
     r"\dd": r"\mathrm{d}",
 }
 
-JS = r"""
-const katex = require(process.argv[1]);
-const items = JSON.parse(require('fs').readFileSync(0, 'utf8'));
-const out = items.map(([tex, display, macros]) => katex.renderToString(tex, {
-  displayMode: display, throwOnError: false, strict: false, trust: true, macros }));
-process.stdout.write(JSON.stringify(out));
-"""
+# runs in the browser page, with katex.min.js from theme/katex: the same KaTeX call as before
+JS = """(items) => items.map(([tex, display, macros]) => katex.renderToString(tex, {
+  displayMode: display, throwOnError: false, strict: false, trust: true, macros }))"""
 
 
 SKIP = re.compile(r"(<style\b.*?</style>|<script\b.*?</script>|<!--.*?-->)", re.S)   # never touched
@@ -44,10 +42,22 @@ def _render(html):
     if not found:
         return html
     items = [[(m.group(1) if m.group(1) is not None else m.group(2)).strip(), m.group(1) is not None, MACROS] for m in found]
-    res = subprocess.run(["node", "-e", JS, str(ROOT / "theme/katex/katex.min.js")],
-                         input=json.dumps(items), capture_output=True, text=True, check=True)
-    rendered = iter(json.loads(res.stdout))
-    for (tex, *_), r in zip(items, json.loads(res.stdout)):
+    out = _katex(items)
+    for (tex, *_), r in zip(items, out):
         if 'katex-error' in r:
             print("WARNING: KaTeX error in", tex[:60])
+    rendered = iter(out)
     return MATH.sub(lambda m: next(rendered), html)
+
+
+def _katex(items):
+    """All the equations of the deck, in one call to KaTeX inside a headless-browser page."""
+    from playwright.sync_api import sync_playwright
+    with sync_playwright() as p:
+        browser = launch(p)
+        page = browser.new_page()
+        page.set_content("<!doctype html><html><body></body></html>")
+        page.add_script_tag(path=str(ROOT / "theme/katex/katex.min.js"))
+        out = page.evaluate(JS, items)
+        browser.close()
+    return out

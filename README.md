@@ -12,6 +12,7 @@ assets/              pictures, videos, drawings
 refs.bib             bibliography (cite with \cite{key} in the parts)
 bib.py               BibTeX support used by build.py
 math_render.py       LaTeX math -> KaTeX HTML, at build time
+headless.py          the Chrome / Edge used by math_render.py and export_pdf.py
 assets/icons/*.svg   drawings (editable in assets/illustrations.pptx)
 build.py             assembles main.html and main_export.html from the above
 export_pdf.py        main_export.html -> main.pdf (one page per step)
@@ -25,7 +26,7 @@ Double-click `build_all.bat` after each change. It writes:
 - `main.pdf`: one page per step, like the beamer overlays.
 
 Do not edit `main.html` or `main_export.html` by hand: they are regenerated from `parts/`, `theme/` and `assets/`.
-The first run installs `playwright` and `pypdf` with pip. The PDF uses the Google Chrome or Microsoft Edge already installed.
+The first run installs `playwright` and `pypdf` with pip. The build and the PDF use the Google Chrome or Microsoft Edge already installed.
 
 Without the script: `python build.py` (main.html), `python build.py --standalone` (main_export.html),
 `python export_pdf.py` (main.pdf), or `python build.py --watch` to rebuild main.html on each save.
@@ -61,6 +62,6 @@ the complete PDF (one page per step) is made by `build_all.bat`.
 ## Equations (LaTeX)
 
 In `parts/*.html`, write LaTeX as in a .tex file: inline `\( ... \)`, display `\[ ... \]`.
-They are rendered at build time by KaTeX (`theme/katex/`, works offline; needs `node`).
+They are rendered at build time by KaTeX (`theme/katex/`) inside the Chrome or Edge already installed (no Node.js needed).
 Shortcuts (`\x`, `\n` bold vectors, `\dd`) are defined in `math_render.py` (`MACROS`).
 `\htmlData{from=1}{...}` shows part of an equation from step 1 on.

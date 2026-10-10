@@ -10,8 +10,10 @@ A video cannot play inside a PDF: it appears as a still frame, taken at data-pdf
 Needs Google Chrome or Microsoft Edge, and the Python packages:  pip install playwright pypdf
 (set CHROME_PATH to another Chrome or Chromium executable to use it instead).
 """
-import io, os, sys
+import io, sys
 from pathlib import Path
+
+from headless import launch
 
 ROOT = Path(__file__).resolve().parent
 
@@ -34,17 +36,6 @@ FRAME_VIDEOS = """async () => {
     setTimeout(done, 3000);
   })));
 }"""
-
-
-def launch(p):
-    if os.environ.get("CHROME_PATH"):
-        return p.chromium.launch(executable_path=os.environ["CHROME_PATH"])
-    for channel in ("chrome", "msedge", None):          # installed Chrome, then Edge, then Playwright's Chromium
-        try:
-            return p.chromium.launch(channel=channel)
-        except Exception:
-            pass
-    sys.exit("No Chrome, Edge or Chromium found: install Google Chrome, or set CHROME_PATH.")
 
 
 def main():
