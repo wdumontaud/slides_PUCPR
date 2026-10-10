@@ -13,13 +13,13 @@ echo [1/4] Python packages (playwright, pypdf)
 %PY% -c "import playwright, pypdf" >nul 2>nul || %PY% -m pip install --quiet playwright pypdf || goto :fail
 
 echo [2/4] main.html
-%PY% build.py || goto :fail
+%PY% config\build.py || goto :fail
 
 echo [3/4] main_export.html
-%PY% build.py --standalone || goto :fail
+%PY% config\build.py --standalone || goto :fail
 
 echo [4/4] main.pdf (about a minute)
-%PY% export_pdf.py || goto :fail
+%PY% config\export_pdf.py || goto :fail
 
 echo.
 echo Done: main.html, main_export.html, main.pdf

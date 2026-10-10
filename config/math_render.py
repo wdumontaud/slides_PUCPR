@@ -11,7 +11,7 @@ from pathlib import Path
 
 from headless import launch
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 MATH = re.compile(r"\\\[(.+?)\\\]|\\\((.+?)\\\)", re.S)
 
 # shortcuts usable in every equation (like \newcommand in a preamble)

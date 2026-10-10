@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Assemble the presentation from main.json + parts/*.html + theme/ + assets/ (like `latexmk` for main.tex).
+"""Assemble the presentation from config/main.json + parts/*.html + theme/ + assets/ (like `latexmk` for main.tex).
 
-    python build.py                 main.html         working copy, pictures and videos read from assets/
-    python build.py --standalone    main_export.html  one file: pictures, videos and fonts are embedded
-    python build.py --watch         rebuild main.html on every save (then refresh the browser)
+    python config/build.py                 main.html         working copy, pictures and videos read from assets/
+    python config/build.py --standalone    main_export.html  one file: pictures, videos and fonts are embedded
+    python config/build.py --watch         rebuild main.html on every save (then refresh the browser)
 """
 import base64, json, re, sys, time
 from pathlib import Path
 import bib
 import math_render
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent          # the project folder; this file lives in config/
 DEV_HTML, EXPORT_HTML = ROOT / "main.html", ROOT / "main_export.html"
 
 TEMPLATE = """<!doctype html>
@@ -98,9 +98,36 @@ def resolve(html, export, used, warnings):
     return html
 
 
+INCLUDE = re.compile(r'<svg\b([^>]*?)\s*data-include="(assets/[^"]+\.svg)"([^>]*)>\s*</svg>')
+ATTRS = re.compile(r'([\w:-]+)="([^"]*)"')
+
+
+def include_svgs(html, used, warnings):
+    """<svg class="dom" data-include="assets/.../x.svg"></svg>  ->  the drawing itself, inline, so that the step CSS of the slide applies."""
+    def inline(m):
+        rel = m.group(2)
+        if not (ROOT / rel).is_file():
+            warnings.append(f"missing file: {rel}")
+            return m.group(0)
+        used.add(rel)
+        text = re.sub(r"<\?xml.*?\?>", "", (ROOT / rel).read_text(encoding="utf-8"), flags=re.S).strip()
+        root = re.match(r"<svg\b([^>]*)>", text)
+        own = dict(ATTRS.findall(m.group(1) + " " + m.group(3)))      # class, style... from the placeholder come first
+        for k, v in ATTRS.findall(root.group(1)):
+            if k == "xmlns":                                          # the file needs it, the inline drawing does not
+                continue
+            if k in own and k in ("class", "style"):
+                own[k] = f"{own[k]} {v}"
+            else:
+                own.setdefault(k, v)
+        return "<svg " + " ".join(f'{k}="{v}"' for k, v in own.items()) + ">" + text[root.end():]
+    return INCLUDE.sub(inline, html)
+
+
 def assemble(export, used, warnings):
-    cfg = json.loads(read("main.json"))
+    cfg = json.loads(read("config/main.json"))
     parts = "\n".join(f"<!-- ==== {p} ==== -->\n{read(p)}" for p in cfg["parts"])
+    parts = include_svgs(parts, used, warnings)     # drawings kept as files in assets/
     if cfg.get("bibliography"):                     # \cite{key} -> numbers, slide footers, References appendix
         parts = bib.process(parts, bib.parse(read(cfg["bibliography"])))
     parts = math_render.process(parts)              # \( inline \) and \[ display \] LaTeX -> KaTeX HTML
@@ -129,13 +156,14 @@ def build(export=False):
     for w in warnings:
         print("  warning:", w)
     unused = [p.relative_to(ROOT).as_posix() for p in sorted((ROOT / "assets").rglob("*"))
-              if p.is_file() and not p.name.startswith(".") and p.relative_to(ROOT).as_posix() not in used]
+              if p.is_file() and not p.name.startswith(".") and p.suffix != ".pptx"
+              and p.relative_to(ROOT).as_posix() not in used]   # .pptx files are sources, not pictures
     if unused:
         print("  assets not used by the slides:", ", ".join(unused))
 
 
 def stamp():
-    files = [ROOT / "main.json", ROOT / "refs.bib", *(ROOT / "theme").rglob("*.*"),
+    files = [ROOT / "config" / "main.json", *(ROOT / "bib").glob("*.bib"), *(ROOT / "theme").rglob("*.*"),
              *(ROOT / "parts").glob("*.html"), *(ROOT / "assets").rglob("*.svg")]
     return {f: f.stat().st_mtime for f in files if f.is_file()}
 

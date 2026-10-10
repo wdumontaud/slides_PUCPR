@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Export main_export.html to main.pdf: one PDF page per step, like the overlays of a beamer deck.
 
-    python export_pdf.py                       main_export.html -> main.pdf
-    python export_pdf.py talk.html talk.pdf
+    python config/export_pdf.py                main_export.html -> main.pdf
+    python config/export_pdf.py talk.html talk.pdf
 
 A slide with data-steps="2" gives 3 pages, so the PDF follows the presentation.
 A video cannot play inside a PDF: it appears as a still frame, taken at data-pdf-t seconds (default 0).
@@ -15,7 +15,7 @@ from pathlib import Path
 
 from headless import launch
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 
 # which slide and step is shown, and whether this page is the last one
 STATE = """() => {
@@ -45,7 +45,7 @@ def main():
     html = Path(sys.argv[1] if len(sys.argv) > 1 else ROOT / "main_export.html").resolve()
     out = Path(sys.argv[2] if len(sys.argv) > 2 else ROOT / "main.pdf").resolve()
     if not html.is_file():
-        sys.exit(f"{html.name} not found: run  python build.py --standalone  first")
+        sys.exit(f"{html.name} not found: run  python config/build.py --standalone  first")
     try:                                                 # fails now, not after a minute of rendering, if a viewer holds it
         if out.exists():
             with out.open("ab"):

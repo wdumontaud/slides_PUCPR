@@ -49,7 +49,7 @@ ul li::marker{color:var(--purple)}
 .refs{position:absolute;left:0;right:0;bottom:0;font-size:13px;line-height:1.35;color:#555;border-top:1px solid #ccd;padding-top:5px}
 .refs sup,.cite{color:var(--purple)}
 .cite a{color:var(--purple);text-decoration:none}
-/* ---- References appendix (generated from refs.bib) ---- */
+/* ---- References appendix (generated from bib/refs.bib) ---- */
 .s-refs .biblio{margin:0;padding-left:2.3em;font-size:15.5px;line-height:1.35}
 .s-refs .biblio li{margin:0 0 .55em}
 .s-refs .biblio li::marker{content:"[" counter(list-item) "]  ";color:var(--purple);font-weight:700}

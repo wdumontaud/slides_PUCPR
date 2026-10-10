@@ -11,5 +11,5 @@
     "parts/06-cosimulation.html",
     "parts/07-conclusion.html"
   ],
-  "bibliography": "refs.bib"
+  "bibliography": "bib/refs.bib"
 }
