@@ -3,7 +3,7 @@
 .city .vid{left:96px;top:0;width:1000px;height:562px;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.3);
   transform-origin:0 0;transition:transform 1s cubic-bezier(.3,.7,.2,1)}
 .city .vid video,.city .vid img{width:100%;height:100%;object-fit:cover;display:block}
-.city .vid .tag{position:absolute;left:14px;bottom:12px;background:rgba(0,41,75,.85);color:#fff;font-size:18px;padding:4px 12px;border-radius:6px}
+.city .vid .tag{position:absolute;right:14px;bottom:12px;background:rgba(0,41,75,.85);color:#fff;font-size:18px;padding:4px 12px;border-radius:6px}
 .city[data-step="1"] .vid{transform:translate(-96px,0) scale(.4)}
 .city .canyon{left:492px;top:-4px;width:700px;transition:opacity .8s .3s}
 .city .canyon .img{position:relative;width:700px;height:520px}
@@ -16,7 +16,7 @@
 </style>
 <section class="slide ph city" data-title="Physical problem: from the city to the wall" data-steps="1">
   <!-- video: replace assets/05-physical/urban_context_year.webm (and its first frame assets/05-physical/urban_context_poster.jpg) by the final one -->
-  <div class="vid"><video src="assets/05-physical/urban_context_year.webm" poster="assets/05-physical/urban_context_poster.jpg" muted loop playsinline preload="auto"></video>
+  <div class="vid"><video src="assets/05-physical/urban_context2.mp4" poster="assets/05-physical/urban_context_poster.jpg" muted loop playsinline preload="auto"></video>
     <span class="tag">urban scene simulated with Domus</span></div>
   <div class="side" data-from="1">
     <div class="arrow">⟶ one façade unit of the street</div>
@@ -28,31 +28,10 @@
   </div>
   <figure class="canyon" data-from="1"><div class="img">
     <img src="assets/05-physical/canyon_config.jpg" alt="street canyon">
-    <svg viewBox="0 0 1050 780">
+    <svg viewBox="0 0 500 780">
       <defs><marker id="ph-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker>
         <marker id="ph-ay" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e0a800"/></marker>
         <marker id="ph-ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker></defs>
-      <g stroke="#000" stroke-width="2.2" fill="none">
-        <line x1="235" y1="250" x2="235" y2="490" marker-start="url(#ph-a)" marker-end="url(#ph-a)"/>
-        <line x1="202" y1="459" x2="344" y2="459" marker-start="url(#ph-a)" marker-end="url(#ph-a)"/>
-        <line x1="779" y1="176" x2="779" y2="679" marker-start="url(#ph-a)" marker-end="url(#ph-a)"/>
-        <line x1="278" y1="593" x2="716" y2="615" marker-start="url(#ph-a)" marker-end="url(#ph-a)"/>
-        <line x1="272" y1="232" x2="208" y2="214"/><line x1="191" y1="354" x2="160" y2="354"/><line x1="281" y1="495" x2="273" y2="516"/>
-        <line x1="38" y1="616" x2="38" y2="570" marker-end="url(#ph-a)"/><line x1="38" y1="616" x2="96" y2="616" marker-end="url(#ph-a)"/><line x1="38" y1="616" x2="14" y2="640" marker-end="url(#ph-a)"/>
-      </g>
-      <line x1="440" y1="186" x2="362" y2="230" stroke="#666" stroke-width="2.2"/>
-      <line x1="470" y1="292" x2="358" y2="330" stroke="#e0a800" stroke-width="3" marker-end="url(#ph-ay)"/>
-      <line x1="478" y1="440" x2="395" y2="418" stroke="#333" stroke-width="2.2" marker-end="url(#ph-ak)"/>
-      <g font-style="italic">
-        <text x="250" y="363">H</text><text x="262" y="447">L</text><text x="792" y="430">ΔY</text><text x="490" y="590">ΔX</text>
-        <text x="184" y="206">Γ<tspan font-size="18" dy="7">4</tspan></text><text x="125" y="363">Γ<tspan font-size="18" dy="7">3</tspan></text>
-        <text x="258" y="545">Γ<tspan font-size="18" dy="7">2</tspan></text><text x="373" y="378" fill="#d00">Γ<tspan font-size="18" dy="7">1</tspan></text>
-        <text x="50" y="568" font-size="22">y</text><text x="88" y="608" font-size="22">x</text><text x="4" y="668" font-size="22">z</text>
-      </g>
-      <text x="476" y="140" text-anchor="middle" fill="#555">studied façade</text><text x="476" y="170" text-anchor="middle" fill="#555">unit</text>
-      <text x="96" y="300" fill="#c0392b">inside</text><text x="575" y="236" fill="#1f5c99">outside</text>
-      <text x="476" y="296" fill="#c99700" font-weight="700">sunlit</text><text x="484" y="452" fill="#333">shadow</text>
-      <text x="912" y="256" text-anchor="middle" fill="#fff">front building</text><text x="180" y="676" fill="#7a4b1d">soil</text>
     </svg></div>
     <figcaption>Street canyon configuration: the façade unit and its surroundings.</figcaption>
   </figure>
