@@ -1,28 +1,41 @@
 <!-- subsection: State of the art -->
 <style>
 .sota .content>*{position:absolute}
-.sota .cols{left:0;right:0;top:0;height:404px;display:flex;gap:16px}
+.sota .cols{left:0;right:0;top:0;height:466px;display:flex;gap:16px;transition:height .6s ease}      /* step 0: tall, with the legend below */
+.sota:is([data-step="1"],[data-step="2"],[data-step="3"]) .cols{height:352px}                          /* from step 1: room for the pictures and the comment below */
 .sota .col{flex:1;border-radius:10px;background:#f7f8fb;border:1px solid #dde2ea;padding:10px 14px;transition:opacity .6s,box-shadow .6s,border-color .6s}
 .sota .col{display:flex;flex-direction:column}
 .sota .col.wall{flex:1.18}
-.sota .ill{margin:auto 0 0;text-align:center}
-.sota .ill img{max-width:100%;border:1px solid #ccd;border-radius:4px;background:#fff}
-.sota .ill figcaption{font-size:12px;color:#555;margin-top:2px}
 .sota .head{display:flex;gap:10px;align-items:center;border-bottom:2px solid #dde2ea;padding-bottom:6px;margin-bottom:6px}
 .sota .head img{flex:none;width:58px;height:50px}
 .sota .head b{display:block;font-size:21px;color:var(--blueCNRS)}
 .sota .head span{font-size:14px;color:#555;line-height:1.2;display:block}
 .sota ul{list-style:none;margin:0;padding:0}
-.sota li{display:flex;gap:7px;align-items:baseline;font-size:14.5px;line-height:1.25;margin:5px 0}
+.sota li{display:flex;gap:7px;align-items:baseline;font-size:14.5px;line-height:1.22;margin:4px 0}
 .sota li .y{flex:none;font-weight:700;color:var(--blueCNRS);width:36px}
 .sota li i{font-style:normal;color:#555}
 .sota .m{flex:none;width:10px;height:10px;border-radius:50%;transform:translateY(-1px)}
 .sota .t{background:var(--purple)} .sota .s{background:#d08a00} .sota .p{background:#6b8aa5}
-.sota .legend{left:0;right:0;top:418px;font-size:15px;color:#444;display:flex;gap:26px;justify-content:center;align-items:center}
+.sota .legend{left:0;right:0;top:490px;font-size:15px;color:#444;display:flex;gap:26px;justify-content:center;align-items:center}
 .sota .legend .m{display:inline-block;margin-right:6px}
-.sota[data-step="1"] .col.mat,.sota[data-step="1"] .col.bld{opacity:.32}
-.sota[data-step="1"] .col.wall{border-color:var(--purple);box-shadow:0 0 0 3px rgba(77,13,171,.18);background:#fff}
-.sota .gap{left:0;right:0;top:418px;display:flex;gap:16px;align-items:stretch}
+.sota[data-step="1"] .col:not(.mat),.sota[data-step="2"] .col:not(.bld),.sota[data-step="3"] .col:not(.wall){opacity:.32}
+.sota[data-step="1"] .col.mat,.sota[data-step="2"] .col.bld,.sota[data-step="3"] .col.wall{border-color:var(--purple);box-shadow:0 0 0 3px rgba(77,13,171,.18);background:#fff}
+/* below the columns: the pictures and the comment of the highlighted column (step 1: material, step 2: building) */
+.sota .under{left:0;right:0;top:372px;height:200px;box-sizing:border-box;display:flex;align-items:center;gap:20px;padding:10px 20px;
+  border:2px solid var(--purple);border-radius:10px;background:#fff;--cx:182px}
+.sota .under::before{content:"";position:absolute;top:-9px;left:calc(var(--cx) - 8px);width:14px;height:14px;transform:rotate(45deg);
+  background:#fff;border-left:2px solid var(--purple);border-top:2px solid var(--purple)}
+.sota .under.bld{--cx:1009px}
+.sota .shots{flex:none;display:flex;gap:14px;align-items:flex-start}
+.sota .shots figure{margin:0;text-align:center}
+.sota .shots img,.sota .shots .slot{display:block;height:132px;box-sizing:border-box;border:1px solid #ccd;border-radius:4px;background:#fff}
+.sota .shots .slot{width:190px;border:2px dashed #b9a6e0;background:#f6f2fd;color:#7a63ad;font-size:14px;line-height:1.3;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.sota .shots .slot small{font-size:11px;opacity:.8}
+.sota .shots figcaption{font-size:12.5px;color:#555;margin-top:3px;max-width:240px}
+.sota .under .say{flex:1;font-size:19px;line-height:1.35;color:#222}
+.sota .under .say b{color:var(--purple)}
+.sota .gap{left:0;right:0;top:376px;display:flex;gap:16px;align-items:stretch}
 .sota .gap .miss{flex:1.25;font-size:17px}
 .sota .gap .miss b{color:var(--blueCNRS)}
 .sota .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
@@ -30,7 +43,7 @@
 .sota .gap .aim{flex:1;padding:10px 16px;border:2px solid var(--purple);border-radius:10px;background:#f6f2fd;font-size:17px;line-height:1.35}
 .sota .gap .aim b{color:var(--purple)}
 </style>
-<section class="slide sota" data-title="State of the art: optimisation across scales" data-steps="1" data-footcite="off">
+<section class="slide sota" data-title="State of the art: optimisation across scales" data-steps="3" data-footcite="off">
   <div class="cols">
     <div class="col mat">
       <div class="head">
@@ -43,8 +56,6 @@
         <li><span class="m p"></span><span class="y">2014</span><span>Sütçü et al.\cite{sutcu2014} <i>— hollow clay bricks, hole layout</i></span></li>
         <li><span class="m p"></span><span class="y">2024</span><span>Chamatete &amp; Yalçınkaya\cite{chamatete2024} <i>— lattice infill of printed walls</i></span></li>
       </ul>
-      <figure class="ill"><img src="assets/04-introduction/bruggi2013_fig5.jpg" alt="" style="height:66px">
-        <figcaption>Conventional vs optimised block \cite{bruggi2013}</figcaption></figure>
     </div>
     <div class="col wall">
       <div class="head">
@@ -70,12 +81,27 @@
         <li><span class="m p"></span><span class="y">2014</span><span>Nguyen et al.\cite{nguyen2014} <i>— review: simulation-based optimisation</i></span></li>
         <li><span class="m s"></span><span class="y">2020</span><span>Ciardiello et al.\cite{ciardiello2020} <i>— shape and envelope, multi-objective</i></span></li>
       </ul>
-      <figure class="ill"><img src="assets/04-introduction/ciardiello2020_ga.jpg" alt="" style="height:112px">
-        <figcaption>Geometry then envelope optimisation \cite{ciardiello2020}</figcaption></figure>
     </div>
   </div>
+  <!-- step 1: material / block. Pictures: one per article; the dashed boxes are replaced by an img tag once the figure is saved in assets/04-introduction/ -->
+  <div class="under mat" data-from="1" data-until="1">
+    <div class="shots">
+      <figure><img src="assets/04-introduction/bruggi2013_fig5.jpg" alt=""><figcaption>Conventional vs optimised block (Bruggi &amp; Taliercio) \cite{bruggi2013}</figcaption></figure>
+      <figure><div class="slot">figure to add<small>assets/04-introduction/delcozdiaz2007.jpg</small></div><figcaption>del Coz Díaz et al. \cite{delcozdiaz2007}</figcaption></figure>
+      <figure><div class="slot">figure to add<small>assets/04-introduction/chamatete2024.jpg</small></div><figcaption>Chamatete &amp; Yalçınkaya \cite{chamatete2024}</figcaption></figure>
+    </div>
+    <div class="say"><b>Block scale:</b> the layout of the holes inside a brick, a block or a printed infill is optimised, alone, as a unit. The wall and its boundary conditions are not part of the problem.</div>
+  </div>
+  <!-- step 2: building -->
+  <div class="under bld" data-from="2" data-until="2">
+    <div class="shots">
+      <figure><div class="slot">figure to add<small>assets/04-introduction/tuhusdubrow2010.jpg</small></div><figcaption>Tuhus-Dubrow &amp; Krarti \cite{tuhusdubrow2010}</figcaption></figure>
+      <figure><img src="assets/04-introduction/ciardiello2020_ga.jpg" alt=""><figcaption>Geometry then envelope optimisation (Ciardiello et al.) \cite{ciardiello2020}</figcaption></figure>
+    </div>
+    <div class="say"><b>Building scale:</b> form, orientation, envelope and systems are optimised together. The wall is one design parameter among many, not a field to be optimised.</div>
+  </div>
   <div class="legend" data-until="0"><span><i class="m t"></i>topology / material layout</span><span><i class="m s"></i>shape</span><span><i class="m p"></i>parameters (thickness, position, orientation…)</span></div>
-  <div class="gap" data-from="1">
+  <div class="gap" data-from="3">
     <div class="miss"><b>At the wall scale, none of these works combines:</b>
       <div class="chips"><span class="chip">2D model</span><span class="chip">transient regime</span><span class="chip">space–time boundary conditions</span>
         <span class="chip">heat-flux continuity at the interface</span><span class="chip">shape + insulation domain</span></div></div>
