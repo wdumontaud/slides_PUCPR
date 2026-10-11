@@ -93,8 +93,9 @@ the formatter is off for HTML (it would reflow the SVG); `Ctrl+K Z`/split editor
   The PDF shows the video at `data-pdf-t="12.5"` (the city seen from above, end of the video); `urban_context_poster.jpg` is that same frame
   (used by `?print`): redo both when the video changes
   (`ffmpeg -ss 12.5 -i urban_context2.mp4 -frames:v 1 -vf scale=1280:720 urban_context_poster.jpg`).
-* Co-simulation slides 14 to 16 (`parts/06-cosimulation/02-04`) are a first draft, to be checked against the real coupling: what Domus and the 2D solver each bring,
-  which quantities go which way (names of slides 9 to 12), one coupling step t_n -> t_{n+1}. Only symbols are used for the time steps (\(\Delta t_c\), \(\delta t\)).
+* Co-simulation slides 14 to 17 (`parts/06-cosimulation/02-05`): why, the wall surfaces (one 2D model per band and per floor, pictures `assets/06-cosimulation/band_*.png`),
+  architecture (Domus gives surface temperatures, weather and solar data per surface; the 2D model computes `q_sw`, `q_lw` itself and returns only mean temperatures
+  and the inside mean convective coefficient), one coupling step t_n -> t_{n+1} (symbols only: \(\Delta t_c\), \(\delta t\)).
 * Slide 4 (context) turns band 1 of the façade into a block of wall, cuts it along A and turns it to face us (CSS 3D, steps 2 and 3).
   It ends on the 2D section `assets/04-introduction/section.svg`, which is also the cut face of the block while it turns: the file is
   included twice, so the build gives the ids of the second copy a suffix. The façade of the block is `band1.jpg`, made by

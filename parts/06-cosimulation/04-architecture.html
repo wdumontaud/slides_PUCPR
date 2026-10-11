@@ -1,0 +1,42 @@
+<!-- subsection: Architecture and coupling -->
+<!-- DRAFT (to validate): which quantities go which way. Names follow the boundary conditions of slides 9 to 12. -->
+<style>
+.arc .content>*{position:absolute}
+.arc .box{top:10px;width:290px;height:372px;box-sizing:border-box;background:#fff;border-radius:12px;box-shadow:0 4px 18px rgba(0,41,75,.16);border-top:7px solid var(--blueCNRS);padding:14px 18px;font-size:19px;line-height:1.35}
+.arc .box.l{left:0} .arc .box.r{right:0}
+.arc .box h3{margin:0 0 2px;font-size:24px;color:var(--blueCNRS)}
+.arc .box .sub{font-size:17px;color:#667;margin-bottom:10px}
+.arc .box ul{margin:0;padding-left:20px} .arc .box li{margin:.4em 0}
+.arc .wall{left:490px;top:20px;width:212px;height:297px}
+.arc .wall svg{width:100%;height:100%;display:block}
+.arc .wcap{left:430px;top:326px;width:332px;text-align:center;font-size:21px;font-weight:700;color:var(--purple);line-height:1.35}
+.arc .wcap small{display:block;font-size:17px;font-weight:400;color:#333;transition:opacity .5s}
+/* arrows between the boxes and the wall: label above, arrow under it */
+.arc .flow{width:200px;font-size:20px;text-align:center;transition:opacity .5s}
+.arc .flow .lab{line-height:1.45;height:4.4em;display:flex;flex-direction:column;justify-content:flex-end}
+.arc .flow .ar{height:18px;position:relative;margin:4px 6px}
+.arc .flow .ar::before{content:"";position:absolute;left:0;right:12px;top:8px;height:4px;background:var(--c)}
+.arc .flow .ar::after{content:"";position:absolute;right:0;top:0;border:9px solid transparent;border-left:14px solid var(--c);border-right:0}
+.arc .flow.back .ar::before{left:12px;right:0} .arc .flow.back .ar::after{left:0;right:auto;border-left:0;border-right:14px solid var(--c)}
+.arc .flow.go{--c:var(--blueCNRS)} .arc .flow.back{--c:var(--purple)}
+.arc .fl{left:290px} .arc .fr{left:702px} .arc .fr .ar{transform:scaleX(-1)}
+.arc .go.fl{top:62px} .arc .back.fl{top:210px} .arc .go.fr{top:62px} .arc .back.fr{top:210px}
+.arc .go .lab{color:var(--blueCNRS)} .arc .back .lab{color:var(--purple)}
+.arc .goal{left:0;right:0;top:450px;text-align:center;font-size:25px;transition:opacity .5s,transform .5s}
+.arc .goal.step-hidden{transform:translateY(12px)}
+.arc .goal b{color:var(--purple)}
+</style>
+<section class="slide arc" data-title="Architecture and coupling" data-steps="3">
+  <div class="box l"><h3>Domus: the street</h3><div class="sub">for each wall surface</div>
+    <ul><li>temperature of all the surfaces: buildings, ground, sky</li><li>weather: wind speed, air temperature</li><li>solar: irradiance on the surface, sunlit fraction, sun position</li></ul></div>
+  <div class="wall"><svg data-include="assets/05-physical/governing-boundaries-faint.svg"></svg></div>
+  <div class="wcap">2D wall model<small data-from="1">computes \(q_{sw}\) and \(q_{\ell w}\) itself</small></div>
+  <div class="box r"><h3>Domus: the room</h3><div class="sub">for each floor</div>
+    <ul><li>thermal zone: air temperature \(T_{\infty,3}\)</li></ul></div>
+
+  <div class="flow go fl" data-from="1"><div class="lab"><div>surface temperatures,</div><div>weather, solar data</div></div><div class="ar"></div></div>
+  <div class="flow go fr" data-from="2"><div class="lab"><div>\(T_{\infty,3}\)</div></div><div class="ar"></div></div>
+  <div class="flow back fl" data-from="3"><div class="lab"><div>mean outside</div><div>temperature \(\bar T_{\Gamma_1}\)</div></div><div class="ar"></div></div>
+  <div class="flow back fr" data-from="3"><div class="lab"><div>mean surface temperature \(\bar T_{\Gamma_3}\)</div><div>mean convective coefficient \(\bar h_{\infty,3}\)</div></div><div class="ar"></div></div>
+  <div class="goal" data-from="3">⟶ <b>two-way coupling</b>: the wall only returns <b>mean values</b>, no heat flux.</div>
+</section>

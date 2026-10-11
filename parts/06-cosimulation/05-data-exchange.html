@@ -37,7 +37,7 @@
     <svg viewBox="0 0 700 420" data-from="1">
       <defs><marker id="dex-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2a7fb8"/></marker></defs>
       <line x1="110" y1="128" x2="110" y2="274" stroke="#2a7fb8" stroke-width="4" marker-end="url(#dex-b)"/>
-      <text x="124" y="214" font-size="21" fill="#2a7fb8" font-weight="700">boundary</text><text x="124" y="238" font-size="21" fill="#2a7fb8" font-weight="700">conditions</text>
+      <text x="124" y="200" font-size="21" fill="#2a7fb8" font-weight="700">surface temperatures,</text><text x="124" y="224" font-size="21" fill="#2a7fb8" font-weight="700">weather, solar data</text>
     </svg>
     <!-- step 2: the solver advances with its own steps -->
     <svg viewBox="0 0 700 420" data-from="2">
@@ -51,7 +51,7 @@
       <defs><marker id="dex-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4D0DAB"/></marker></defs>
       <circle cx="510" cy="300" r="8" fill="#4D0DAB"/>
       <line x1="510" y1="282" x2="510" y2="136" stroke="#4D0DAB" stroke-width="4" marker-end="url(#dex-p)"/>
-      <text x="524" y="206" font-size="21" fill="#4D0DAB" font-weight="700">T and heat flux</text><text x="524" y="230" font-size="21" fill="#4D0DAB" font-weight="700">of the faces</text>
+      <text x="522" y="190" font-size="20" fill="#4D0DAB" font-weight="700">mean temperatures</text><text x="522" y="214" font-size="20" fill="#4D0DAB" font-weight="700">of the faces,</text><text x="522" y="238" font-size="20" fill="#4D0DAB" font-weight="700">inside mean h</text>
     </svg>
     <!-- step 4: next coupling step -->
     <svg viewBox="0 0 700 420" data-from="4">
@@ -60,10 +60,10 @@
     </svg>
   </div>
   <ol>
-    <li data-from="0"><b>Domus</b> computes the boundary conditions at \(t_n\): weather, sun and shadows, view factors, zone.</li>
-    <li><b>The solver</b> advances the wall from \(t_n\) to \(t_{n+1}=t_n+\Delta t_c\), with its own smaller steps \(\delta t\).</li>
-    <li>It returns the <b>temperatures and heat fluxes</b> of the faces \(\Gamma_1\) and \(\Gamma_3\) at \(t_{n+1}\).</li>
-    <li><b>Domus</b> updates the street and the room, then the next step starts.</li>
+    <li data-from="0"><b>Domus</b> computes at \(t_n\) the surface temperatures, the weather and the solar data of each wall surface, and the zone air.</li>
+    <li><b>Each 2D model</b> computes \(q_{sw}\), \(q_{\ell w}\) and advances from \(t_n\) to \(t_{n+1}=t_n+\Delta t_c\), with its own smaller steps \(\delta t\).</li>
+    <li>It returns the <b>mean temperatures</b> of \(\Gamma_1\) and \(\Gamma_3\), and the mean convective coefficient inside, at \(t_{n+1}\).</li>
+    <li><b>Domus</b> updates the street and the room with them, then the next step starts.</li>
   </ol>
   <div class="goal" data-from="4">⟶ \(\Delta t_c\) sets the <b>accuracy</b> of the coupling: the exchange is made once per step.</div>
 </section>
