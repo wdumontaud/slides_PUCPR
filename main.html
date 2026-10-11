@@ -1540,15 +1540,199 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
 
 <!-- ==== parts/06-cosimulation/02-why-cosimulation.html ==== -->
 <!-- subsection: Motivation -->
-<section data-src="parts/06-cosimulation/02-why-cosimulation.html" class="slide" data-title="Why a co-simulation?"><div class="todo">to be written</div></section>
+<!-- DRAFT (to validate): what Domus and the 2D solver each bring, why the two must talk to each other. -->
+<style>
+.why .content>*{position:absolute}
+.why .tool{top:6px;width:540px;background:#fff;border-radius:12px;box-shadow:0 4px 18px rgba(0,41,75,.16);border-top:7px solid var(--c);padding:16px 24px 20px;font-size:22px;line-height:1.4}
+.why .tool.a{left:0;--c:var(--blueCNRS)} .why .tool.b{right:0;--c:var(--purple)}
+.why .tool h3{margin:0;font-size:27px;color:var(--c)}
+.why .tool .sub{font-size:18px;color:#667;margin:2px 0 12px}
+.why .tool ul{list-style:none;margin:0;padding:0}
+.why .tool li{position:relative;padding-left:30px;margin:.5em 0}
+.why .tool li::before{content:"✓";position:absolute;left:0;color:#2e8b57;font-weight:700}
+.why .tool li.no{color:#6a7480;transition:opacity .5s}
+.why .tool li.no::before{content:"✗";color:#c0392b}
+.why .plus{left:560px;top:150px;width:72px;text-align:center;font-size:54px;font-weight:700;color:var(--purple);transition:opacity .5s}
+.why .goal{left:0;right:0;top:400px;border-radius:12px;background:var(--blueCNRS);color:#fff;padding:18px 28px;font-size:25px;line-height:1.35;text-align:center;transition:opacity .5s,transform .5s}
+.why .goal.step-hidden{transform:translateY(16px)}
+.why .goal b{color:#ffd966}
+</style>
+<section data-src="parts/06-cosimulation/02-why-cosimulation.html" class="slide why" data-title="Why a co-simulation?" data-steps="2">
+  <div class="tool a">
+    <h3>Domus</h3><div class="sub">building energy simulation</div>
+    <ul>
+      <li>urban scene in 3D: sun, shadows, reflections</li>
+      <li>weather file, view factors, exchanges with the surroundings</li>
+      <li>thermal zones: the indoor air</li>
+      <li class="no" data-from="1">walls are 1D layers: no 2D shape, no curved interface</li>
+    </ul>
+  </div>
+  <div class="plus">+</div>
+  <div class="tool b">
+    <h3>2D wall solver</h3><div class="sub">our own code</div>
+    <ul>
+      <li>transient conduction in 2D, two materials</li>
+      <li>curved interface between them (Ghost Fluid Method)</li>
+      <li>free shape of the external face</li>
+      <li class="no" data-from="1">no urban scene, no sun, no thermal zone</li>
+    </ul>
+  </div>
+  <div class="goal" data-from="2">⟶ <b>Co-simulation</b>: Domus gives the wall its realistic environment, the solver computes the wall, and each sees the effect of the other.</div>
+</section>
 
 <!-- ==== parts/06-cosimulation/03-architecture.html ==== -->
 <!-- subsection: Architecture and coupling -->
-<section data-src="parts/06-cosimulation/03-architecture.html" class="slide" data-title="Architecture and coupling"><div class="todo">to be written</div></section>
+<!-- DRAFT (to validate): which quantities go which way. Names follow the boundary conditions of slides 9 to 12. -->
+<style>
+.arc .content>*{position:absolute}
+.arc .box{top:20px;width:300px;height:330px;box-sizing:border-box;background:#fff;border-radius:12px;box-shadow:0 4px 18px rgba(0,41,75,.16);border-top:7px solid var(--blueCNRS);padding:14px 20px;font-size:20px;line-height:1.35}
+.arc .box.l{left:0} .arc .box.r{right:0}
+.arc .box h3{margin:0 0 2px;font-size:25px;color:var(--blueCNRS)}
+.arc .box .sub{font-size:17px;color:#667;margin-bottom:10px}
+.arc .box ul{margin:0;padding-left:20px} .arc .box li{margin:.45em 0}
+.arc .wall{left:490px;top:24px;width:212px;height:322px}
+.arc .wall svg{width:100%;height:100%;display:block}
+.arc .wcap{left:430px;top:356px;width:332px;text-align:center;font-size:21px;font-weight:700;color:var(--purple)}
+/* arrows between the boxes and the wall: label above, arrow under it */
+.arc .flow{width:190px;font-size:20px;text-align:center;transition:opacity .5s}
+.arc .flow .lab{line-height:1.45;height:3em;display:flex;flex-direction:column;justify-content:flex-end}
+.arc .flow .ar{height:18px;position:relative;margin:4px 6px}
+.arc .flow .ar::before{content:"";position:absolute;left:0;right:12px;top:8px;height:4px;background:var(--c)}
+.arc .flow .ar::after{content:"";position:absolute;right:0;top:0;border:9px solid transparent;border-left:14px solid var(--c);border-right:0}
+.arc .flow.back .ar::before{left:12px;right:0} .arc .flow.back .ar::after{left:0;right:auto;border-left:0;border-right:14px solid var(--c)}
+.arc .flow.go{--c:var(--blueCNRS)} .arc .flow.back{--c:var(--purple)}
+.arc .fl{left:300px} .arc .fr{left:702px} .arc .fr .ar{transform:scaleX(-1)}
+.arc .go.fl{top:100px} .arc .back.fl{top:230px} .arc .go.fr{top:100px} .arc .back.fr{top:230px}
+.arc .go .lab{color:var(--blueCNRS)} .arc .back .lab{color:var(--purple)}
+.arc .goal{left:0;right:0;top:440px;text-align:center;font-size:25px;transition:opacity .5s,transform .5s}
+.arc .goal.step-hidden{transform:translateY(12px)}
+.arc .goal b{color:var(--purple)}
+</style>
+<section data-src="parts/06-cosimulation/03-architecture.html" class="slide arc" data-title="Architecture and coupling" data-steps="3">
+  <div class="box l"><h3>Domus: the street</h3><div class="sub">outside of the wall</div>
+    <ul><li>weather file</li><li>sun and shadows on the façade</li><li>view factors: ground, front building, sky</li></ul></div>
+  <div class="wall"><svg viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
+    <!-- Slide 9, step 0: boundaries faint, no normals. Layers of this slide are stacked in parts/05-physical.html. Keep the transparent frame: it fixes the size of the drawing. -->
+  <defs>
+      <pattern id="governing-boundaries-faint-ph-hat-3" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
+      <marker id="governing-boundaries-faint-ph-g-3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
+      <marker id="governing-boundaries-faint-ph-r-3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/></marker>
+    </defs>
+    <rect x="0" y="0" width="400" height="560" fill="none"/>
+  <!-- Ω1 structural (outside), Ω2 insulation (inside), interface Γi -->
+    <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#governing-boundaries-faint-ph-hat-3)"/>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
+    <text x="165" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
+    <text x="252" y="190" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
+    <text x="165" y="305" font-size="15" fill="#1d2733">structural</text>
+    <text x="250" y="215" font-size="15" fill="#1d2733">insulation</text>
+    <!-- boundaries -->
+    <g fill="none" stroke="#4D0DAB" stroke-linecap="round">
+      <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" stroke-width="4" opacity=".35"/>
+      <path d="M300,60 L300,480" stroke-width="4" opacity=".35"/>
+      <path d="M120,60 L300,60" stroke-width="4" opacity=".35"/>
+      <path d="M116,480 L300,480" stroke-width="4" opacity=".35"/>
+    </g>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480" fill="none" stroke="#d1495b" stroke-width="3"/>
+    <g font-size="25" font-style="italic" fill="#4D0DAB">
+      <text x="60" y="276">Γ<tspan font-size="16" dy="7">1</tspan></text><text x="312" y="276">Γ<tspan font-size="16" dy="7">3</tspan></text>
+      <text x="196" y="48">Γ<tspan font-size="16" dy="7">4</tspan></text><text x="196" y="512">Γ<tspan font-size="16" dy="7">2</tspan></text>
+    </g>
+    <text x="248" y="468" font-size="25" font-style="italic" fill="#d1495b">Γ<tspan font-size="16" dy="7">i</tspan></text>
+    <text x="20" y="110" font-size="19" fill="#1f5c99">outside</text><text x="310" y="110" font-size="19" fill="#c0392b">inside</text>
+    <!-- axes, H, L -->
+    <g stroke="#222" stroke-width="1.8" fill="none">
+      <line x1="30" y1="540" x2="30" y2="470" marker-end="url(#governing-boundaries-faint-ph-g-3)"/><line x1="30" y1="540" x2="100" y2="540" marker-end="url(#governing-boundaries-faint-ph-g-3)"/>
+      <line x1="372" y1="60" x2="372" y2="480" marker-start="url(#governing-boundaries-faint-ph-g-3)" marker-end="url(#governing-boundaries-faint-ph-g-3)"/>
+      <line x1="116" y1="530" x2="300" y2="530" marker-start="url(#governing-boundaries-faint-ph-g-3)" marker-end="url(#governing-boundaries-faint-ph-g-3)"/>
+    </g>
+    <g font-size="20" font-style="italic"><text x="38" y="480">y</text><text x="96" y="556">x</text><text x="380" y="276">H</text><text x="200" y="552">L</text></g>
+  </svg></div>
+  <div class="wcap">2D wall solver</div>
+  <div class="box r"><h3>Domus: the room</h3><div class="sub">inside of the wall</div>
+    <ul><li>thermal zone: air temperature</li><li>the other walls, internal gains</li></ul></div>
+
+  <div class="flow go fl" data-from="1"><div class="lab"><div><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mrow><mi mathvariant="normal">∞</mi><mo separator="true">,</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><mtext> </mtext><msub><mi>T</mi><mrow><mi mathvariant="normal">∞</mi><mo separator="true">,</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">h_{\infty,1},\ T_{\infty,1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∞</span><span class="mpunct mtight">,</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∞</span><span class="mpunct mtight">,</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></div><div><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mrow><mi>s</mi><mi>w</mi></mrow></msub><mo separator="true">,</mo><mtext> </mtext><msub><mi>q</mi><mrow><mi mathvariant="normal">ℓ</mi><mi>w</mi></mrow></msub></mrow><annotation encoding="application/x-tex">q_{sw},\ q_{\ell w}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">s</span><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">ℓ</span><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></div></div><div class="ar"></div></div>
+  <div class="flow go fr" data-from="2"><div class="lab"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi mathvariant="normal">∞</mi><mo separator="true">,</mo><mn>3</mn></mrow></msub></mrow><annotation encoding="application/x-tex">T_{\infty,3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∞</span><span class="mpunct mtight">,</span><span class="mord mtight">3</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></div><div class="ar"></div></div>
+  <div class="flow back fl" data-from="3"><div class="lab"><div><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><msub><mo fence="false" stretchy="true" minsize="1.2em" maxsize="1.2em">∣</mo><msub><mi mathvariant="normal">Γ</mi><mn>1</mn></msub></msub></mrow><annotation encoding="application/x-tex">T\big|_{\Gamma_1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.3498em;vertical-align:-0.4998em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord"><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.85em;"><span style="top:-2.85em;"><span class="pstrut" style="height:3.2em;"></span><span style="width:0.333em;height:1.200em;"><svg xmlns="http://www.w3.org/2000/svg" width="0.333em" height="1.200em" viewBox="0 0 333 1200"><path d="M145 15 v585 v0 v585 c2.667,10,9.667,15,21,15
+c10,0,16.667,-5,20,-15 v-585 v0 v-585 c-2.667,-10,-9.667,-15,-21,-15
+c-10,0,-16.667,5,-20,15z M188 15 H145 v585 v0 v585 h43z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.35em;"><span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.0786em;"><span style="top:-2.3003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">Γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3173em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4998em;"><span></span></span></span></span></span></span></span></span></span></div><div>heat flux</div></div><div class="ar"></div></div>
+  <div class="flow back fr" data-from="3"><div class="lab"><div><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><msub><mo fence="false" stretchy="true" minsize="1.2em" maxsize="1.2em">∣</mo><msub><mi mathvariant="normal">Γ</mi><mn>3</mn></msub></msub></mrow><annotation encoding="application/x-tex">T\big|_{\Gamma_3}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.3498em;vertical-align:-0.4998em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord"><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.85em;"><span style="top:-2.85em;"><span class="pstrut" style="height:3.2em;"></span><span style="width:0.333em;height:1.200em;"><svg xmlns="http://www.w3.org/2000/svg" width="0.333em" height="1.200em" viewBox="0 0 333 1200"><path d="M145 15 v585 v0 v585 c2.667,10,9.667,15,21,15
+c10,0,16.667,-5,20,-15 v-585 v0 v-585 c-2.667,-10,-9.667,-15,-21,-15
+c-10,0,-16.667,5,-20,15z M188 15 H145 v585 v0 v585 h43z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.35em;"><span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.0786em;"><span style="top:-2.3003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">Γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3173em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4998em;"><span></span></span></span></span></span></span></span></span></span></div><div>heat flux</div></div><div class="ar"></div></div>
+  <div class="goal" data-from="3">⟶ <b>two-way coupling</b>: the wall answers with its surface temperatures and heat fluxes.</div>
+</section>
 
 <!-- ==== parts/06-cosimulation/04-data-exchange.html ==== -->
 <!-- subsection: Data exchange and time steps -->
-<section data-src="parts/06-cosimulation/04-data-exchange.html" class="slide" data-title="Data exchange and time steps"><div class="todo">to be written</div></section>
+<!-- DRAFT (to validate): one coupling step t_n -> t_{n+1}, explicit exchange. Symbols only: the values of the time steps are to be given. -->
+<style>
+.dex .content>*{position:absolute}
+.dex .tl{left:0;top:40px;width:700px;height:420px}
+.dex .tl svg{position:absolute;inset:0;width:100%;height:100%;font-family:inherit}
+.dex ol{left:740px;top:30px;width:452px;margin:0;padding:0;list-style:none;font-size:22px;line-height:1.35;counter-reset:k}
+.dex ol li{position:relative;padding:4px 0 4px 46px;margin-bottom:14px;counter-increment:k;transition:opacity .5s}
+.dex ol li::before{content:counter(k);position:absolute;left:0;top:4px;width:32px;height:32px;border-radius:50%;background:var(--purple);color:#fff;text-align:center;line-height:32px;font-size:19px;font-weight:700}
+.dex[data-step="1"] li:nth-child(n+2),.dex[data-step="2"] li:nth-child(n+3),.dex[data-step="3"] li:nth-child(n+4){visibility:hidden}
+.dex[data-step="0"] li{visibility:hidden}
+.dex[data-step="2"] li:nth-child(1),.dex[data-step="3"] li:nth-child(1),.dex[data-step="3"] li:nth-child(2),.dex[data-step="4"] li:nth-child(-n+3){opacity:.45}
+.dex .goal{left:0;right:0;top:490px;text-align:center;font-size:23px;transition:opacity .5s}
+.dex .goal b{color:var(--purple)}
+</style>
+<section data-src="parts/06-cosimulation/04-data-exchange.html" class="slide dex" data-title="Data exchange and time steps" data-steps="4">
+  <div class="tl layers">
+    <!-- step 0: the two time axes -->
+    <svg viewBox="0 0 700 420">
+      <g stroke="#222" stroke-width="2.2" fill="none">
+        <line x1="20" y1="110" x2="680" y2="110"/><line x1="20" y1="300" x2="680" y2="300"/>
+        <g stroke-width="2"><line x1="110" y1="98" x2="110" y2="122"/><line x1="510" y1="98" x2="510" y2="122"/></g>
+      </g>
+      <g font-size="26" font-weight="700"><text x="20" y="96" fill="#00294B">Domus</text><text x="20" y="346" fill="#4D0DAB">2D solver</text></g>
+      <g font-size="24" font-style="italic" fill="#222" text-anchor="end">
+        <text x="98" y="146">t<tspan font-size="16" dy="6">n</tspan></text><text x="498" y="146">t<tspan font-size="16" dy="6">n+1</tspan></text></g>
+      <circle cx="110" cy="110" r="8" fill="#00294B"/><circle cx="510" cy="110" r="8" fill="#00294B"/>
+      <g stroke="#222" stroke-width="2"><line x1="110" y1="288" x2="110" y2="312"/><line x1="510" y1="288" x2="510" y2="312"/></g>
+      <g stroke="#555" stroke-width="1.8" data-from="2"><line x1="150" y1="292" x2="150" y2="308"/></g>
+      <!-- coupling step -->
+      <g stroke="#222" stroke-width="2"><line x1="110" y1="40" x2="110" y2="62"/><line x1="510" y1="40" x2="510" y2="62"/></g>
+      <line x1="114" y1="50" x2="506" y2="50" stroke="#222" stroke-width="2" marker-start="url(#dex-k)" marker-end="url(#dex-k)"/>
+      <text x="310" y="38" font-size="24" font-style="italic" text-anchor="middle">Δt<tspan font-size="16" dy="6">c</tspan></text>
+      <defs><marker id="dex-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker></defs>
+    </svg>
+    <!-- step 1: boundary conditions go down -->
+    <svg viewBox="0 0 700 420" data-from="1">
+      <defs><marker id="dex-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2a7fb8"/></marker></defs>
+      <line x1="110" y1="128" x2="110" y2="274" stroke="#2a7fb8" stroke-width="4" marker-end="url(#dex-b)"/>
+      <text x="124" y="214" font-size="21" fill="#2a7fb8" font-weight="700">boundary</text><text x="124" y="238" font-size="21" fill="#2a7fb8" font-weight="700">conditions</text>
+    </svg>
+    <!-- step 2: the solver advances with its own steps -->
+    <svg viewBox="0 0 700 420" data-from="2">
+      <g stroke="#4D0DAB" stroke-width="3" fill="none"><path d="M112,300 L508,300" stroke-width="7" opacity=".28"/></g>
+      <g stroke="#4D0DAB" stroke-width="2"><line x1="150" y1="290" x2="150" y2="310"/><line x1="190" y1="290" x2="190" y2="310"/><line x1="230" y1="290" x2="230" y2="310"/><line x1="270" y1="290" x2="270" y2="310"/><line x1="310" y1="290" x2="310" y2="310"/><line x1="350" y1="290" x2="350" y2="310"/><line x1="390" y1="290" x2="390" y2="310"/><line x1="430" y1="290" x2="430" y2="310"/><line x1="470" y1="290" x2="470" y2="310"/></g>
+      <text x="170" y="272" font-size="22" font-style="italic" fill="#4D0DAB" text-anchor="middle">δt</text>
+      <circle cx="110" cy="300" r="8" fill="#4D0DAB"/>
+    </svg>
+    <!-- step 3: the answer comes back -->
+    <svg viewBox="0 0 700 420" data-from="3">
+      <defs><marker id="dex-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4D0DAB"/></marker></defs>
+      <circle cx="510" cy="300" r="8" fill="#4D0DAB"/>
+      <line x1="510" y1="282" x2="510" y2="136" stroke="#4D0DAB" stroke-width="4" marker-end="url(#dex-p)"/>
+      <text x="524" y="206" font-size="21" fill="#4D0DAB" font-weight="700">T and heat flux</text><text x="524" y="230" font-size="21" fill="#4D0DAB" font-weight="700">of the faces</text>
+    </svg>
+    <!-- step 4: next coupling step -->
+    <svg viewBox="0 0 700 420" data-from="4">
+      <g stroke="#555" stroke-width="2.2" stroke-dasharray="7 6" fill="none"><line x1="514" y1="50" x2="600" y2="50"/></g>
+      <g font-size="26" fill="#555" font-style="italic" text-anchor="middle"><text x="640" y="60">…</text></g>
+    </svg>
+  </div>
+  <ol>
+    <li data-from="0"><b>Domus</b> computes the boundary conditions at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">t_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7651em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>: weather, sun and shadows, view factors, zone.</li>
+    <li><b>The solver</b> advances the wall from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">t_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7651em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>t</mi><mi>n</mi></msub><mo>+</mo><mi mathvariant="normal">Δ</mi><msub><mi>t</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">t_{n+1}=t_n+\Delta t_c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8234em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7651em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord">Δ</span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">c</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, with its own smaller steps <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\delta t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span><span class="mord mathnormal">t</span></span></span></span>.</li>
+    <li>It returns the <b>temperatures and heat fluxes</b> of the faces <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Γ</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">\Gamma_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Γ</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">\Gamma_3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">t_{n+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8234em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span></span>.</li>
+    <li><b>Domus</b> updates the street and the room, then the next step starts.</li>
+  </ol>
+  <div class="goal" data-from="4">⟶ <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><msub><mi>t</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">\Delta t_c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord">Δ</span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">c</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> sets the <b>accuracy</b> of the coupling: the exchange is made once per step.</div>
+</section>
 
 <!-- ==== parts/06-cosimulation/05-results-shape.html ==== -->
 <!-- subsection: Results -->

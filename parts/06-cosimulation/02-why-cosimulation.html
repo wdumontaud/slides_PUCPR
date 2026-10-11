@@ -1,2 +1,40 @@
 <!-- subsection: Motivation -->
-<section class="slide" data-title="Why a co-simulation?"><div class="todo">to be written</div></section>
+<!-- DRAFT (to validate): what Domus and the 2D solver each bring, why the two must talk to each other. -->
+<style>
+.why .content>*{position:absolute}
+.why .tool{top:6px;width:540px;background:#fff;border-radius:12px;box-shadow:0 4px 18px rgba(0,41,75,.16);border-top:7px solid var(--c);padding:16px 24px 20px;font-size:22px;line-height:1.4}
+.why .tool.a{left:0;--c:var(--blueCNRS)} .why .tool.b{right:0;--c:var(--purple)}
+.why .tool h3{margin:0;font-size:27px;color:var(--c)}
+.why .tool .sub{font-size:18px;color:#667;margin:2px 0 12px}
+.why .tool ul{list-style:none;margin:0;padding:0}
+.why .tool li{position:relative;padding-left:30px;margin:.5em 0}
+.why .tool li::before{content:"✓";position:absolute;left:0;color:#2e8b57;font-weight:700}
+.why .tool li.no{color:#6a7480;transition:opacity .5s}
+.why .tool li.no::before{content:"✗";color:#c0392b}
+.why .plus{left:560px;top:150px;width:72px;text-align:center;font-size:54px;font-weight:700;color:var(--purple);transition:opacity .5s}
+.why .goal{left:0;right:0;top:400px;border-radius:12px;background:var(--blueCNRS);color:#fff;padding:18px 28px;font-size:25px;line-height:1.35;text-align:center;transition:opacity .5s,transform .5s}
+.why .goal.step-hidden{transform:translateY(16px)}
+.why .goal b{color:#ffd966}
+</style>
+<section class="slide why" data-title="Why a co-simulation?" data-steps="2">
+  <div class="tool a">
+    <h3>Domus</h3><div class="sub">building energy simulation</div>
+    <ul>
+      <li>urban scene in 3D: sun, shadows, reflections</li>
+      <li>weather file, view factors, exchanges with the surroundings</li>
+      <li>thermal zones: the indoor air</li>
+      <li class="no" data-from="1">walls are 1D layers: no 2D shape, no curved interface</li>
+    </ul>
+  </div>
+  <div class="plus">+</div>
+  <div class="tool b">
+    <h3>2D wall solver</h3><div class="sub">our own code</div>
+    <ul>
+      <li>transient conduction in 2D, two materials</li>
+      <li>curved interface between them (Ghost Fluid Method)</li>
+      <li>free shape of the external face</li>
+      <li class="no" data-from="1">no urban scene, no sun, no thermal zone</li>
+    </ul>
+  </div>
+  <div class="goal" data-from="2">⟶ <b>Co-simulation</b>: Domus gives the wall its realistic environment, the solver computes the wall, and each sees the effect of the other.</div>
+</section>
