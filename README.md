@@ -5,9 +5,9 @@ build_all.bat        Windows: runs all three steps (double-click)
 main.html            working copy (made by the build)
 main_export.html     one self-contained file (made by the build, not versioned)
 main.pdf             one page per step (made by the build, not versioned)
-parts/*.html         one file per section / group of slides (≈ parts/*.tex)
+parts/<section>/NN-name.html   one folder per section, one file per slide (≈ \input of a .tex per frame)
 config/              the Python scripts and the deck's settings
-  main.json            title, author, ordered list of parts   (≈ main.tex)
+  main.json            title, author, ordered list of the section folders   (≈ main.tex)
   build.py             assembles main.html and main_export.html
   export_pdf.py        main_export.html -> main.pdf (one page per step)
   math_render.py       LaTeX math -> KaTeX HTML, at build time
@@ -38,6 +38,23 @@ The first run installs `playwright` and `pypdf` with pip. The build and the PDF 
 Without the script: `python config/build.py` (main.html), `python config/build.py --standalone` (main_export.html),
 `python config/export_pdf.py` (main.pdf), or `python config/build.py --watch` to rebuild main.html on each save.
 
+## Where is my slide?
+```
+parts/04-introduction/01-context.html     <- slide 4
+parts/04-introduction/02-why-optimise.html
+parts/05-physical/00-style.html           <- CSS shared by the slides of the section (no slide)
+parts/05-physical/02-governing.html
+```
+One file = one slide, with its own `<style>` (rules prefixed by the class of the slide, e.g. `.ctx ...`) and, if needed, its own `<script>`.
+The files of a folder are read in name order, so `03-` before `04-`: renaming a file moves the slide. The first file of a folder starts with
+`<!-- section: Name -->`. `config/main.json` lists the folders; a new file in a folder is picked up by the next build.
+In the browser, **I** shows the file of the slide on screen (`data-src` in the inspector), and the address `main.html#12` opens slide 12 (F5 keeps it).
+
+VS Code (settings in `.vscode/`): `Ctrl+P` + a few letters of the file name (`gov` -> `02-governing.html`) opens a slide;
+`Ctrl+Shift+B` starts `build.py --watch` (rebuilds `main.html` at each save, then F5 in the browser);
+`Ctrl+Shift+F` ignores the generated `main.html`; typing `slide` + Tab in a new file gives the skeleton of a slide;
+the formatter is off for HTML (it would reflow the SVG); `Ctrl+K Z`/split editor: the slide on the left, the browser on the right.
+
 ## Writing parts
 ```html
 <!-- section: Physical problem -->          new section: goes in the TOC and the top bar
@@ -47,7 +64,7 @@ Without the script: `python config/build.py` (main.html), `python config/build.p
   ...content...
 </section>
 ```
-* A part may contain its own `<style>` and `<script>`.
+* A file may contain its own `<style>` and `<script>` (the `<script>` right after its `<section>`: `document.currentScript.previousElementSibling` is the slide).
 * `data-layout="free"`: no content wrapper (position things yourself); `data-layout="title"`: title slide.
 * Steps inside a slide (like beamer `\pause`): `<section class="slide" data-steps="2">`, then
   `<div data-from="1">` (shown from step 1) or `<div data-until="0">` (shown up to step 0).
@@ -72,7 +89,8 @@ Without the script: `python config/build.py` (main.html), `python config/build.p
   Convert to Shape, edit, then right-click the group > Save as Picture > SVG over the same file, and rebuild.
 * Figures go in the folder of their part, e.g. `assets/05-physical/`. Pictures that are not drawings (photos, screenshots)
   stay as PNG or JPG in that folder.
-* To add a part: create `parts/09-xxx.html`, put its figures in `assets/09-xxx/`, and add it to `config/main.json`.
+* To add a section: create the folder `parts/09-xxx/` with its slide files, put its figures in `assets/09-xxx/`, and add the folder to `config/main.json`.
+To add a slide: create `parts/<section>/NN-name.html` (the snippet `slide`).
 
 ## Viewing
 `← →` / space / click: navigate · `F`: fullscreen · `Home` / `End` · click a bubble to jump.

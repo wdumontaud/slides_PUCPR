@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build main.html and rebuild on every save",
+      "type": "shell",
+      "command": "python config/build.py --watch",
+      "isBackground": true,
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "panel": "dedicated", "reveal": "silent" }
+    },
+    {
+      "label": "Build everything (main.html, main_export.html, main.pdf)",
+      "type": "shell",
+      "command": "python config/build.py && python config/build.py --standalone && python config/export_pdf.py",
+      "problemMatcher": []
+    }
+  ]
+}

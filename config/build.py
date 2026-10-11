@@ -141,9 +141,23 @@ def include_svgs(html, used, warnings):
     return INCLUDE.sub(inline, html)
 
 
+SLIDE = re.compile(r'<section(?=\s+class="slide\b)')
+
+
+def part_files(cfg):
+    """config/main.json lists files or folders; a folder is every *.html in it, in name order (01-..., 02-...), one file per slide"""
+    files = []
+    for entry in cfg["parts"]:
+        e = ROOT / entry
+        files += sorted(f.relative_to(ROOT).as_posix() for f in e.glob("*.html")) if e.is_dir() else [entry]
+    return files
+
+
 def assemble(export, used, warnings):
     cfg = json.loads(read("config/main.json"))
-    parts = "\n".join(f"<!-- ==== {p} ==== -->\n{read(p)}" for p in cfg["parts"])
+    files = part_files(cfg)
+    # each slide knows its source file (data-src: visible in the browser inspector, and with the I key in the viewer)
+    parts = "\n".join(f"<!-- ==== {p} ==== -->\n" + SLIDE.sub(f'<section data-src="{p}"', read(p)) for p in files)
     parts = include_svgs(parts, used, warnings)     # drawings kept as files in assets/
     if cfg.get("bibliography"):                     # \cite{key} -> numbers, slide footers, References appendix
         parts = bib.process(parts, bib.parse(read(cfg["bibliography"])))
@@ -161,7 +175,7 @@ def assemble(export, used, warnings):
     html = TEMPLATE
     for k, v in values.items():
         html = html.replace(f"@@{k}@@", v)
-    return resolve(html, export, used, warnings), len(cfg["parts"])
+    return resolve(html, export, used, warnings), len(files)
 
 
 def build(export=False):
@@ -169,7 +183,7 @@ def build(export=False):
     html, n = assemble(export, used, warnings)
     out = EXPORT_HTML if export else DEV_HTML
     out.write_text(html, encoding="utf-8")
-    print(f"{out.name} written from {n} parts ({out.stat().st_size / 1e6:.1f} MB)")
+    print(f"{out.name} written from {n} files ({out.stat().st_size / 1e6:.1f} MB)")
     for w in warnings:
         print("  warning:", w)
     unused = [p.relative_to(ROOT).as_posix() for p in sorted((ROOT / "assets").rglob("*"))
@@ -181,7 +195,7 @@ def build(export=False):
 
 def stamp():
     files = [ROOT / "config" / "main.json", *(ROOT / "bib").glob("*.bib"), *(ROOT / "theme").rglob("*.*"),
-             *(ROOT / "parts").glob("*.html"), *(ROOT / "assets").rglob("*.svg")]
+             *(ROOT / "parts").rglob("*.html"), *(ROOT / "assets").rglob("*.svg")]
     return {f: f.stat().st_mtime for f in files if f.is_file()}
 
 

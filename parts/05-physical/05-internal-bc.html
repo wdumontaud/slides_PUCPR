@@ -1,0 +1,24 @@
+<!-- ================================================================ 5. inside, top and bottom -->
+<style>
+.inn .fig{left:0;top:-8px;width:540px;height:550px}
+.inn .eqs{left:566px;top:0;width:626px}
+.inn[data-step="1"] .eq.cConv,.inn[data-step="2"] .eq.cConv,.inn[data-step="2"] .eq.cLw{filter:saturate(.25);opacity:.55}
+</style>
+<section class="slide ph inn" data-title="Internal, top and bottom boundary conditions" data-steps="2">
+  <!-- drawing: one picture per step, stacked (see README, Drawings) -->
+  <div class="fig layers">
+    <svg data-until="0" data-include="assets/05-physical/internal-convection.svg"></svg>
+    <svg data-from="1" data-until="1" data-include="assets/05-physical/internal-longwave.svg"></svg>
+    <svg data-from="2" data-include="assets/05-physical/internal-adiabatic.svg"></svg>
+  </div>
+  <div class="eqs">
+    <div class="eq cConv"><h4>Convection varying with height: corner model\cite{santos2009}</h4>
+      \[ h_{\infty,3}(y) = h_{30} + \big(h_{31}-h_{30}\big)\,\sin\!\Big(\frac{\pi\,y}{H}\Big) \]
+      <div class="note">lower exchange near the floor and ceiling corners.</div></div>
+    <div class="eq cLw" data-from="1"><h4>Long-wave radiation with the room</h4>
+      \[ \begin{gathered} q_{\infty,3}(\x,t) = \varepsilon_3\,\sigma\,\big(T^4(\x,t) - T_r^4(t)\big), \\ T_r(t) = \tfrac12\big(T_{\infty,3}(t) + \langle T(\x,t)\rangle_{\Gamma_3}\big) \end{gathered} \]
+      <div class="note">mean radiant temperature \(T_r\) \(\approx\) mean of the air and of the inside face. In the co-simulation, \(T_{\infty,3}\) comes from the Domus zone.</div></div>
+    <div class="eq cAd" data-from="2"><h4>Top and bottom: adiabatic</h4>
+      \[ -\lambda\,\nabla T\cdot\n = 0, \qquad \x\in\Gamma_j,\ j\in\{2,4\} \]</div>
+  </div>
+</section>

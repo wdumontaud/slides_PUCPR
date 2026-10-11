@@ -1,0 +1,22 @@
+<!-- section: Physical problem -->
+<!-- shared by the slides of this section: equation cards, stacked layers. The CSS of each slide is in its own file. -->
+<style>
+/* ---- shared: equation cards (LaTeX math rendered by KaTeX at build time, see math_render.py) ---- */
+.ph .content>*{position:absolute}  /* content box: 1192 x 572 px */
+.ph .eqs{display:flex;flex-direction:column;gap:14px}
+.ph .eq{position:relative;background:rgba(255,255,255,.95);border-radius:10px;padding:10px 18px 10px 22px;
+  box-shadow:0 3px 14px rgba(0,41,75,.13);border-left:7px solid var(--c,var(--blueCNRS));font-size:21px;
+  transition:opacity .5s,transform .5s,filter .5s}
+.ph .eq.step-hidden{transform:translateY(16px)}
+.ph .eq h4{margin:0 0 2px;font-size:17px;letter-spacing:.04em;text-transform:uppercase;color:var(--c,var(--blueCNRS))}
+.ph .eq .katex-display{margin:.35em 0}
+.ph .eq .note{font-size:17px;color:#555;margin-top:2px}
+.ph .eq.past{filter:saturate(.25);opacity:.55}
+.ph .cOm{--c:var(--blueCNRS)} .ph .cGj{--c:var(--purple)} .ph .cGi{--c:#d1495b} .ph .cIc{--c:#6b8aa5}
+.ph .cConv{--c:#2a7fb8} .ph .cRad{--c:#d48a00} .ph .cLw{--c:#d1495b} .ph .cAd{--c:#6b8aa5}
+.ph .src{font-size:15px;color:#666}
+.ph figure{margin:0}
+.ph figcaption{font-size:16px;color:#555;text-align:center;margin-top:6px}
+/* drawings that change with the steps: one full picture per step, stacked; each step shows one of them (data-from / data-until) */
+.ph .layers>*{position:absolute;inset:0;width:100%;height:100%}
+</style>

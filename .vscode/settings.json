@@ -1,0 +1,11 @@
+{
+  // main.html and main_export.html are generated copies of parts/: keep them out of Ctrl+Shift+F
+  "search.exclude": { "main.html": true, "main_export.html": true, "**/__pycache__": true },
+  "files.watcherExclude": { "main_export.html": true },
+  // the formatter would reflow the SVG and the inline styles of the slides
+  "[html]": { "editor.formatOnSave": false },
+  "html.format.enable": false,
+  "files.associations": { "parts/**/*.html": "html" },
+  "editor.wordWrap": "on",
+  "breadcrumbs.enabled": true
+}

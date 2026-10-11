@@ -170,12 +170,15 @@ function show(n,step){
   nav.el.style.opacity=foot.el.style.opacity=t?0:1; nav.el.style.pointerEvents=t?'none':'auto';
   nav.set(i,st/(nSteps(slides[i])+1)); foot.set(i);
   history.replaceState(null,'','#'+(i+1));
+  srcLabel.textContent=slides[i].dataset.src||'';
 }
 function fit(){const k=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform=`translate(-50%,-50%) scale(${k})`}
 function toggleFullscreen(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
 const navStep=()=>nav.set(i,st/(nSteps(slides[i])+1));
 function next(){ if(st<nSteps(slides[i])){ setStep(slides[i],++st); navStep(); } else show(i+1); }
 function prev(){ if(st>0){ setStep(slides[i],--st); navStep(); } else if(i>0){ const k=i-1; show(k,nSteps(slides[k])); } }
+// I key: which file of parts/ the slide comes from (data-src, written by build.py)
+const srcLabel=Object.assign(document.createElement('div'),{id:'srcLabel'}); document.body.appendChild(srcLabel);
 addEventListener('resize',fit); fit(); show(i,0);
 
 addEventListener('keydown',e=>{
@@ -183,6 +186,7 @@ addEventListener('keydown',e=>{
   else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev()}
   else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
   else if(e.key==='f'||e.key==='F') toggleFullscreen();
+  else if(e.key==='i'||e.key==='I') srcLabel.classList.toggle('show');
 });
 addEventListener('click',e=>{
   const c=e.target.closest('.cite a');                       // citation number -> its References slide

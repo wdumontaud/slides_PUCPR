@@ -1,0 +1,29 @@
+<!-- ================================================================ 4. short- and long-wave -->
+<style>
+.rad .fig{left:0;top:0;width:540px}
+.rad .fig .img{position:relative;width:540px;height:423px}
+.rad .fig .img img{position:absolute;inset:0;width:100%;height:100%;border-radius:10px;box-shadow:0 4px 18px rgba(0,41,75,.16);transition:opacity .6s}
+.rad .eqs{left:566px;top:0;width:626px}
+.rad .eq{font-size:19px}
+.rad .eq.cLw{font-size:18px}
+.rad[data-step="1"] .eq.cRad{filter:saturate(.25);opacity:.55}
+.rad .eq .katex .hl-sun{color:#b38600}
+</style>
+<section class="slide ph rad" data-title="External boundary conditions: short- and long-wave radiation" data-steps="1">
+  <!-- illustrations: replace assets/05-physical/radiation-sw.svg and radiation-lw.svg (any image works, keep the names or change them here) -->
+  <figure class="fig"><div class="img">
+    <img src="assets/05-physical/radiation-sw.svg" data-until="0" alt="short-wave">
+    <img src="assets/05-physical/radiation-lw.svg" data-from="1" alt="long-wave">
+  </div>
+    <figcaption data-until="0">Sun patch on the façade: shading of the urban scene computed by Domus (pixel counting\cite{rocha2017}).</figcaption>
+    <figcaption data-from="1">Each point of \(\Gamma_1\) exchanges with what it sees, weighted by its view factors.</figcaption>
+  </figure>
+  <div class="eqs">
+    <div class="eq cRad"><h4>Short-wave: solar radiation</h4>
+      \[ q_{sw}(\x,t) = \alpha\Big(\underbrace{\htmlClass{hl-sun}{q_{dr}(\x,t)}}_{\text{direct}} + \underbrace{q_{df}(\x,t)}_{\text{diffuse}} + \underbrace{q_{rf}(\x,t)}_{\text{reflected}}\Big) \]
+      <div class="note">\(q_{dr}=0\) on the shaded part of the façade: the sunlit / shadow edge moves during the day.</div></div>
+    <div class="eq cLw" data-from="1"><h4>Long-wave: exchanges with the surroundings</h4>
+      \[ \begin{aligned} q_{\ell w}(\x,t) = \ & \varepsilon\sigma T^4(\x,t) \\ & - \varepsilon\sigma\Big( \underbrace{F_{1\text{-}g}(\x)\,T_g^4(t)}_{\text{ground}} + \underbrace{F_{1\text{-}f}(\x)\,T_f^4(t)}_{\text{front building}} \\ & + \underbrace{F_{1\text{-}s}(\x)\,T_s^4(t)}_{\text{sky}} + \underbrace{\int_{\Gamma_1} F_{1\text{-}1}(\x,\x')\,T^4(\x',t)\,\dd\Gamma_1(\x')}_{\text{wall itself}}\Big) \end{aligned} \]
+      <div class="note">view factors \(F\) depend on \(\x\): a curved façade also sees itself (its hollows).</div></div>
+  </div>
+</section>

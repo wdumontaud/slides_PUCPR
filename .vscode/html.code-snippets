@@ -1,0 +1,18 @@
+{
+  "New slide": {
+    "scope": "html",
+    "prefix": "slide",
+    "description": "Skeleton of a slide file (parts/<section>/NN-name.html)",
+    "body": [
+      "<!-- subsection: ${1:Subsection} -->",
+      "<style>",
+      ".${2:cls} .content>*{position:absolute}      /* content box: 1192 x 572 px */",
+      ".${2:cls} .${3:box}{left:0;top:0;width:500px;font-size:22px}",
+      "</style>",
+      "<section class=\"slide ${2:cls}\" data-title=\"${4:Slide title}\" data-steps=\"${5:1}\">",
+      "  <div class=\"${3:box}\">$0</div>",
+      "  <div data-from=\"1\">shown from step 1</div>",
+      "</section>"
+    ]
+  }
+}

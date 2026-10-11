@@ -1,0 +1,29 @@
+<!-- ================================================================ 2. governing equations -->
+<!-- subsection: Governing equations -->
+<style>
+.gov .dom{left:0;top:-8px;width:380px;height:532px}
+.gov .eqs{left:410px;top:0;width:782px}
+.gov[data-step="1"] .eq.cOm,.gov[data-step="2"] .eq.cOm,.gov[data-step="1"] .eq.cIc,.gov[data-step="2"] .eq.cIc,.gov[data-step="2"] .eq.cGj{filter:saturate(.25);opacity:.55}
+</style>
+<section class="slide ph gov" data-title="Governing equations" data-steps="2">
+  <!-- drawing: one picture per step, stacked (see README, Drawings) -->
+  <div class="dom layers">
+    <svg data-until="0" data-include="assets/05-physical/governing-boundaries-faint.svg"></svg>
+    <svg data-from="1" data-until="1" data-include="assets/05-physical/governing-boundaries-bold.svg"></svg>
+    <svg data-from="2" data-include="assets/05-physical/governing-normals.svg"></svg>
+  </div>
+  <div class="eqs">
+    <div class="eq cOm"><h4>2D transient heat diffusion</h4>
+      \[ c(\x)\,\frac{\partial T}{\partial t} = \frac{\partial}{\partial x}\Big(\lambda(\x)\,\frac{\partial T}{\partial \,x}\Big) + \frac{\partial}{\partial y}\Big(\lambda(\,\x)\,\frac{\partial T}{\partial \,y}\Big), \qquad \x \in \Omega,\ t \in\, ]\,0,t_f\,] \]
+      <div class="note">\(\Omega=\Omega_1\cup\Omega_2\): the properties \(\lambda,\,c\) depend on the material, hence on the position.</div></div>
+    <div class="eq cIc"><h4>Initial state</h4>
+      \[ T(\x,0) = T_0(\x), \qquad \x \in \Omega \]
+      <div class="note">\(T_0\) consistent with the boundary conditions.</div></div>
+    <div class="eq cGj" data-from="1"><h4>Robin conditions, varying in space and time</h4>
+      \[ -\lambda\,\nabla T\cdot\n = h_{\infty,j}(y,t)\,\big(T_{\infty,j}(t)-T(\x,t)\big) + q_{\infty,j}(\x,t) \]
+      <div class="note">on each boundary \(\x\in\Gamma_j,\ j\in\{1,2,3,4\}\): convection with \(h_{\infty,j}\) and radiation \(q_{\infty,j}\).</div></div>
+    <div class="eq cGi" data-from="2"><h4>Interface between the two materials</h4>
+      \[ T\big|_{\x^+} = T\big|_{\x^-}, \qquad \lambda\,\frac{\partial T}{\partial n^+}\Big|_{\x^+} = \lambda\,\frac{\partial T}{\partial n^-}\Big|_{\x^-}, \qquad \x\in\Gamma_i \]
+      <div class="note">continuity of temperature and heat flux: the interface \(\Gamma_i\) is the design variable.</div></div>
+  </div>
+</section>

@@ -1,0 +1,85 @@
+<!-- subsection: State of the art -->
+<style>
+.sota .content>*{position:absolute}
+.sota .cols{left:0;right:0;top:0;height:404px;display:flex;gap:16px}
+.sota .col{flex:1;border-radius:10px;background:#f7f8fb;border:1px solid #dde2ea;padding:10px 14px;transition:opacity .6s,box-shadow .6s,border-color .6s}
+.sota .col{display:flex;flex-direction:column}
+.sota .col.wall{flex:1.18}
+.sota .ill{margin:auto 0 0;text-align:center}
+.sota .ill img{max-width:100%;border:1px solid #ccd;border-radius:4px;background:#fff}
+.sota .ill figcaption{font-size:12px;color:#555;margin-top:2px}
+.sota .head{display:flex;gap:10px;align-items:center;border-bottom:2px solid #dde2ea;padding-bottom:6px;margin-bottom:6px}
+.sota .head img{flex:none;width:58px;height:50px}
+.sota .head b{display:block;font-size:21px;color:var(--blueCNRS)}
+.sota .head span{font-size:14px;color:#555;line-height:1.2;display:block}
+.sota ul{list-style:none;margin:0;padding:0}
+.sota li{display:flex;gap:7px;align-items:baseline;font-size:14.5px;line-height:1.25;margin:5px 0}
+.sota li .y{flex:none;font-weight:700;color:var(--blueCNRS);width:36px}
+.sota li i{font-style:normal;color:#555}
+.sota .m{flex:none;width:10px;height:10px;border-radius:50%;transform:translateY(-1px)}
+.sota .t{background:var(--purple)} .sota .s{background:#d08a00} .sota .p{background:#6b8aa5}
+.sota .legend{left:0;right:0;top:418px;font-size:15px;color:#444;display:flex;gap:26px;justify-content:center;align-items:center}
+.sota .legend .m{display:inline-block;margin-right:6px}
+.sota[data-step="1"] .col.mat,.sota[data-step="1"] .col.bld{opacity:.32}
+.sota[data-step="1"] .col.wall{border-color:var(--purple);box-shadow:0 0 0 3px rgba(77,13,171,.18);background:#fff}
+.sota .gap{left:0;right:0;top:418px;display:flex;gap:16px;align-items:stretch}
+.sota .gap .miss{flex:1.25;font-size:17px}
+.sota .gap .miss b{color:var(--blueCNRS)}
+.sota .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.sota .chip{padding:4px 11px;border-radius:14px;background:#efe8fb;color:var(--purple);font-size:16px;font-weight:700;border:1px solid #d6c6f3}
+.sota .gap .aim{flex:1;padding:10px 16px;border:2px solid var(--purple);border-radius:10px;background:#f6f2fd;font-size:17px;line-height:1.35}
+.sota .gap .aim b{color:var(--purple)}
+</style>
+<section class="slide sota" data-title="State of the art: optimisation across scales" data-steps="1" data-footcite="off">
+  <div class="cols">
+    <div class="col mat">
+      <div class="head">
+        <img src="assets/04-introduction/sota-material.svg" alt="">
+        <div><b>Material / block</b><span>cavities of bricks, blocks and printed infills</span></div></div>
+      <ul>
+        <li><span class="m p"></span><span class="y">2007</span><span>del Coz Díaz et al.\cite{delcozdiaz2007} <i>— hollow-brick geometries, FEM</i></span></li>
+        <li><span class="m t"></span><span class="y">2011</span><span>Sousa et al.\cite{sousa2011} <i>— masonry units, genetic algorithm</i></span></li>
+        <li><span class="m t"></span><span class="y">2013</span><span>Bruggi &amp; Taliercio\cite{bruggi2013} <i>— masonry blocks, thermo-mechanical</i></span></li>
+        <li><span class="m p"></span><span class="y">2014</span><span>Sütçü et al.\cite{sutcu2014} <i>— hollow clay bricks, hole layout</i></span></li>
+        <li><span class="m p"></span><span class="y">2024</span><span>Chamatete &amp; Yalçınkaya\cite{chamatete2024} <i>— lattice infill of printed walls</i></span></li>
+      </ul>
+      <figure class="ill"><img src="assets/04-introduction/bruggi2013_fig5.jpg" alt="" style="height:66px">
+        <figcaption>Conventional vs optimised block \cite{bruggi2013}</figcaption></figure>
+    </div>
+    <div class="col wall">
+      <div class="head">
+        <img src="assets/04-introduction/sota-wall.svg" alt="">
+        <div><b>Wall</b><span>thickness, position and distribution of the insulation, shape of the wall</span></div></div>
+      <ul>
+        <li><span class="m p"></span><span class="y">2011</span><span>Ozel\cite{ozel2011} <i>— optimum insulation thickness vs orientation (1D)</i></span></li>
+        <li><span class="m p"></span><span class="y">2012</span><span>Kaynakli\cite{kaynakli2012} <i>— review: optimum insulation thickness</i></span></li>
+        <li><span class="m p"></span><span class="y">2014</span><span>Ozel\cite{ozel2014} <i>— location of the insulation in the wall</i></span></li>
+        <li><span class="m p"></span><span class="y">2019</span><span>Gasparin et al.\cite{gasparin2019} <i>— insulation thickness, adaptive moving grid</i></span></li>
+        <li><span class="m t"></span><span class="y">2019</span><span>Vantyghem et al.\cite{vantyghem2019} <i>— multi-material topology, structural + thermal</i></span></li>
+        <li><span class="m s"></span><span class="y">2024</span><span>Alpar et al.\cite{alpar2024} <i>— shape of a retrofitted façade</i></span></li>
+        <li><span class="m t"></span><span class="y">2025</span><span>Karashbayeva et al.\cite{karashbayeva2025} <i>— insulation domain of a 2D wall</i></span></li>
+      </ul>
+    </div>
+    <div class="col bld">
+      <div class="head">
+        <img src="assets/04-introduction/sota-building.svg" alt="">
+        <div><b>Building</b><span>form, orientation, envelope, systems</span></div></div>
+      <ul>
+        <li><span class="m p"></span><span class="y">2010</span><span>Tuhus-Dubrow &amp; Krarti\cite{tuhusdubrow2010} <i>— envelope and form, genetic algorithm</i></span></li>
+        <li><span class="m p"></span><span class="y">2013</span><span>Evins\cite{evins2013} <i>— review: optimisation in sustainable building design</i></span></li>
+        <li><span class="m p"></span><span class="y">2014</span><span>Nguyen et al.\cite{nguyen2014} <i>— review: simulation-based optimisation</i></span></li>
+        <li><span class="m s"></span><span class="y">2020</span><span>Ciardiello et al.\cite{ciardiello2020} <i>— shape and envelope, multi-objective</i></span></li>
+      </ul>
+      <figure class="ill"><img src="assets/04-introduction/ciardiello2020_ga.jpg" alt="" style="height:112px">
+        <figcaption>Geometry then envelope optimisation \cite{ciardiello2020}</figcaption></figure>
+    </div>
+  </div>
+  <div class="legend" data-until="0"><span><i class="m t"></i>topology / material layout</span><span><i class="m s"></i>shape</span><span><i class="m p"></i>parameters (thickness, position, orientation…)</span></div>
+  <div class="gap" data-from="1">
+    <div class="miss"><b>At the wall scale, none of these works combines:</b>
+      <div class="chips"><span class="chip">2D model</span><span class="chip">transient regime</span><span class="chip">space–time boundary conditions</span>
+        <span class="chip">heat-flux continuity at the interface</span><span class="chip">shape + insulation domain</span></div></div>
+    <div class="aim"><b>Aim of the thesis:</b> optimise the shape and the insulation domain of a wall, in 2D and in transient regime,
+      under <b>realistic</b> boundary conditions given by the building and its urban environment.</div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+<!-- ================================================================ 3. external BCs -->
+<!-- subsection: Boundary conditions -->
+<style>
+.ext .eqs{left:0;top:20px;width:690px}
+.ext .fig{left:730px;top:-8px;width:460px;height:540px}
+.ext[data-step="1"] .eq.cConv{filter:saturate(.25);opacity:.55}
+</style>
+<section class="slide ph ext" data-title="External boundary conditions" data-steps="1">
+  <div class="eqs">
+    <div class="eq cConv"><h4>Convection: wind increasing with height\cite{mcadams1954}</h4>
+      \[ h_{\infty,1}(y,t) = h_{10} + h_{11}\,\frac{v_\infty(t)}{v_0}\,\Big(\frac{y}{y_0}\Big)^{\beta} \]
+      <div class="note">\(v_\infty\): wind speed of the weather file at the reference height \(y_0\); \(\beta\): exponent of the urban wind profile.</div></div>
+    <div class="eq cRad" data-from="1"><h4>Radiation absorbed / emitted by the façade</h4>
+      \[ q_{\infty,1}(\x,t) = \underbrace{q_{sw}(\x,t)}_{\text{short-wave (sun)}} + \underbrace{q_{\ell w}(\x,t)}_{\text{long-wave (surroundings)}} \]
+      <div class="note">both depend on the position on the façade: sunlit or shaded part, what each point sees.</div></div>
+  </div>
+  <!-- drawing: one picture per step, stacked (see README, Drawings) -->
+  <div class="fig layers">
+    <svg data-until="0" data-include="assets/05-physical/external-convection.svg"></svg>
+    <svg data-from="1" data-include="assets/05-physical/external-radiation.svg"></svg>
+  </div>
+</section>

@@ -3,13 +3,13 @@
   "short_title": "Seminar presentation – PUCPR",
   "author": "William DUMONTAUD",
   "parts": [
-    "parts/01-title.html",
-    "parts/02-who.html",
-    "parts/03-contents.html",
-    "parts/04-introduction.html",
-    "parts/05-physical.html",
-    "parts/06-cosimulation.html",
-    "parts/07-conclusion.html"
+    "parts/01-title",
+    "parts/02-who",
+    "parts/03-contents",
+    "parts/04-introduction",
+    "parts/05-physical",
+    "parts/06-cosimulation",
+    "parts/07-conclusion"
   ],
   "bibliography": "bib/refs.bib"
 }

@@ -1,0 +1,54 @@
+<!-- subsection: Manufacturing advances -->
+<style>
+.tech .content>*{position:absolute}
+.tech .hero{left:0;top:0;width:470px;height:480px;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px rgba(0,41,75,.2)}
+.tech .hero img{width:100%;height:100%;object-fit:cover;object-position:38% 50%}
+.tech .hero .over{position:absolute;left:0;right:0;bottom:0;padding:60px 20px 16px;color:#fff;font-size:21px;line-height:1.3;
+  background:linear-gradient(transparent,rgba(0,20,40,.88))}
+.tech .hero .over b{font-size:25px;display:block;margin-bottom:4px}
+.tech .hero .cite a{color:var(--yellowCNRS)}
+.tech .hero .over small{font-size:13px;opacity:.8}
+.tech .list{left:500px;right:0;top:0;display:flex;flex-direction:column;gap:14px}
+.tech .item{display:flex;gap:16px;align-items:center;background:#fff;border:1px solid #dde2ea;border-left:6px solid var(--purple);
+  border-radius:10px;padding:10px 16px 10px 12px;box-shadow:0 2px 8px rgba(0,41,75,.08)}
+.tech .item img{flex:none;width:150px;height:96px}
+.tech .item h4{margin:0 0 3px;font-size:21px;color:var(--blueCNRS)}
+.tech .item p{margin:0;font-size:17px;line-height:1.3;color:#333}
+.tech .item .key{color:var(--purple);font-weight:700}
+.tech .item .ref{font-size:13px;color:#667;margin-top:3px}
+.tech .so{left:500px;right:0;top:430px;height:50px;display:flex;align-items:center;justify-content:center;border-radius:10px;
+  background:var(--blueCNRS);color:#fff;font-size:21px}
+.tech .so b{color:var(--yellowCNRS);margin:0 .3em}
+@keyframes tech-in{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+.tech.active .item,.tech.active .so{animation:tech-in .6s cubic-bezier(.2,.8,.2,1) both}
+.tech.active .item:nth-child(2){animation-delay:.15s}.tech.active .item:nth-child(3){animation-delay:.3s}.tech.active .so{animation-delay:.5s}
+.noanim .item,.noanim .so{animation:none!important}
+</style>
+<section class="slide tech" data-title="Manufacturing advances: the wall becomes a design object">
+  <div class="hero">
+    <img src="assets/04-introduction/3d_printing.jpg" alt="On-site concrete 3D printing of a building">
+    <div class="over"><b>Large-scale concrete 3D printing</b>Complex geometries at almost no extra cost: curved faces, variable thickness, internal cavities\cite{gosselin2016}.
+      <br><small>On-site printing of a building (PERI printer).</small></div>
+  </div>
+  <div class="list">
+    <div class="item">
+      <img src="assets/04-introduction/tech-cavities.svg" alt="">
+      <div><h4>Printed cavities filled with insulation</h4>
+        <p>Measured U-value of a printed wall: <span class="key">1.58 → 0.28 W/m²K</span> when its cavities are filled with recycled cellulose\cite{neri2024}.</p>
+        </div>
+    </div>
+    <div class="item">
+      <img src="assets/04-introduction/tech-multimaterial.svg" alt="">
+      <div><h4>Several materials in one print</h4>
+        <p>Load-bearing printed foamed concrete (<span class="key">λ = 0.205 W/mK</span>) + insulating ultra-light foam in its voids (<span class="key">λ = 0.072 W/mK</span>)\cite{parmigiani2024}.</p>
+        </div>
+    </div>
+    <div class="item">
+      <img src="assets/04-introduction/tech-lattice.svg" alt="">
+      <div><h4>Infill geometry controls the heat flow</h4>
+        <p>In printed lattice walls, the <span class="key">webs act as thermal bridges</span>: their layout matters as much as the insulation\cite{chamatete2024}.</p>
+        </div>
+    </div>
+  </div>
+  <div class="so">⇒ shape and insulation layout become<b>design variables</b>of the wall</div>
+</section>
