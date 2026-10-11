@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 385 243" font-family="CMU Sans Serif, Arial, sans-serif">
+  <!-- Slide 5, (c) shape and insulation domain, both free (this thesis): the wall before (left) and after (right) the optimisation.
+       Keep the transparent frame (rectangle with no fill): it fixes the size of the drawing. -->
+  <defs>
+    <marker id="why-both-ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="#111"/></marker>
+  </defs>
+  <rect x="0" y="0" width="385" height="243" fill="none"/>
+  <!-- before -->
+  <rect x="30" y="22" width="55" height="190" fill="#bfbfbf"/><rect x="85" y="22" width="55" height="190" fill="#fef6b6"/>
+  <line x1="85" y1="22" x2="85" y2="212" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="57" y="56" text-anchor="middle" font-size="19">Ω₁</text><text x="112" y="56" text-anchor="middle" font-size="19">Ω₂</text>
+  <rect x="30" y="22" width="110" height="190" fill="none" stroke="#111" stroke-width="2.2"/>
+  <line x1="155" y1="117" x2="208" y2="117" stroke="#111" stroke-width="2.2" marker-end="url(#why-both-ar)"/>
+  <text x="181" y="104" text-anchor="middle" font-size="14">optimisation</text>
+  <!-- after -->
+  <path d="M240,22 C214,62 262,92 236,128 S256,182 242,212 L350,212 L350,22 Z" fill="#fef6b6"/>
+  <path d="M240,22 C214,62 262,92 236,128 S256,182 242,212 L296,212 C306,186 262,166 290,132 C318,98 272,62 296,22 Z" fill="#bfbfbf"/>
+  <path d="M296,22 C272,62 318,98 290,132 S306,186 296,212" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="262" y="56" text-anchor="middle" font-size="19">Ω₁*</text><text x="326" y="56" text-anchor="middle" font-size="19">Ω₂*</text>
+  <path d="M240,22 C214,62 262,92 236,128 S256,182 242,212 L350,212 L350,22 Z" fill="none" stroke="#111" stroke-width="2.2"/>
+  <text x="30" y="234" font-size="15" fill="blue">outside</text><text x="140" y="234" text-anchor="end" font-size="15" fill="red">inside</text>
+  <text x="236" y="234" font-size="15" fill="blue">outside</text><text x="350" y="234" text-anchor="end" font-size="15" fill="red">inside</text>
+</svg>

@@ -9,47 +9,15 @@
 .why svg text{font-family:inherit}
 .why .this{color:var(--purple);font-weight:700}
 </style>
+<!-- drawings: assets/04-introduction/why-*.svg (editable in assets/illustrations.pptx, see README) -->
 <section class="slide why" data-title="Why optimise the shape and the insulation domain?" data-steps="2">
   <p class="lead">Non-uniform conditions ⇒ a uniform wall does not use its material at best.</p>
   <div class="row">
-    <figure><svg data-k="topo" viewBox="0 0 385 243"></svg>
+    <figure><svg data-include="assets/04-introduction/why-topology.svg"></svg>
       <figcaption>(a) Insulation domain (topology)\cite{karashbayeva2024}</figcaption></figure>
-    <figure data-from="1"><svg data-k="shape" viewBox="0 0 385 243"></svg>
+    <figure data-from="1"><svg data-include="assets/04-introduction/why-shape.svg"></svg>
       <figcaption>(b) Shape of the external face\cite{alpar2024}</figcaption></figure>
-    <figure data-from="2"><svg data-k="both" viewBox="0 0 385 243"></svg>
+    <figure data-from="2"><svg data-include="assets/04-introduction/why-both.svg"></svg>
       <figcaption class="this">(c) Shape &amp; insulation domain<br>this thesis</figcaption></figure>
   </div>
 </section>
-<script>
-// before -> after drawings: (a) curved interface, (b) wavy external face, (c) both
-(function(){
-  const sec=document.currentScript.previousElementSibling;
-  const G='#bfbfbf', Y='#fef6b6', K='#111';
-  const OUT='M240,22 C214,62 262,92 236,128 S256,182 242,212';          // optimised external face
-  const INT='M296,22 C272,62 318,98 290,132 S306,186 296,212';          // optimised interface
-  sec.querySelectorAll('svg[data-k]').forEach((svg,n)=>{
-    const k=svg.dataset.k, topo=k!=='shape', shape=k!=='topo', id='why'+n;
-    const before = topo
-      ? `<rect x="30" y="22" width="55" height="190" fill="${G}"/><rect x="85" y="22" width="55" height="190" fill="${Y}"/>
-         <line x1="85" y1="22" x2="85" y2="212" stroke="${K}" stroke-width="2" stroke-dasharray="6 4"/>
-         <text x="57" y="56" text-anchor="middle" font-size="19">Ω₁</text><text x="112" y="56" text-anchor="middle" font-size="19">Ω₂</text>`
-      : `<rect x="30" y="22" width="110" height="190" fill="${G}"/><text x="85" y="56" text-anchor="middle" font-size="19">Ω</text>`;
-    const face = shape ? OUT : 'M240,22 L240,212';
-    const region = `${face} L350,212 L350,22 Z`;
-    const after = topo
-      ? `<clipPath id="${id}c"><path d="${region}"/></clipPath>
-         <path d="${region}" fill="${Y}"/>
-         <path d="M200,22 L296,22 ${INT.replace('M296,22','')} L200,212 Z" fill="${G}" clip-path="url(#${id}c)"/>
-         <path d="${INT}" fill="none" stroke="${K}" stroke-width="2" stroke-dasharray="6 4"/>
-         <text x="262" y="56" text-anchor="middle" font-size="19">Ω₁*</text><text x="326" y="56" text-anchor="middle" font-size="19">Ω₂*</text>`
-      : `<path d="${region}" fill="${G}"/><text x="300" y="56" text-anchor="middle" font-size="19">Ω*</text>`;
-    svg.innerHTML=`<defs><marker id="${id}a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="${K}"/></marker></defs>
-      ${before}<rect x="30" y="22" width="110" height="190" fill="none" stroke="${K}" stroke-width="2.2"/>
-      <line x1="155" y1="117" x2="208" y2="117" stroke="${K}" stroke-width="2.2" marker-end="url(#${id}a)"/>
-      <text x="181" y="104" text-anchor="middle" font-size="14">optimisation</text>
-      ${after}<path d="${region}" fill="none" stroke="${K}" stroke-width="2.2"/>
-      <text x="30" y="234" font-size="15" fill="blue">outside</text><text x="140" y="234" text-anchor="end" font-size="15" fill="red">inside</text>
-      <text x="236" y="234" font-size="15" fill="blue">outside</text><text x="350" y="234" text-anchor="end" font-size="15" fill="red">inside</text>`;
-  });
-})();
-</script>

@@ -6,7 +6,7 @@ flat rectangle, cut out of the frame of the video with a perspective correction.
 
     python config/make_band.py        (needs Pillow:  pip install pillow)
 
-The numbers are the ones of the video overlay in parts/04-introduction.html (band polygon, shadow edge), taken a few pixels
+The numbers are the ones of the video overlay in parts/04-introduction/01-context.html (band polygon, shadow edge), taken a few pixels
 inside the polygon so that neither the red frame nor the pedestrian shows on the edges.
 """
 from pathlib import Path

@@ -77,6 +77,8 @@ the formatter is off for HTML (it would reflow the SVG); `Ctrl+K Z`/split editor
   inside a `<div class="fig layers">`. No step effect depends on a class inside the file, so a PowerPoint export keeps them.
   Each file is one slide of `illustrations.pptx`. Keep the transparent frame of each file
   (the rectangle with no fill): it fixes the size of the drawing, so that the steps line up.
+* Slide 5 (why optimise): the three before/after schemas are `assets/04-introduction/why-topology.svg`, `why-shape.svg`, `why-both.svg`
+  (slides 24 to 26 of `illustrations.pptx`), shown one after the other with `data-from` on their `<figure>`.
 * Slide 4 (context) turns band 1 of the façade into a block of wall, cuts it along A and turns it to face us (CSS 3D, steps 2 and 3).
   It ends on the 2D section `assets/04-introduction/section.svg`, which is also the cut face of the block while it turns: the file is
   included twice, so the build gives the ids of the second copy a suffix. The façade of the block is `band1.jpg`, made by

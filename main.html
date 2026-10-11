@@ -510,52 +510,83 @@ body.export #stage{left:0!important;top:0!important;transform:none!important}
 .why svg text{font-family:inherit}
 .why .this{color:var(--purple);font-weight:700}
 </style>
+<!-- drawings: assets/04-introduction/why-*.svg (editable in assets/illustrations.pptx, see README) -->
 <section data-src="parts/04-introduction/02-why-optimise.html" class="slide why" data-title="Why optimise the shape and the insulation domain?" data-steps="2">
   <p class="lead">Non-uniform conditions ⇒ a uniform wall does not use its material at best.</p>
   <div class="row">
-    <figure><svg data-k="topo" viewBox="0 0 385 243"></svg>
+    <figure><svg viewBox="0 0 385 243" font-family="CMU Sans Serif, Arial, sans-serif">
+  <!-- Slide 5, (a) insulation domain: the interface between the two materials becomes free: the wall before (left) and after (right) the optimisation.
+       Keep the transparent frame (rectangle with no fill): it fixes the size of the drawing. -->
+  <defs>
+    <marker id="why-topo-ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="#111"/></marker>
+  </defs>
+  <rect x="0" y="0" width="385" height="243" fill="none"/>
+  <!-- before -->
+  <rect x="30" y="22" width="55" height="190" fill="#bfbfbf"/><rect x="85" y="22" width="55" height="190" fill="#fef6b6"/>
+  <line x1="85" y1="22" x2="85" y2="212" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="57" y="56" text-anchor="middle" font-size="19">Ω₁</text><text x="112" y="56" text-anchor="middle" font-size="19">Ω₂</text>
+  <rect x="30" y="22" width="110" height="190" fill="none" stroke="#111" stroke-width="2.2"/>
+  <line x1="155" y1="117" x2="208" y2="117" stroke="#111" stroke-width="2.2" marker-end="url(#why-topo-ar)"/>
+  <text x="181" y="104" text-anchor="middle" font-size="14">optimisation</text>
+  <!-- after -->
+  <path d="M240,22 L240,212 L350,212 L350,22 Z" fill="#fef6b6"/>
+  <path d="M240,22 L240,212 L296,212 C306,186 262,166 290,132 C318,98 272,62 296,22 Z" fill="#bfbfbf"/>
+  <path d="M296,22 C272,62 318,98 290,132 S306,186 296,212" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="262" y="56" text-anchor="middle" font-size="19">Ω₁*</text><text x="326" y="56" text-anchor="middle" font-size="19">Ω₂*</text>
+  <path d="M240,22 L240,212 L350,212 L350,22 Z" fill="none" stroke="#111" stroke-width="2.2"/>
+  <text x="30" y="234" font-size="15" fill="blue">outside</text><text x="140" y="234" text-anchor="end" font-size="15" fill="red">inside</text>
+  <text x="236" y="234" font-size="15" fill="blue">outside</text><text x="350" y="234" text-anchor="end" font-size="15" fill="red">inside</text>
+</svg>
       <figcaption>(a) Insulation domain (topology)<sup class="cite"><a href="#" data-ref="1">1</a></sup></figcaption></figure>
-    <figure data-from="1"><svg data-k="shape" viewBox="0 0 385 243"></svg>
+    <figure data-from="1"><svg viewBox="0 0 385 243" font-family="CMU Sans Serif, Arial, sans-serif">
+  <!-- Slide 5, (b) shape: the external face of the wall becomes free: the wall before (left) and after (right) the optimisation.
+       Keep the transparent frame (rectangle with no fill): it fixes the size of the drawing. -->
+  <defs>
+    <marker id="why-shape-ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="#111"/></marker>
+  </defs>
+  <rect x="0" y="0" width="385" height="243" fill="none"/>
+  <!-- before -->
+  <rect x="30" y="22" width="110" height="190" fill="#bfbfbf"/>
+  <text x="85" y="56" text-anchor="middle" font-size="19">Ω</text>
+  <rect x="30" y="22" width="110" height="190" fill="none" stroke="#111" stroke-width="2.2"/>
+  <line x1="155" y1="117" x2="208" y2="117" stroke="#111" stroke-width="2.2" marker-end="url(#why-shape-ar)"/>
+  <text x="181" y="104" text-anchor="middle" font-size="14">optimisation</text>
+  <!-- after -->
+  <path d="M240,22 C214,62 262,92 236,128 S256,182 242,212 L350,212 L350,22 Z" fill="#bfbfbf"/>
+  <text x="300" y="56" text-anchor="middle" font-size="19">Ω*</text>
+  <path d="M240,22 C214,62 262,92 236,128 S256,182 242,212 L350,212 L350,22 Z" fill="none" stroke="#111" stroke-width="2.2"/>
+  <text x="30" y="234" font-size="15" fill="blue">outside</text><text x="140" y="234" text-anchor="end" font-size="15" fill="red">inside</text>
+  <text x="236" y="234" font-size="15" fill="blue">outside</text><text x="350" y="234" text-anchor="end" font-size="15" fill="red">inside</text>
+</svg>
       <figcaption>(b) Shape of the external face<sup class="cite"><a href="#" data-ref="2">2</a></sup></figcaption></figure>
-    <figure data-from="2"><svg data-k="both" viewBox="0 0 385 243"></svg>
+    <figure data-from="2"><svg viewBox="0 0 385 243" font-family="CMU Sans Serif, Arial, sans-serif">
+  <!-- Slide 5, (c) shape and insulation domain, both free (this thesis): the wall before (left) and after (right) the optimisation.
+       Keep the transparent frame (rectangle with no fill): it fixes the size of the drawing. -->
+  <defs>
+    <marker id="why-both-ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="#111"/></marker>
+  </defs>
+  <rect x="0" y="0" width="385" height="243" fill="none"/>
+  <!-- before -->
+  <rect x="30" y="22" width="55" height="190" fill="#bfbfbf"/><rect x="85" y="22" width="55" height="190" fill="#fef6b6"/>
+  <line x1="85" y1="22" x2="85" y2="212" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="57" y="56" text-anchor="middle" font-size="19">Ω₁</text><text x="112" y="56" text-anchor="middle" font-size="19">Ω₂</text>
+  <rect x="30" y="22" width="110" height="190" fill="none" stroke="#111" stroke-width="2.2"/>
+  <line x1="155" y1="117" x2="208" y2="117" stroke="#111" stroke-width="2.2" marker-end="url(#why-both-ar)"/>
+  <text x="181" y="104" text-anchor="middle" font-size="14">optimisation</text>
+  <!-- after -->
+  <path d="M240,22 C214,62 262,92 236,128 S256,182 242,212 L350,212 L350,22 Z" fill="#fef6b6"/>
+  <path d="M240,22 C214,62 262,92 236,128 S256,182 242,212 L296,212 C306,186 262,166 290,132 C318,98 272,62 296,22 Z" fill="#bfbfbf"/>
+  <path d="M296,22 C272,62 318,98 290,132 S306,186 296,212" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="262" y="56" text-anchor="middle" font-size="19">Ω₁*</text><text x="326" y="56" text-anchor="middle" font-size="19">Ω₂*</text>
+  <path d="M240,22 C214,62 262,92 236,128 S256,182 242,212 L350,212 L350,22 Z" fill="none" stroke="#111" stroke-width="2.2"/>
+  <text x="30" y="234" font-size="15" fill="blue">outside</text><text x="140" y="234" text-anchor="end" font-size="15" fill="red">inside</text>
+  <text x="236" y="234" font-size="15" fill="blue">outside</text><text x="350" y="234" text-anchor="end" font-size="15" fill="red">inside</text>
+</svg>
       <figcaption class="this">(c) Shape &amp; insulation domain<br>this thesis</figcaption></figure>
   </div>
 
   <div class="refs auto"><sup>1</sup> Karashbayeva et al., “Optimisation of the insulation domain for heat transfer in building wall”, 2024.<br><sup>2</sup> Alpar et al., “Shape optimization of the energy efficiency of building retrofitted facade”, 2024.</div>
 </section>
-<script>
-// before -> after drawings: (a) curved interface, (b) wavy external face, (c) both
-(function(){
-  const sec=document.currentScript.previousElementSibling;
-  const G='#bfbfbf', Y='#fef6b6', K='#111';
-  const OUT='M240,22 C214,62 262,92 236,128 S256,182 242,212';          // optimised external face
-  const INT='M296,22 C272,62 318,98 290,132 S306,186 296,212';          // optimised interface
-  sec.querySelectorAll('svg[data-k]').forEach((svg,n)=>{
-    const k=svg.dataset.k, topo=k!=='shape', shape=k!=='topo', id='why'+n;
-    const before = topo
-      ? `<rect x="30" y="22" width="55" height="190" fill="${G}"/><rect x="85" y="22" width="55" height="190" fill="${Y}"/>
-         <line x1="85" y1="22" x2="85" y2="212" stroke="${K}" stroke-width="2" stroke-dasharray="6 4"/>
-         <text x="57" y="56" text-anchor="middle" font-size="19">Ω₁</text><text x="112" y="56" text-anchor="middle" font-size="19">Ω₂</text>`
-      : `<rect x="30" y="22" width="110" height="190" fill="${G}"/><text x="85" y="56" text-anchor="middle" font-size="19">Ω</text>`;
-    const face = shape ? OUT : 'M240,22 L240,212';
-    const region = `${face} L350,212 L350,22 Z`;
-    const after = topo
-      ? `<clipPath id="${id}c"><path d="${region}"/></clipPath>
-         <path d="${region}" fill="${Y}"/>
-         <path d="M200,22 L296,22 ${INT.replace('M296,22','')} L200,212 Z" fill="${G}" clip-path="url(#${id}c)"/>
-         <path d="${INT}" fill="none" stroke="${K}" stroke-width="2" stroke-dasharray="6 4"/>
-         <text x="262" y="56" text-anchor="middle" font-size="19">Ω₁*</text><text x="326" y="56" text-anchor="middle" font-size="19">Ω₂*</text>`
-      : `<path d="${region}" fill="${G}"/><text x="300" y="56" text-anchor="middle" font-size="19">Ω*</text>`;
-    svg.innerHTML=`<defs><marker id="${id}a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="${K}"/></marker></defs>
-      ${before}<rect x="30" y="22" width="110" height="190" fill="none" stroke="${K}" stroke-width="2.2"/>
-      <line x1="155" y1="117" x2="208" y2="117" stroke="${K}" stroke-width="2.2" marker-end="url(#${id}a)"/>
-      <text x="181" y="104" text-anchor="middle" font-size="14">optimisation</text>
-      ${after}<path d="${region}" fill="none" stroke="${K}" stroke-width="2.2"/>
-      <text x="30" y="234" font-size="15" fill="blue">outside</text><text x="140" y="234" text-anchor="end" font-size="15" fill="red">inside</text>
-      <text x="236" y="234" font-size="15" fill="blue">outside</text><text x="350" y="234" text-anchor="end" font-size="15" fill="red">inside</text>`;
-  });
-})();
-</script>
 
 <!-- ==== parts/04-introduction/03-manufacturing.html ==== -->
 <!-- subsection: Manufacturing advances -->
