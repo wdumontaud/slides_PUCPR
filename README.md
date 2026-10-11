@@ -79,9 +79,12 @@ the formatter is off for HTML (it would reflow the SVG); `Ctrl+K Z`/split editor
   (the rectangle with no fill): it fixes the size of the drawing, so that the steps line up.
 * Slide 5 (why optimise): the three before/after schemas are `assets/04-introduction/why-topology.svg`, `why-shape.svg`, `why-both.svg`
   (slides 24 to 26 of `illustrations.pptx`), shown one after the other with `data-from` on their `<figure>`.
-* Slide 7 (state of the art) has 3 steps: 1 material / block, 2 building, 3 wall (the gap and the aim). Each one outlines its column in purple and,
-  for steps 1 and 2, shows below it pictures of 2 or 3 articles and a comment (`.under`). The dashed boxes are pictures still to add: save the figure
-  in `assets/04-introduction/` (the name is written in the box) and replace the `<div class="slot">` by `<img src="assets/04-introduction/name.jpg" alt="">`.
+* Slide 7 (state of the art) is a timeline: one lane per scale (material, wall, building), x = year, one dot per article
+  (`parts/04-introduction/04-state-of-the-art.html`). Step 0 draws it (a year cursor, the dots appear at their date), steps 1 to 3 look at one
+  scale (the other lanes fade, pictures and a comment appear below), step 4 shows the gap and the aim. To add or move an article, copy a
+  `<div class="pp ...">`: `--yr` is its year, class `p` / `t` / `s` its type (parameters, topology, shape), `u` / `d` puts the label above or below.
+  The dashed boxes are pictures still to add: save the figure in `assets/04-introduction/` (the name is written in the box) and replace
+  the `<div class="slot">` of the box by an `<img>` like the one of Bruggi.
 * Slide 4 (context) turns band 1 of the façade into a block of wall, cuts it along A and turns it to face us (CSS 3D, steps 2 and 3).
   It ends on the 2D section `assets/04-introduction/section.svg`, which is also the cut face of the block while it turns: the file is
   included twice, so the build gives the ids of the second copy a suffix. The façade of the block is `band1.jpg`, made by
