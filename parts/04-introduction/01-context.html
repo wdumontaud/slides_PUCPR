@@ -74,13 +74,13 @@
 <section class="slide ctx" data-title="Context: a wall under heterogeneous conditions" data-steps="3">
   <div class="vid">
     <div class="zoom">
-      <video src="assets/04-introduction/canyon_street.webm" poster="assets/04-introduction/canyon_street_poster.jpg" muted loop playsinline preload="auto"></video>
-      <img class="still" src="assets/04-introduction/canyon_street_poster.jpg" alt=""><!-- exact frame 86, shown from step 1 (a video seek is not frame-exact) -->
+      <video data-pdf-t="4.15" src="assets/04-introduction/canyon_street.webm" poster="assets/04-introduction/canyon_street_poster.jpg" muted loop playsinline preload="auto"></video>
+      <img class="still" src="assets/04-introduction/canyon_street_poster.jpg" alt=""><!-- exact frame (t = 4.15 s of the video, also data-pdf-t of the PDF page of step 0), shown from step 1 (a video seek is not frame-exact) -->
       <!-- frame coordinates of the 1120x888 video (cropped); band 1 = between the left red line and the first yellow line -->
       <svg viewBox="0 0 1120 888" preserveAspectRatio="none">
         <path class="mask" fill="rgba(0,20,40,.42)" fill-rule="evenodd"
               d="M0,0H1120V888H0Z M436,146 L568,164 L573,723 L461,756 Z"/>
-        <g class="cut"><!-- shadow edge on band 1 (frame 86 of the cut video) -->
+        <g class="cut"><!-- shadow edge on band 1 (frame of the video at t = 4.15 s) -->
           <line x1="440" y1="324" x2="569" y2="372" stroke="#FEEA6D" stroke-width="5"/>
           <text x="586" y="270" fill="#FEEA6D" font-size="28" font-weight="700" stroke="#000" stroke-width=".8">sunlit</text>
           <text x="586" y="470" fill="#fff" font-size="28" font-weight="700" stroke="#000" stroke-width=".8">shadow</text>
