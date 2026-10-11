@@ -51,7 +51,9 @@ The files of a folder are read in name order, so `03-` before `04-`: renaming a 
 In the browser, **I** shows the file of the slide on screen (`data-src` in the inspector), and the address `main.html#12` opens slide 12 (F5 keeps it).
 
 VS Code (settings in `.vscode/`): `Ctrl+P` + a few letters of the file name (`gov` -> `02-governing.html`) opens a slide;
-`Ctrl+Shift+B` starts `build.py --watch` (rebuilds `main.html` at each save, then F5 in the browser);
+`Ctrl+Shift+B` rebuilds `main.html` once (like Recompile in LaTeX Workshop; then F5 in the browser); `Ctrl+Shift+P` > *Tasks: Run Task* also offers
+"build and open in the browser", "Watch" (rebuilds at each save) and "Build everything". For a `Ctrl+Alt+B` like LaTeX Workshop, add to your user `keybindings.json`:
+`{ "key": "ctrl+alt+b", "command": "workbench.action.tasks.runTask", "args": "Build main.html" }`;
 `Ctrl+Shift+F` ignores the generated `main.html`; typing `slide` + Tab in a new file gives the skeleton of a slide;
 the formatter is off for HTML (it would reflow the SVG); `Ctrl+K Z`/split editor: the slide on the left, the browser on the right.
 
@@ -85,6 +87,12 @@ the formatter is off for HTML (it would reflow the SVG); `Ctrl+K Z`/split editor
   `<div class="pp ...">`: `--yr` is its year, class `p` / `t` / `s` its type (parameters, topology, shape), `u` / `d` puts the label above or below.
   The dashed boxes are pictures still to add: save the figure in `assets/04-introduction/` (the name is written in the box) and replace
   the `<div class="slot">` of the box by an `<img>` like the one of Bruggi.
+* Slide 8 (city to wall), 4 steps: the video, then the two views of the studied buildings (`assets/05-physical/canyon_config.jpg` = the two
+  views stacked in one picture, each half is shown as its own panel), then the section of the street (`canyon-section.svg`), then the wall alone
+  (`governing-boundaries-faint.svg`, the same file and position as the first picture of slide 9, so the next slide continues from it).
+  The PDF shows the video at `data-pdf-t="12.5"` (the city seen from above, end of the video); `urban_context_poster.jpg` is that same frame
+  (used by `?print`): redo both when the video changes
+  (`ffmpeg -ss 12.5 -i urban_context2.mp4 -frames:v 1 -vf scale=1280:720 urban_context_poster.jpg`).
 * Slide 4 (context) turns band 1 of the façade into a block of wall, cuts it along A and turns it to face us (CSS 3D, steps 2 and 3).
   It ends on the 2D section `assets/04-introduction/section.svg`, which is also the cut face of the block while it turns: the file is
   included twice, so the build gives the ids of the second copy a suffix. The façade of the block is `band1.jpg`, made by
@@ -111,3 +119,6 @@ In `parts/*.html`, write LaTeX as in a .tex file: inline `\( ... \)`, display `\
 They are rendered at build time by KaTeX (`theme/katex/`) inside the Chrome or Edge already installed (no Node.js needed).
 Shortcuts (`\x`, `\n` bold vectors, `\dd`) are defined in `math_render.py` (`MACROS`).
 `\htmlData{from=1}{...}` shows part of an equation from step 1 on.
+In the slides of the physical problem, an equation is `<div class="eq cX"><p class="intro"><b>Title.</b> a sentence</p> \[ ... \]</div>`:
+no box, the title in colour, then the display equation with its number (1), (2)... at the right margin. The numbers follow the order of the
+talk (set at load by a few lines of `parts/05-physical/00-style.html`), so adding an equation renumbers the next ones.

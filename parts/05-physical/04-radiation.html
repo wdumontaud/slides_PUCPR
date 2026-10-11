@@ -1,12 +1,13 @@
 <!-- ================================================================ 4. short- and long-wave -->
 <style>
-.rad .fig{left:0;top:0;width:540px}
-.rad .fig .img{position:relative;width:540px;height:423px}
+.rad .fig{left:0;top:0;width:500px}
+.rad .fig .img{position:relative;width:500px;height:392px}
 .rad .fig .img img{position:absolute;inset:0;width:100%;height:100%;border-radius:10px;box-shadow:0 4px 18px rgba(0,41,75,.16);transition:opacity .6s}
-.rad .eqs{left:566px;top:0;width:626px}
+.rad .eqs{left:530px;top:0;width:662px;gap:26px}
 .rad .eq{font-size:19px}
-.rad .eq.cLw{font-size:18px}
-.rad[data-step="1"] .eq.cRad{filter:saturate(.25);opacity:.55}
+.rad .eq .katex-display{font-size:1.1em}
+.rad .eq.cLw .katex-display{font-size:1em}
+.rad[data-step="1"] .eq.cRad{opacity:.45}
 .rad .eq .katex .hl-sun{color:#b38600}
 </style>
 <section class="slide ph rad" data-title="External boundary conditions: short- and long-wave radiation" data-steps="1">
@@ -19,11 +20,9 @@
     <figcaption data-from="1">Each point of \(\Gamma_1\) exchanges with what it sees, weighted by its view factors.</figcaption>
   </figure>
   <div class="eqs">
-    <div class="eq cRad"><h4>Short-wave: solar radiation</h4>
-      \[ q_{sw}(\x,t) = \alpha\Big(\underbrace{\htmlClass{hl-sun}{q_{dr}(\x,t)}}_{\text{direct}} + \underbrace{q_{df}(\x,t)}_{\text{diffuse}} + \underbrace{q_{rf}(\x,t)}_{\text{reflected}}\Big) \]
-      <div class="note">\(q_{dr}=0\) on the shaded part of the façade: the sunlit / shadow edge moves during the day.</div></div>
-    <div class="eq cLw" data-from="1"><h4>Long-wave: exchanges with the surroundings</h4>
-      \[ \begin{aligned} q_{\ell w}(\x,t) = \ & \varepsilon\sigma T^4(\x,t) \\ & - \varepsilon\sigma\Big( \underbrace{F_{1\text{-}g}(\x)\,T_g^4(t)}_{\text{ground}} + \underbrace{F_{1\text{-}f}(\x)\,T_f^4(t)}_{\text{front building}} \\ & + \underbrace{F_{1\text{-}s}(\x)\,T_s^4(t)}_{\text{sky}} + \underbrace{\int_{\Gamma_1} F_{1\text{-}1}(\x,\x')\,T^4(\x',t)\,\dd\Gamma_1(\x')}_{\text{wall itself}}\Big) \end{aligned} \]
-      <div class="note">view factors \(F\) depend on \(\x\): a curved façade also sees itself (its hollows).</div></div>
+    <div class="eq cRad"><p class="intro"><b>Short-wave: solar radiation.</b> \(q_{dr}=0\) on the shaded part of the façade: the sunlit / shadow edge moves during the day.</p>
+      \[ q_{sw}(\x,t) = \alpha\Big(\underbrace{\htmlClass{hl-sun}{q_{dr}(\x,t)}}_{\text{direct}} + \underbrace{q_{df}(\x,t)}_{\text{diffuse}} + \underbrace{q_{rf}(\x,t)}_{\text{reflected}}\Big) \]</div>
+    <div class="eq cLw" data-from="1"><p class="intro"><b>Long-wave: exchanges with the surroundings.</b> The view factors \(F\) depend on \(\x\): a curved façade also sees itself (its hollows).</p>
+      \[ \begin{aligned} q_{\ell w}(\x,t) = \ & \varepsilon\sigma T^4(\x,t) \\ & - \varepsilon\sigma\Big( \underbrace{F_{1\text{-}g}(\x)\,T_g^4(t)}_{\text{ground}} + \underbrace{F_{1\text{-}f}(\x)\,T_f^4(t)}_{\text{front building}} \\ & + \underbrace{F_{1\text{-}s}(\x)\,T_s^4(t)}_{\text{sky}} + \underbrace{\int_{\Gamma_1} F_{1\text{-}1}(\x,\x')\,T^4(\x',t)\,\dd\Gamma_1(\x')}_{\text{wall itself}}\Big) \end{aligned} \]</div>
   </div>
 </section>

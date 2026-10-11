@@ -2,12 +2,28 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build main.html and rebuild on every save",
+      "label": "Build main.html",
+      "type": "shell",
+      "command": "python config/build.py",
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "panel": "shared", "reveal": "silent", "clear": true }
+    },
+    {
+      "label": "Build main.html and open it in the browser",
+      "type": "shell",
+      "command": "python config/build.py && xdg-open main.html",
+      "windows": { "command": "python config/build.py && start \"\" main.html" },
+      "osx": { "command": "python config/build.py && open main.html" },
+      "problemMatcher": [],
+      "presentation": { "panel": "shared", "reveal": "silent", "clear": true }
+    },
+    {
+      "label": "Watch: rebuild main.html on every save",
       "type": "shell",
       "command": "python config/build.py --watch",
       "isBackground": true,
       "problemMatcher": [],
-      "group": { "kind": "build", "isDefault": true },
       "presentation": { "panel": "dedicated", "reveal": "silent" }
     },
     {
