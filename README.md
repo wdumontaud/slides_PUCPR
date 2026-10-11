@@ -93,9 +93,13 @@ the formatter is off for HTML (it would reflow the SVG); `Ctrl+K Z`/split editor
   The PDF shows the video at `data-pdf-t="12.5"` (the city seen from above, end of the video); `urban_context_poster.jpg` is that same frame
   (used by `?print`): redo both when the video changes
   (`ffmpeg -ss 12.5 -i urban_context2.mp4 -frames:v 1 -vf scale=1280:720 urban_context_poster.jpg`).
-* Co-simulation slides 14 to 17 (`parts/06-cosimulation/02-05`): why, the wall surfaces (one 2D model per band and per floor, pictures `assets/06-cosimulation/band_*.png`),
-  architecture (Domus gives surface temperatures, weather and solar data per surface; the 2D model computes `q_sw`, `q_lw` itself and returns only mean temperatures
-  and the inside mean convective coefficient), one coupling step t_n -> t_{n+1} (symbols only: \(\Delta t_c\), \(\delta t\)).
+* Co-simulation slides 14 to 17 (`parts/06-cosimulation/02-05`), written with notation rather than sentences:
+  the wall surfaces (3 vertical bands B1 to B3, 4 wall models for the whole façade: B2 has one for its edges and one for its windows;
+  a wall surface = a band `b` on a floor `f`; picture `assets/06-cosimulation/band_strip.png`),
+  architecture (Domus gives, per surface, the surface temperatures `T_{s,k}`, the weather `v_∞, T_{∞,1}` and the solar data `E, f_sun, α_s, γ_s`, and per floor `T_{∞,3}^f`;
+  the 2D models compute `q_sw`, `q_ℓw` themselves and return only means: `T̄_{Γ1}^{b,f}` (6 values) and `T̄_{Γ3}^f`, `h̄_{∞,3}^f` (2 values)),
+  one coupling step t_n -> t_{n+1} (inputs `u_n`, outputs `y_{n+1}`; symbols only for the time steps: \(\Delta t_c\), \(\delta t\)).
+  `assets/06-cosimulation/band_scheme.png` is not used by the slides (it only explained the 4 models).
 * Slide 4 (context) turns band 1 of the façade into a block of wall, cuts it along A and turns it to face us (CSS 3D, steps 2 and 3).
   It ends on the 2D section `assets/04-introduction/section.svg`, which is also the cut face of the block while it turns: the file is
   included twice, so the build gives the ids of the second copy a suffix. The façade of the block is `band1.jpg`, made by

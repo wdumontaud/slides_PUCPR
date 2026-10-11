@@ -1,29 +1,48 @@
 <!-- subsection: Wall surfaces -->
-<!-- DRAFT (to validate): the façade is cut into vertical bands (slide 4), one wall model per band and per floor. Pictures: assets/06-cosimulation/band_strip.png (Domus view), band_scheme.png (screenshot of the bands). -->
+<!-- DRAFT (to validate): the façade is cut into 3 vertical bands (slide 4); 4 wall models for the whole façade (band B2 has two: its edges and its windows); a wall surface = a band on one floor. Picture: assets/06-cosimulation/band_strip.png (Domus view). -->
 <style>
 .ws .content>*{position:absolute}
-.ws .strip{left:0;top:30px;width:400px;height:500px;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px rgba(0,41,75,.25)}
-.ws .strip img{width:100%;height:100%;display:block;object-fit:cover}
-.ws .strip .b{position:absolute;top:70px;transform:translateX(-50%);background:rgba(255,255,255,.92);border-radius:5px;padding:1px 8px;font-size:17px;font-weight:700;color:#8a5a00}
-.ws .scheme{left:440px;top:30px;width:250px;height:500px;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px rgba(0,41,75,.25);background:#0c1118;transition:opacity .5s}
-.ws .scheme img{position:absolute;left:-27px;top:-62px;width:299px;display:block}
-.ws .cap{top:538px;font-size:16px;color:#555;text-align:center}
-.ws .txt{left:740px;top:30px;width:452px;font-size:23px;line-height:1.4}
-.ws .txt ul{margin:0;padding-left:24px} .ws .txt li{margin:.7em 0}
-.ws .txt .arrow{font-size:23px;font-weight:700;color:var(--purple);margin-bottom:10px}
+.ws .strip{left:46px;top:20px;width:424px;height:530px;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px rgba(0,41,75,.25)}
+.ws .strip img{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ws .strip .m{position:absolute;top:53px;height:459px;transition:opacity .5s}
+.ws .strip .m1{left:61px;width:102px;background:rgba(235,140,20,.38)}
+.ws .strip .m2{background:rgba(35,110,200,.45);width:11px} .ws .strip .m2a{left:163px} .ws .strip .m2b{left:258px;width:14px}
+.ws .strip .m3{left:174px;width:84px;background:rgba(125,60,205,.30)}
+.ws .strip .m4{left:272px;width:100px;background:rgba(30,150,90,.34)}
+.ws .strip .b{position:absolute;top:62px;transform:translateX(-50%);background:rgba(255,255,255,.93);border-radius:5px;padding:0 8px;font-size:20px;font-weight:700;color:#8a5a00}
+.ws .strip .seam{position:absolute;left:0;right:0;top:283px;border-top:2px dashed rgba(60,60,60,.5)}
+.ws .chip{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:#fff;border:3px solid var(--c);color:var(--c);text-align:center;font:700 18px/24px "CMU Sans Serif",Arial,sans-serif;transition:opacity .5s}
+.ws .fl{left:0;width:42px;font-size:21px;text-align:center}
+.ws .txt{left:540px;top:20px;width:652px;font-size:25px;line-height:1.35}
+.ws .txt .row{margin-bottom:26px;transition:opacity .5s}
+.ws .txt .arrow{font-weight:700;color:var(--purple);margin-bottom:8px}
+.ws .mod{display:flex;align-items:center;gap:16px;margin:12px 0;font-size:25px}
+.ws .mod .chip{position:static;margin:0;flex:none}
+.ws .mod small{font-size:18px;color:#667}
+.ws[data-step="2"] .row.r0,.ws[data-step="2"] .row.r1{opacity:.45}
 </style>
 <section class="slide ws" data-title="Wall surfaces and wall models" data-steps="2">
   <div class="strip"><img src="assets/06-cosimulation/band_strip.png" alt="façade in Domus, cut into bands">
-    <span class="b" style="left:24%">B1</span><span class="b" style="left:51%">B2</span><span class="b" style="left:77%">B3</span></div>
-  <div class="cap" style="left:0;width:400px">the façade unit in Domus, cut into vertical bands</div>
-  <div class="scheme" data-from="1"><img src="assets/06-cosimulation/band_scheme.png" alt="the bands and their wall models"></div>
-  <div class="cap" style="left:440px;width:250px" data-from="1">the 4 wall models</div>
+    <div class="seam"></div>
+    <i class="m m1" data-from="1"></i><i class="m m2 m2a" data-from="1"></i><i class="m m2 m2b" data-from="1"></i><i class="m m3" data-from="1"></i><i class="m m4" data-from="1"></i>
+    <span class="b" style="left:112px">B1</span><span class="b" style="left:217px">B2</span><span class="b" style="left:322px">B3</span>
+    <span class="chip" style="--c:#d97a00;left:112px;top:283px" data-from="1">1</span>
+    <span class="chip" style="--c:#236ec8;left:168px;top:283px" data-from="1">2</span><span class="chip" style="--c:#236ec8;left:265px;top:283px" data-from="1">2</span>
+    <span class="chip" style="--c:#7d3ccd;left:216px;top:283px" data-from="1">3</span>
+    <span class="chip" style="--c:#1e9660;left:322px;top:283px" data-from="1">4</span>
+  </div>
+  <div class="fl" style="top:174px">\(f{=}2\)</div><div class="fl" style="top:406px">\(f{=}1\)</div>
+
   <div class="txt">
-    <div class="arrow">⟶ one 2D model per wall surface</div>
-    <ul>
-      <li>a <b>wall surface</b> is the part of a band on one floor (slide 4)</li>
-      <li data-from="1">3 bands (1.30 m, 1.40 m, 1.30 m): <b>4 wall models</b> per floor</li>
-      <li data-from="2">each one is solved in 2D, with its own conditions: the same exchanges as on slides 9 to 12</li>
-    </ul>
+    <div class="row r0"><div class="arrow">⟶ the façade in Domus</div>
+      bands \(b\in\{1,2,3\}\), floors \(f\in\{1,2\}\)</div>
+    <div class="row r1"><div class="arrow">⟶ wall surface</div>
+      \(S_{b,f}\) = band \(b\) on floor \(f\) : 6 surfaces</div>
+    <div class="row r2" data-from="1"><div class="arrow">⟶ 4 wall models for the façade</div>
+      <div class="mod"><span class="chip" style="--c:#d97a00">1</span> \(B_1\)</div>
+      <div class="mod"><span class="chip" style="--c:#236ec8">2</span> \(B_2\) <small>without window</small></div>
+      <div class="mod"><span class="chip" style="--c:#7d3ccd">3</span> \(B_2\) <small>with windows</small></div>
+      <div class="mod"><span class="chip" style="--c:#1e9660">4</span> \(B_3\)</div></div>
+    <div class="row r3" data-from="2">each model: a 2D section \((x,y)\), slides 9 to 12</div>
   </div>
 </section>
