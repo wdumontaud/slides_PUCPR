@@ -37,6 +37,12 @@ FRAME_VIDEOS = """async () => {
   })));
 }"""
 
+# waits until the CSS transitions that are running have ended (they last from .45 s to 2.5 s)
+SETTLE = """async () => {
+  const running = () => document.getAnimations().filter(a => a.playState === 'running' && a.effect.getComputedTiming().endTime !== Infinity);
+  for (let i = 0; i < 20 && running().length; i++) await Promise.all(running().map(a => a.finished.catch(() => {})));
+}"""
+
 
 def main():
     from playwright.sync_api import sync_playwright
@@ -75,7 +81,9 @@ def main():
             if state["last"]:
                 break
             page.keyboard.press("ArrowRight")            # next step, or next slide: same as a click
-            page.wait_for_timeout(700)                   # the CSS transitions last .45 to .6 s
+            page.wait_for_timeout(100)                   # the transitions start
+            page.evaluate(SETTLE)                        # ... and are over before the page is printed
+            page.wait_for_timeout(300)
         browser.close()
     print()
     try:

@@ -13,6 +13,7 @@ config/              the Python scripts and the deck's settings
   math_render.py       LaTeX math -> KaTeX HTML, at build time
   headless.py          the Chrome / Edge used by math_render.py and export_pdf.py
   bib.py               BibTeX support used by build.py
+  make_band.py         straightens band 1 of the street-canyon frame -> assets/04-introduction/band1.jpg (run by hand, needs Pillow)
 theme/style.css      look & feel                            (≈ presentation.sty)
 theme/engine.js      nav bubbles, TOC, footer, fullscreen, steps, PDF mode
 theme/field.js       animated contour-line background
@@ -57,8 +58,13 @@ Without the script: `python config/build.py` (main.html), `python config/build.p
   each in its own file (`governing-*.svg`, `external-*.svg`, `internal-*.svg`), shown with `data-from` / `data-until`
   as on the radiation slide: `<svg data-until="0" data-include="assets/05-physical/governing-boundaries-faint.svg"></svg>`
   inside a `<div class="fig layers">`. No step effect depends on a class inside the file, so a PowerPoint export keeps them.
-  Each file is one slide of `illustrations.pptx` (slides 13 to 22). Keep the transparent frame of each file
+  Each file is one slide of `illustrations.pptx`. Keep the transparent frame of each file
   (the rectangle with no fill): it fixes the size of the drawing, so that the steps line up.
+* Slide 4 (context) turns band 1 of the façade into a block of wall, cuts it along A and turns it to face us (CSS 3D, steps 2 and 3).
+  It ends on the 2D section `assets/04-introduction/section.svg`, which is also the cut face of the block while it turns: the file is
+  included twice, so the build gives the ids of the second copy a suffix. The façade of the block is `band1.jpg`, made by
+  `config/make_band.py` from the frame of the video. The labels of step 2 are placed on the 3D pose of the block: if the pose changes
+  in the CSS of the part, place them again.
 * Citations: `\cite{key}` or `\cite{key1,key2}` with keys from `bib/refs.bib` -> numbers in order of first citation,
   a footer with the short references on the slide (disable with `data-footcite="off"` on the section),
   and a "References" appendix at the end with the full entries (click a number to jump to it).

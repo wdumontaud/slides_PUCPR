@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 527 440" font-family="CMU Sans Serif, Arial, sans-serif">
+  <!-- Slide 4, step 3: the 2D section of band 1, once the block of wall has been cut along A and turned to face us.
+       The wall (Ω₁, Ω₂) is also drawn by the 3D block of the slide while it turns, then this drawing takes over: keep the wall at the same
+       place and size. The dashed line A is the line A of the video. Keep the transparent frame (rectangle with no fill): it fixes the size of the drawing. -->
+  <defs>
+    <linearGradient id="sec-sun"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#FEEA6D"/></linearGradient>
+    <linearGradient id="sec-shd"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#8c8c8c"/></linearGradient>
+    <marker id="sec-ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0L8,4L0,8z" fill="#111"/></marker>
+  </defs>
+  <rect x="0" y="0" width="527" height="440" fill="none"/>
+  <text x="263" y="22" text-anchor="middle" font-size="20" font-weight="700" fill="#4D0DAB">Section A: 2D model of band 1</text>
+  <!-- wind profile -->
+  <g stroke="#111" stroke-width="2" marker-end="url(#sec-ar)">
+    <line x1="40" y1="70" x2="150" y2="70"/><line x1="40" y1="120" x2="146" y2="120"/>
+    <line x1="40" y1="170" x2="140" y2="170"/><line x1="40" y1="220" x2="131" y2="220"/>
+    <line x1="40" y1="270" x2="118" y2="270"/><line x1="40" y1="320" x2="98" y2="320"/>
+    <line x1="40" y1="370" x2="70" y2="370"/>
+  </g>
+  <path d="M152,70 C148,170 135,260 100,320 L72,370" fill="none" stroke="#111" stroke-width="2"/>
+  <text transform="translate(24,220) rotate(-90)" text-anchor="middle" font-size="16" fill="#111">wind</text>
+  <!-- outer boundary: sun on the top, shadow on the bottom (as on the video frame) -->
+  <rect x="182" y="50" width="30" height="118" fill="url(#sec-sun)"/>
+  <rect x="182" y="168" width="30" height="222" fill="url(#sec-shd)"/>
+  <text transform="translate(176,109) rotate(-90)" text-anchor="middle" font-size="16" fill="#b39d00">sunlit</text>
+  <text transform="translate(176,279) rotate(-90)" text-anchor="middle" font-size="16" fill="#666">shadow</text>
+  <!-- wall: two materials -->
+  <rect x="212" y="50" width="70" height="340" fill="#bfbfbf"/>
+  <rect x="282" y="50" width="70" height="340" fill="#fef6b6"/>
+  <rect x="212" y="50" width="140" height="340" fill="none" stroke="#111" stroke-width="2.5"/>
+  <line x1="282" y1="50" x2="282" y2="390" stroke="#111" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="247" y="90" text-anchor="middle" font-size="22">Ω₁</text>
+  <text x="317" y="90" text-anchor="middle" font-size="22">Ω₂</text>
+  <text transform="translate(252,240) rotate(-90)" text-anchor="middle" font-size="15" fill="#333">structural material</text>
+  <text transform="translate(322,240) rotate(-90)" text-anchor="middle" font-size="15" fill="#333">insulation</text>
+  <!-- the line A of the video: the outer edge of the section -->
+  <line x1="182" y1="50" x2="182" y2="390" stroke="#4D0DAB" stroke-width="3" stroke-dasharray="9 6"/>
+  <circle cx="182" cy="50" r="6" fill="#4D0DAB"/>
+  <circle cx="182" cy="390" r="6" fill="#4D0DAB"/>
+  <text x="193" y="43" font-size="22" font-weight="700" fill="#4D0DAB">A</text>
+  <text x="110" y="436" text-anchor="middle" font-size="20" fill="#0000ff">outside</text>
+  <text x="420" y="225" text-anchor="middle" font-size="20" fill="#ff0000">inside</text>
+  <text x="360" y="58" font-size="14" fill="#555">top (roof)</text>
+  <text x="360" y="392" font-size="14" fill="#555">bottom (ground)</text>
+  <!-- axes -->
+  <g stroke="#111" stroke-width="1.6" marker-end="url(#sec-ar)"><line x1="470" y1="400" x2="508" y2="400"/><line x1="470" y1="400" x2="470" y2="362"/></g>
+  <text x="514" y="405" font-size="16" fill="#111">x</text>
+  <text x="465" y="354" font-size="16" fill="#111">y</text>
+</svg>

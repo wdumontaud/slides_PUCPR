@@ -102,14 +102,25 @@ INCLUDE = re.compile(r'<svg\b([^>]*?)\s*data-include="(assets/[^"]+\.svg)"([^>]*
 ATTRS = re.compile(r'([\w:-]+)="([^"]*)"')
 
 
+def unique_ids(svg, suffix):
+    """id="x" -> id="x-2" and every reference to it (url(#x), href="#x"): a drawing included twice must not share its ids"""
+    ids = set(re.findall(r'(?<![\w-])id="([^"]+)"', svg))
+    svg = re.sub(r'(?<![\w-])id="([^"]+)"', lambda m: f'id="{m.group(1)}{suffix}"', svg)
+    svg = re.sub(r"url\(#([^)]+)\)", lambda m: f"url(#{m.group(1)}{suffix})" if m.group(1) in ids else m.group(0), svg)
+    return re.sub(r'(href=")#([^"]+)"', lambda m: f'{m.group(1)}#{m.group(2)}{suffix}"' if m.group(2) in ids else m.group(0), svg)
+
+
 def include_svgs(html, used, warnings):
     """<svg class="dom" data-include="assets/.../x.svg"></svg>  ->  the drawing itself, inline, so that the step CSS of the slide applies."""
+    copies = {}                                                       # how many times each drawing is already in the page
+
     def inline(m):
         rel = m.group(2)
         if not (ROOT / rel).is_file():
             warnings.append(f"missing file: {rel}")
             return m.group(0)
         used.add(rel)
+        copies[rel] = copies.get(rel, 0) + 1
         # utf-8-sig drops a BOM; the <svg> root may follow a comment (Inkscape writes one), so search for it
         text = re.sub(r"<\?xml.*?\?>", "", (ROOT / rel).read_text(encoding="utf-8-sig"), flags=re.S).strip()
         root = re.search(r"<svg\b([^>]*)>", text)
@@ -123,7 +134,10 @@ def include_svgs(html, used, warnings):
                 own[k] = f"{own[k]} {v}"
             else:
                 own.setdefault(k, v)
-        return "<svg " + " ".join(f'{k}="{v}"' for k, v in own.items()) + ">" + text[root.end():]
+        body = text[root.end():]
+        if copies[rel] > 1:                                           # 2nd copy of the same drawing: its ids must not clash with the 1st
+            body = unique_ids(body, f"-{copies[rel]}")
+        return "<svg " + " ".join(f'{k}="{v}"' for k, v in own.items()) + ">" + body
     return INCLUDE.sub(inline, html)
 
 
