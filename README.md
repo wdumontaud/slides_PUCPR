@@ -87,12 +87,20 @@ the formatter is off for HTML (it would reflow the SVG); `Ctrl+K Z`/split editor
   `<div class="pp ...">`: `--yr` is its year, class `p` / `t` / `s` its type (parameters, topology, shape), `u` / `d` puts the label above or below.
   The dashed boxes are pictures still to add: save the figure in `assets/04-introduction/` (the name is written in the box) and replace
   the `<div class="slot">` of the box by an `<img>` like the one of Bruggi.
-* Slide 8 (city to wall), 4 steps: the video, then the two views of the studied buildings (`assets/05-physical/canyon_config.jpg` = the two
-  views stacked in one picture, each half is shown as its own panel), then the section of the street (`canyon-section.svg`), then the wall alone
-  (`governing-boundaries-faint.svg`, the same file and position as the first picture of slide 9, so the next slide continues from it).
+* Slide 8 (city to wall), 5 steps: the video (`urban_context3.mp4`), the studied buildings (`canyon_street_1_01Jan_15h06.png`), the street with its labels,
+  then the vertical section opens the studied building (a plane sweeps the picture; the wall appears at its real thickness), the wall is inflated
+  into the deformed wall of slide 9 (thickness exaggerated, dimensions), and its notation arrives.
+  The wall is the figure of slide 9 (same box: `assets/05-physical/city-wall-shapes.svg` + `city-wall-notes.svg`, 416 x 582 px at 776,-6 of the content box),
+  and it does not move on slides 9 and 10 (`external-*.svg` redrawn on the same wall; they overflow to the left of their frame).
+  `street_intact.jpg` and `street_cut.jpg` (2472 x 1144, shown 1236 x 572 from the left margin to the slide edge) are PLACEHOLDERS made from
+  `canyon_street_1_01Jan_15h06_2.png`: replace them by real Domus captures of the same scene, the second one with the studied building cut by a vertical plane
+  (roof, slabs and rooms visible, party wall at the back). For the wall figure to fit, keep in the pictures (px from the left margin of the slide content):
+  the corner of the studied building at x = 892, its eaves at y = 56, its base at y = 493, and at least 340 px of building to the right of the corner.
+  The labels, the plane and the wall are HTML/SVG on top: edit them in `parts/05-physical/01-city-to-wall.html`.
+  Slides 9 to 12 have the figure at the right and the equations at the left.
   The PDF shows the video at `data-pdf-t="12.5"` (the city seen from above, end of the video); `urban_context_poster.jpg` is that same frame
   (used by `?print`): redo both when the video changes
-  (`ffmpeg -ss 12.5 -i urban_context2.mp4 -frames:v 1 -vf scale=1280:720 urban_context_poster.jpg`).
+  (`ffmpeg -ss 12.5 -i urban_context3.mp4 -frames:v 1 -vf scale=1280:720 urban_context_poster.jpg`).
 * Co-simulation slides 14 to 17 (`parts/06-cosimulation/02-05`), written with notation rather than sentences:
   the wall surfaces (3 vertical bands B1 to B3, 4 wall models for the whole façade: B2 has one for its edges and one for its windows;
   a wall surface = a band `b` on a floor `f`; picture `assets/06-cosimulation/band_strip.png`),

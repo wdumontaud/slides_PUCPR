@@ -839,107 +839,134 @@ document.addEventListener("DOMContentLoaded",()=>document.querySelectorAll(".ph 
 </script>
 
 <!-- ==== parts/05-physical/01-city-to-wall.html ==== -->
-<!-- ================================================================ 1. urban scene -> street canyon -> wall -->
-<!-- Four steps: 0 the city (video) | 1 the studied buildings (2 views) | 2 section of the street | 3 the wall alone (= first picture of the next slide) -->
+<!-- ================================================================ 1. urban scene -> street -> section -> deformed wall -->
+<!-- Steps: 0 the city (video) | 1 the studied buildings (capture) | 2 the street, labelled | 3 the vertical section opens the studied building (wall at its real thickness)
+            | 4 the wall is inflated: thickness exaggerated, dimensions | 5 full notation of the deformed wall.
+     The wall (city-wall-shapes.svg + city-wall-notes.svg) is the figure of slide 9, at the same place (page 820,94, 416 x 582): it does not move afterwards. -->
 <style>
-.city .vid{left:96px;top:0;width:1000px;height:562px;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.3);
-  transform-origin:0 0;transition:transform 1s cubic-bezier(.3,.7,.2,1),opacity .6s}
-.city .vid video{width:100%;height:100%;object-fit:cover;display:block}
-.city .vid .tag,.city .pan .tag{position:absolute;right:14px;bottom:12px;background:rgba(0,41,75,.85);color:#fff;font-size:18px;padding:4px 12px;border-radius:6px}
-.city[data-step="1"] .vid{transform:translate(-96px,0) scale(.4)}
-.city[data-step="2"] .vid{transform:translate(-96px,0) scale(.3)}
-.city[data-step="3"] .vid{transform:translate(-96px,0) scale(.3);opacity:0}
-/* the two views: two halves of one picture; right column at step 1, then filmstrip under the video at step 2 */
-.city .pan{left:0;top:0;width:480px;height:270px;transform-origin:0 0;border-radius:10px;overflow:hidden;
-  box-shadow:0 4px 18px rgba(0,41,75,.25);transition:transform 1s cubic-bezier(.3,.7,.2,1),opacity .6s}
-.city .pan img{width:100%;height:100%;object-fit:cover;display:block}
-.city .pan.a img{object-position:50% 0} .city .pan.b img{object-position:50% 100%}
-.city .pan.a{transform:translate(712px,0)} .city .pan.b{transform:translate(712px,282px)}
-.city[data-step="2"] .pan.a{transform:translate(0,188px) scale(.625)} .city[data-step="2"] .pan.b{transform:translate(0,378px) scale(.625)}
-.city .pan .tag{font-size:17px}
-.city .side{left:0;top:262px;width:620px;font-size:23px;line-height:1.4}
-.city .side ul{margin:0;padding-left:24px}.city .side li{margin:.5em 0}
-.city .arrow{font-size:22px;color:var(--purple);font-weight:700;margin-bottom:10px}
-.city .sec{left:380px;top:44px;width:800px}
-.city .secT{left:380px;top:0;width:800px}
-.city .dom{left:0;top:-8px;width:380px;height:532px}
-.city .model{left:430px;top:110px;width:740px;font-size:25px;line-height:1.45}
-.city .model ul{margin:0;padding-left:26px}.city .model li{margin:.75em 0}
-.city .model .arrow{font-size:24px;margin-bottom:16px}
+.city .vid{left:96px;top:0;width:1000px;height:562px;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,41,75,.3)}
+.city .vid video,.city .vid img{width:100%;height:100%;object-fit:cover;display:block}
+.city .tag{position:absolute;right:14px;bottom:12px;background:rgba(0,41,75,.85);color:#fff;font-size:18px;padding:4px 12px;border-radius:6px}
+/* the street: full width of the slide (1236 px from the left margin to the slide edge) */
+.city .st{left:0;top:0;width:1236px;height:572px;overflow:hidden}
+.city .st img{position:absolute;left:0;top:0;width:1236px;height:572px;display:block}
+.city .st .cutL{clip-path:inset(0 344px 0 736px);opacity:0;transition:opacity .8s}
+.city .st .cutB{clip-path:inset(0 344px 0 892px);transition:clip-path 1.8s cubic-bezier(.45,0,.25,1)}
+.city[data-step="3"] .st .cutL,.city[data-step="4"] .st .cutL,.city[data-step="5"] .st .cutL{opacity:1}
+.city[data-step="3"] .st .cutB,.city[data-step="4"] .st .cutB,.city[data-step="5"] .st .cutB{clip-path:inset(0 0 0 892px)}
+/* the section plane sweeps from the corner of the building to the right edge, then disappears */
+.city .st .pl{position:absolute;left:884px;top:0;width:16px;height:572px;opacity:0;pointer-events:none}
+.city .st .pl i{position:absolute;inset:0;background:rgba(255,159,28,.30)}
+.city .st .pl u{position:absolute;left:7px;top:0;bottom:0;border-left:2px dashed #b45f00}
+.city .st .pl b{position:absolute;right:22px;top:250px;background:#c77700;color:#fff;font-size:18px;font-weight:400;padding:2px 10px;border-radius:6px;white-space:nowrap}
+.city[data-step="3"] .st .pl{animation:city-plane 2.4s ease-in-out forwards}
+@keyframes city-plane{0%{opacity:0;transform:translateX(0)}12%{opacity:1;transform:translateX(0)}88%{opacity:1;transform:translateX(344px)}100%{opacity:0;transform:translateX(344px)}}
+/* pills */
+.city .lb{position:absolute;color:#fff;font-size:21px;padding:3px 12px;border-radius:6px;white-space:nowrap;background:rgba(0,41,75,.88);transition:opacity .5s,visibility .5s}
+.city .lb.s{font-size:18px;padding:2px 10px}
+.city[data-step="3"] .lb.ctx,.city[data-step="4"] .lb.ctx,.city[data-step="5"] .lb.ctx{opacity:.6}
+.city .lb.pu{background:#4D0DAB} .city .lb.bl{background:#1f5c99;font-size:19.8px} .city .lb.rd{background:#c0392b;font-size:19.8px}
+/* the wall: section at its real thickness, then inflated into the deformed wall */
+.city .wb{left:776px;top:-6px;width:416px;height:582px}
+.city .wb svg{width:100%;height:100%;display:block;overflow:visible}
+.city .wsh{clip-path:inset(0 100% 0 0);transition:clip-path .8s ease .3s}
+.city[data-step="3"] .wsh,.city[data-step="4"] .wsh,.city[data-step="5"] .wsh{clip-path:inset(0 0 0 0)}
+.city .wsi{width:100%;height:100%;transform-origin:116.5px 0;transform:scaleX(.153);transition:transform 1.3s cubic-bezier(.4,0,.2,1)}
+.city[data-step="4"] .wsi,.city[data-step="5"] .wsi{transform:scaleX(1)}
+.city .shd{left:901px;top:56px;width:187px;height:22px;background:linear-gradient(rgba(0,0,0,.30),rgba(0,0,0,0));opacity:0;transition:opacity .8s}
+.city[data-step="4"] .shd,.city[data-step="5"] .shd{opacity:1}
+/* notation of the wall: four groups */
+.city .nt .gA,.city .nt .gB,.city .nt .gC,.city .nt .gD{opacity:0;transition:opacity .6s}
+.city[data-step="4"] .nt .gD,.city[data-step="5"] .nt .gD,.city[data-step="5"] .nt .gA,.city[data-step="5"] .nt .gB,.city[data-step="5"] .nt .gC{opacity:1}
+.city .nt .gA text:first-child{fill:#a9d1f5}   /* 'outside' and Gamma_1 sit on the dark part of the picture */
+.city .nt .gC g text:first-child{fill:#d6c6ff}
+.city .note{left:1102px;top:532px;width:130px;font-size:15px;line-height:1.15;font-style:italic;color:#4b3b1f}
 </style>
-<section data-src="parts/05-physical/01-city-to-wall.html" class="slide ph city" data-title="Physical problem: from the city to the wall" data-steps="3">
-  <!-- video: replace assets/05-physical/urban_context2.mp4 (and the frame assets/05-physical/urban_context_poster.jpg, used by ?print, and data-pdf-t, the time in seconds of the frame used by the PDF: the city seen from above at the end) by the final one -->
-  <div class="vid"><video src="assets/05-physical/urban_context2.mp4" poster="assets/05-physical/urban_context_poster.jpg" data-pdf-t="12.5" muted loop playsinline preload="auto"></video>
+<section data-src="parts/05-physical/01-city-to-wall.html" class="slide ph city" data-title="Physical problem: from the city to the wall" data-steps="5">
+  <!-- step 0: video (assets/05-physical/urban_context3.mp4). urban_context_poster.jpg = its frame used by ?print; data-pdf-t = the time (s) of the frame used by the PDF: the city seen from above at the end -->
+  <div class="vid" data-until="0"><video src="assets/05-physical/urban_context3.mp4" poster="assets/05-physical/urban_context_poster.jpg" data-pdf-t="12.5" muted loop playsinline preload="auto"></video>
     <span class="tag">urban scene simulated with Domus</span></div>
 
-  <!-- step 1: the studied buildings, two views (assets/05-physical/canyon_config.jpg = the two views stacked) -->
-  <div class="pan a" data-from="1" data-until="2"><img src="assets/05-physical/canyon_config.jpg" alt="studied buildings, view 1"><span class="tag" data-until="1">studied façade unit in red</span></div>
-  <div class="pan b" data-from="1" data-until="2"><img src="assets/05-physical/canyon_config.jpg" alt="studied buildings, view 2"></div>
-  <div class="side" data-from="1" data-until="1">
-    <div class="arrow">⟶ the studied buildings, without the rest of the city</div>
-    <ul>
-      <li>one <b>façade unit</b> of the street (in red)</li>
-      <li>the front building and the ground shade the wall and exchange radiation with it</li>
-    </ul>
+  <!-- step 1: the studied buildings (capture with the façade unit in red) -->
+  <div class="vid" data-from="1" data-until="1"><img src="assets/05-physical/canyon_street_1_01Jan_15h06.png" alt="the studied buildings, façade unit in red">
+    <span class="tag">studied buildings: façade unit in red</span></div>
+
+  <!-- steps 2 to 5: the street. street_intact.jpg / street_cut.jpg are 2472 x 1144 pictures (placeholders made from canyon_street_1_01Jan_15h06_2.png):
+       replace them by Domus captures of the same scene, the second with the studied building cut by a vertical plane; the corner of the building must stay at x = 892 px
+       (left margin = 0), the eaves at y = 56 px and the base at y = 493 px so that the wall figure fits (see README, slide 8). -->
+  <div class="st" data-from="2">
+    <img src="assets/05-physical/street_intact.jpg" alt="the street, studied building on the right">
+    <img class="cutL" src="assets/05-physical/street_cut.jpg" alt="">
+    <img class="cutB" src="assets/05-physical/street_cut.jpg" alt="the same street, studied building cut by a vertical plane">
+    <div class="pl"><i></i><u></u><b>vertical section</b></div>
   </div>
+  <div class="lb ctx" style="left:130px;top:132px" data-from="2">front building</div>
+  <div class="lb ctx" style="left:656px;top:400px" data-from="2">open courtyard</div>
+  <div class="lb s pu" style="left:1051px;top:2px" data-from="2">studied building</div>
+  <div class="lb s pu" style="left:756px;top:196px" data-from="3" data-until="3">studied wall ▶</div>
+  <div class="lb s bl" style="left:787px;top:90px" data-from="4" data-until="4">outside ▶</div>
+  <div class="lb s rd" style="left:1098px;top:90px" data-from="4" data-until="4">inside</div>
 
-  <!-- step 2: vertical section of the street -->
-  <div class="secT arrow" data-from="2" data-until="2">⟶ section of the street: the façade unit and its surroundings</div>
-  <div class="sec" data-from="2" data-until="2"><svg viewBox="0 0 880 570" font-family="CMU Sans Serif, Arial, sans-serif">
-    <!-- Slide 8, step 2: vertical section of the street canyon (studied wall, front building, sun). Keep the transparent frame: it fixes the size of the drawing. -->
+  <!-- the wall: section (steps 3 to 5), its notation (steps 4 and 5) -->
+  <div class="wb"><div class="wsh"><div class="wsi"><svg viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
+    <!-- Slide 8, last steps: the deformed wall of slide 9 (section only), at the same place as on slides 9 and 10. The notation is in city-wall-notes.svg. Keep the transparent frame: it fixes the size of the drawing. -->
   <defs>
-      <pattern id="canyon-section-hat" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
-      <linearGradient id="canyon-section-fb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5b6572"/><stop offset="1" stop-color="#8d97a3"/></linearGradient>
-      <marker id="canyon-section-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
-      <marker id="canyon-section-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e0a800"/></marker>
+      <pattern id="city-wall-shapes-ph-hat" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
     </defs>
-    <rect x="0" y="0" width="880" height="570" fill="none"/>
-  <!-- sky tint, ground -->
-  <rect x="90" y="0" width="790" height="500" fill="#e8f1fa"/>
-  <rect x="0" y="500" width="880" height="70" fill="#c8b48f"/>
-  <!-- shadow of the front building on the street and on the lower part of the wall -->
-  <polygon points="300,347 600,200 600,500 300,500" fill="#1d2733" opacity=".14"/>
-  <!-- studied building: room (inside), slabs, wall = insulation (inside) + structure (outside) -->
-  <rect x="90" y="120" width="110" height="380" fill="#f6ecdc"/>
-  <rect x="200" y="120" width="40" height="380" fill="#f2d65c" stroke="#444"/>
-  <rect x="240" y="120" width="60" height="380" fill="url(#canyon-section-hat)" stroke="#444"/>
-  <rect x="90" y="120" width="110" height="12" fill="#bfc6ce" stroke="#444"/>
-  <rect x="90" y="488" width="110" height="12" fill="#bfc6ce" stroke="#444"/>
-  <!-- the sunlit part of the outside face (above the shadow limit) -->
-  <line x1="300" y1="120" x2="300" y2="347" stroke="#e0a800" stroke-width="7"/>
-  <rect x="198" y="118" width="104" height="384" fill="none" stroke="#d1201f" stroke-width="3.5"/>
-  <!-- front building -->
-  <rect x="600" y="200" width="180" height="300" fill="url(#canyon-section-fb)" stroke="#444"/>
-  <g fill="#b8c7d6"><rect x="630" y="235" width="34" height="34"/><rect x="716" y="235" width="34" height="34"/><rect x="630" y="305" width="34" height="34"/><rect x="716" y="305" width="34" height="34"/><rect x="630" y="375" width="34" height="34"/><rect x="716" y="375" width="34" height="34"/></g>
-  <!-- sun rays and shadow limit -->
-  <g stroke="#e0a800" stroke-width="3.2" marker-end="url(#canyon-section-s)">
-    <line x1="575" y1="15" x2="298" y2="150"/><line x1="708" y1="15" x2="298" y2="215"/><line x1="840" y1="15" x2="298" y2="280"/></g>
-  <line x1="700" y1="151" x2="300" y2="347" stroke="#555" stroke-width="2" stroke-dasharray="7 5"/>
-  <circle cx="842" cy="52" r="18" fill="#f6c200" stroke="#c99700" stroke-width="2"/>
-  <!-- dimensions: H, L, DX, DY -->
-  <g stroke="#222" stroke-width="2" fill="none" marker-start="url(#canyon-section-k)" marker-end="url(#canyon-section-k)">
-    <line x1="62" y1="120" x2="62" y2="500"/>
-    <line x1="200" y1="538" x2="300" y2="538"/>
-    <line x1="302" y1="470" x2="598" y2="470"/>
-    <line x1="818" y1="200" x2="818" y2="500"/>
-  </g>
-  <g font-size="26" font-style="italic" fill="#111"><text x="30" y="318">H</text><text x="242" y="560">L</text><text x="438" y="458">ΔX</text><text x="832" y="356">ΔY</text></g>
-  <!-- labels -->
-  <g font-size="21">
-    <text x="150" y="82" text-anchor="middle" fill="#b02020" font-weight="700">studied wall</text>
-    <text x="130" y="320" text-anchor="middle" fill="#c0392b">inside</text>
-    <text x="330" y="82" fill="#1f5c99">outside</text>
-    <text x="318" y="294" fill="#b38600" font-weight="700">sunlit</text>
-    <text x="318" y="425" fill="#333" font-weight="700">shadow</text>
-    <text x="760" y="188" text-anchor="middle" fill="#333">front building</text>
-    <text x="840" y="92" text-anchor="middle" fill="#8a6a00">sun</text>
-    <text x="0" y="0" fill="#555" font-size="17" text-anchor="middle" transform="translate(498 232) rotate(-26)">shadow limit</text>
-    <text x="30" y="545" fill="#7a4b1d">soil</text>
-  </g>
-</svg></div>
+    <rect x="0" y="0" width="400" height="560" fill="none"/>
+<path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#city-wall-shapes-ph-hat)"/>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
+    <g fill="none" stroke="#4D0DAB" stroke-linecap="round">
+      <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" stroke-width="4" opacity=".35"/>
+      <path d="M300,60 L300,480" stroke-width="4" opacity=".35"/>
+      <path d="M120,60 L300,60" stroke-width="4" opacity=".35"/>
+      <path d="M116,480 L300,480" stroke-width="4" opacity=".35"/>
+    </g>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480" fill="none" stroke="#d1495b" stroke-width="3"/>
+  </svg></div></div></div>
+  <div class="shd"></div>
+  <div class="wb nt"><svg viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
+    <!-- Slide 8: notation of the deformed wall (same as slide 9), in four groups (classes gA to gD) shown one after the other by the CSS of the slide. Keep the transparent frame: it fixes the size of the drawing. -->
+  <defs>
+      <marker id="city-wall-notes-ph-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker><marker id="city-wall-notes-ph-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/></marker>
+    </defs>
+    <rect x="0" y="0" width="400" height="560" fill="none"/>
+    <g class="gD"><g stroke="#222" stroke-width="1.8" fill="none">
+      <line x1="30" y1="540" x2="30" y2="470" marker-end="url(#city-wall-notes-ph-g)"/><line x1="30" y1="540" x2="100" y2="540" marker-end="url(#city-wall-notes-ph-g)"/>
+      <line x1="372" y1="60" x2="372" y2="480" marker-start="url(#city-wall-notes-ph-g)" marker-end="url(#city-wall-notes-ph-g)"/>
+      <line x1="116" y1="530" x2="300" y2="530" marker-start="url(#city-wall-notes-ph-g)" marker-end="url(#city-wall-notes-ph-g)"/>
+    </g><g font-size="20" font-style="italic"><text x="38" y="480">y</text><text x="96" y="556">x</text><text x="380" y="276">H</text><text x="200" y="552">L</text></g></g>
+    <g class="gA"><text x="20" y="110" font-size="19" fill="#1f5c99">outside</text><text x="310" y="110" font-size="19" fill="#c0392b">inside</text></g>
+    <g class="gB"><text x="158" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text><text x="236" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text><text x="155" y="305" font-size="15" fill="#1d2733">structural</text><text x="232" y="305" font-size="15" fill="#1d2733">insulation</text></g>
+    <g class="gC"><g font-size="25" font-style="italic" fill="#4D0DAB">
+      <text x="60" y="276">Γ<tspan font-size="16" dy="7">1</tspan></text><text x="312" y="276">Γ<tspan font-size="16" dy="7">3</tspan></text>
+      <text x="196" y="48">Γ<tspan font-size="16" dy="7">4</tspan></text><text x="196" y="512">Γ<tspan font-size="16" dy="7">2</tspan></text>
+    </g><text x="248" y="468" font-size="25" font-style="italic" fill="#d1495b">Γ<tspan font-size="16" dy="7">i</tspan></text></g>
+  </svg></div>
+  <div class="note" data-from="4">thickness<br>exaggerated</div>
+  <script>
+  (function(){
+    const s=document.currentScript.closest('section'), v=s.querySelector('video');
+    s.addEventListener('step',e=>{ if(e.detail.step===0){ v.play().catch(()=>{}); } else v.pause(); });
+    s.addEventListener('leave',()=>v.pause());
+    if(new URLSearchParams(location.search).has('print')) v.removeAttribute('src');
+  })();
+  </script>
+</section>
 
-  <!-- step 3: the wall alone; same picture as the first one of the next slide (governing equations) -->
-  <div class="dom layers" data-from="3"><svg viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
+<!-- ==== parts/05-physical/02-governing.html ==== -->
+<!-- ================================================================ 2. governing equations -->
+<!-- subsection: Governing equations -->
+<style>
+.gov .dom{left:776px;top:-6px;width:416px;height:582px}  /* the wall: same box on slides 8, 9 and 10 */
+.gov .eqs{left:0;top:-6px;width:762px;gap:26px}
+.gov .eq{font-size:19px}
+.gov[data-step="1"] .eq.cOm,.gov[data-step="2"] .eq.cOm,.gov[data-step="1"] .eq.cIc,.gov[data-step="2"] .eq.cIc,.gov[data-step="2"] .eq.cGj{opacity:.45}
+</style>
+<section data-src="parts/05-physical/02-governing.html" class="slide ph gov" data-title="Governing equations" data-steps="2">
+  <!-- drawing: one picture per step, stacked (see README, Drawings) -->
+  <div class="dom layers">
+    <svg data-until="0" viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
     <!-- Slide 9, step 0: boundaries faint, no normals. Layers of this slide are stacked in parts/05-physical.html. Keep the transparent frame: it fixes the size of the drawing. -->
   <defs>
       <pattern id="governing-boundaries-faint-ph-hat" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
@@ -950,10 +977,10 @@ document.addEventListener("DOMContentLoaded",()=>document.querySelectorAll(".ph 
   <!-- Ω1 structural (outside), Ω2 insulation (inside), interface Γi -->
     <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#governing-boundaries-faint-ph-hat)"/>
     <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
-    <text x="165" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
-    <text x="252" y="190" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
-    <text x="165" y="305" font-size="15" fill="#1d2733">structural</text>
-    <text x="250" y="215" font-size="15" fill="#1d2733">insulation</text>
+    <text x="158" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
+    <text x="236" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
+    <text x="155" y="305" font-size="15" fill="#1d2733">structural</text>
+    <text x="232" y="305" font-size="15" fill="#1d2733">insulation</text>
     <!-- boundaries -->
     <g fill="none" stroke="#4D0DAB" stroke-linecap="round">
       <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" stroke-width="4" opacity=".35"/>
@@ -975,72 +1002,6 @@ document.addEventListener("DOMContentLoaded",()=>document.querySelectorAll(".ph 
       <line x1="116" y1="530" x2="300" y2="530" marker-start="url(#governing-boundaries-faint-ph-g)" marker-end="url(#governing-boundaries-faint-ph-g)"/>
     </g>
     <g font-size="20" font-style="italic"><text x="38" y="480">y</text><text x="96" y="556">x</text><text x="380" y="276">H</text><text x="200" y="552">L</text></g>
-  </svg></div>
-  <div class="model" data-from="3">
-    <div class="arrow">⟶ the model: a 2D section of the wall</div>
-    <ul>
-      <li>height <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span>, thickness <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi></mrow><annotation encoding="application/x-tex">L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span></span></span></span>, two materials: structure <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Ω</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">\Omega_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and insulation <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Ω</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">\Omega_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></li>
-      <li>boundaries <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Γ</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">\Gamma_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> (outside), <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Γ</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">\Gamma_3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> (inside), <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Γ</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">\Gamma_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Γ</mi><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">\Gamma_4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> (bottom, top)</li>
-      <li>the street (ground, front building at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>X</mi></mrow><annotation encoding="application/x-tex">\Delta X</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">Δ</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span></span></span></span>, height <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>Y</mi></mrow><annotation encoding="application/x-tex">\Delta Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">Δ</span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span></span></span></span>, sun) acts through the conditions on <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Γ</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">\Gamma_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord">Γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></li>
-    </ul>
-  </div>
-  <script>
-  (function(){
-    const s=document.currentScript.closest('section'), v=s.querySelector('video');
-    s.addEventListener('step',e=>{ if(e.detail.step===0){ v.play().catch(()=>{}); } else v.pause(); });
-    s.addEventListener('leave',()=>v.pause());
-    if(new URLSearchParams(location.search).has('print')) v.removeAttribute('src');
-  })();
-  </script>
-</section>
-
-<!-- ==== parts/05-physical/02-governing.html ==== -->
-<!-- ================================================================ 2. governing equations -->
-<!-- subsection: Governing equations -->
-<style>
-.gov .dom{left:0;top:-8px;width:380px;height:532px}
-.gov .eqs{left:400px;top:-6px;width:792px;gap:26px}
-.gov[data-step="1"] .eq.cOm,.gov[data-step="2"] .eq.cOm,.gov[data-step="1"] .eq.cIc,.gov[data-step="2"] .eq.cIc,.gov[data-step="2"] .eq.cGj{opacity:.45}
-</style>
-<section data-src="parts/05-physical/02-governing.html" class="slide ph gov" data-title="Governing equations" data-steps="2">
-  <!-- drawing: one picture per step, stacked (see README, Drawings) -->
-  <div class="dom layers">
-    <svg data-until="0" viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
-    <!-- Slide 9, step 0: boundaries faint, no normals. Layers of this slide are stacked in parts/05-physical.html. Keep the transparent frame: it fixes the size of the drawing. -->
-  <defs>
-      <pattern id="governing-boundaries-faint-ph-hat-2" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
-      <marker id="governing-boundaries-faint-ph-g-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
-      <marker id="governing-boundaries-faint-ph-r-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/></marker>
-    </defs>
-    <rect x="0" y="0" width="400" height="560" fill="none"/>
-  <!-- Ω1 structural (outside), Ω2 insulation (inside), interface Γi -->
-    <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#governing-boundaries-faint-ph-hat-2)"/>
-    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
-    <text x="165" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
-    <text x="252" y="190" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
-    <text x="165" y="305" font-size="15" fill="#1d2733">structural</text>
-    <text x="250" y="215" font-size="15" fill="#1d2733">insulation</text>
-    <!-- boundaries -->
-    <g fill="none" stroke="#4D0DAB" stroke-linecap="round">
-      <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" stroke-width="4" opacity=".35"/>
-      <path d="M300,60 L300,480" stroke-width="4" opacity=".35"/>
-      <path d="M120,60 L300,60" stroke-width="4" opacity=".35"/>
-      <path d="M116,480 L300,480" stroke-width="4" opacity=".35"/>
-    </g>
-    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480" fill="none" stroke="#d1495b" stroke-width="3"/>
-    <g font-size="25" font-style="italic" fill="#4D0DAB">
-      <text x="60" y="276">Γ<tspan font-size="16" dy="7">1</tspan></text><text x="312" y="276">Γ<tspan font-size="16" dy="7">3</tspan></text>
-      <text x="196" y="48">Γ<tspan font-size="16" dy="7">4</tspan></text><text x="196" y="512">Γ<tspan font-size="16" dy="7">2</tspan></text>
-    </g>
-    <text x="248" y="468" font-size="25" font-style="italic" fill="#d1495b">Γ<tspan font-size="16" dy="7">i</tspan></text>
-    <text x="20" y="110" font-size="19" fill="#1f5c99">outside</text><text x="310" y="110" font-size="19" fill="#c0392b">inside</text>
-    <!-- axes, H, L -->
-    <g stroke="#222" stroke-width="1.8" fill="none">
-      <line x1="30" y1="540" x2="30" y2="470" marker-end="url(#governing-boundaries-faint-ph-g-2)"/><line x1="30" y1="540" x2="100" y2="540" marker-end="url(#governing-boundaries-faint-ph-g-2)"/>
-      <line x1="372" y1="60" x2="372" y2="480" marker-start="url(#governing-boundaries-faint-ph-g-2)" marker-end="url(#governing-boundaries-faint-ph-g-2)"/>
-      <line x1="116" y1="530" x2="300" y2="530" marker-start="url(#governing-boundaries-faint-ph-g-2)" marker-end="url(#governing-boundaries-faint-ph-g-2)"/>
-    </g>
-    <g font-size="20" font-style="italic"><text x="38" y="480">y</text><text x="96" y="556">x</text><text x="380" y="276">H</text><text x="200" y="552">L</text></g>
   </svg>
     <svg data-from="1" data-until="1" viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
     <!-- Slide 9, step 1: boundaries bold, no normals. Layers of this slide are stacked in parts/05-physical.html. Keep the transparent frame: it fixes the size of the drawing. -->
@@ -1053,10 +1014,10 @@ document.addEventListener("DOMContentLoaded",()=>document.querySelectorAll(".ph 
   <!-- Ω1 structural (outside), Ω2 insulation (inside), interface Γi -->
     <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#governing-boundaries-bold-ph-hat)"/>
     <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
-    <text x="165" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
-    <text x="252" y="190" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
-    <text x="165" y="305" font-size="15" fill="#1d2733">structural</text>
-    <text x="250" y="215" font-size="15" fill="#1d2733">insulation</text>
+    <text x="158" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
+    <text x="236" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
+    <text x="155" y="305" font-size="15" fill="#1d2733">structural</text>
+    <text x="232" y="305" font-size="15" fill="#1d2733">insulation</text>
     <!-- boundaries -->
     <g fill="none" stroke="#4D0DAB" stroke-linecap="round">
       <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" stroke-width="9" opacity="1"/>
@@ -1090,10 +1051,10 @@ document.addEventListener("DOMContentLoaded",()=>document.querySelectorAll(".ph 
   <!-- Ω1 structural (outside), Ω2 insulation (inside), interface Γi -->
     <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#governing-normals-ph-hat)"/>
     <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
-    <text x="165" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
-    <text x="252" y="190" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
-    <text x="165" y="305" font-size="15" fill="#1d2733">structural</text>
-    <text x="250" y="215" font-size="15" fill="#1d2733">insulation</text>
+    <text x="158" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
+    <text x="236" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
+    <text x="155" y="305" font-size="15" fill="#1d2733">structural</text>
+    <text x="232" y="305" font-size="15" fill="#1d2733">insulation</text>
     <!-- boundaries -->
     <g fill="none" stroke="#4D0DAB" stroke-linecap="round">
       <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" stroke-width="4" opacity=".6"/>
@@ -1143,8 +1104,9 @@ c-10,0,-16.667,5,-20,15z M188 15 H145 v585 v600 v585 h43z"/></svg></span></span>
 <!-- ================================================================ 3. external BCs -->
 <!-- subsection: Boundary conditions -->
 <style>
-.ext .eqs{left:0;top:40px;width:690px;gap:56px}
-.ext .fig{left:730px;top:-8px;width:460px;height:540px}
+.ext .eqs{left:0;top:40px;width:612px;gap:56px}
+.ext .fig{left:776px;top:-6px;width:416px;height:582px}  /* same wall box as slides 8 and 9; the drawing overflows to its left */
+.ext .fig svg{overflow:visible}
 .ext[data-step="1"] .eq.cConv{opacity:.45}
 </style>
 <section data-src="parts/05-physical/03-external-bc.html" class="slide ph ext" data-title="External boundary conditions" data-steps="1">
@@ -1174,22 +1136,25 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
   </div>
   <!-- drawing: one picture per step, stacked (see README, Drawings) -->
   <div class="fig layers">
-    <svg data-until="0" viewBox="0 0 480 560" font-family="CMU Sans Serif, Arial, sans-serif">
-    <!-- Slide 10, step 0: wind profile only. Layers of this slide are stacked in parts/05-physical.html. Keep the transparent frame: it fixes the size of the drawing. -->
+    <svg data-until="0" viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
+    <!-- Slide 10: the wall is the one of slide 9 (same place), the boundary condition is drawn at its left; the drawing overflows to the left of the frame (the slide sets overflow: visible). Keep the transparent frame. -->
   <defs>
-      <pattern id="external-convection-ph-hat2" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
+      <pattern id="external-convection-ph-hat" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
       <marker id="external-convection-ph-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2a7fb8"/></marker>
       <marker id="external-convection-ph-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e0a800"/></marker>
       <marker id="external-convection-ph-l" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/></marker>
       <marker id="external-convection-ph-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
     </defs>
-    <rect x="0" y="0" width="480" height="560" fill="none"/>
-  <rect x="0" y="500" width="480" height="60" fill="#c8b48f"/>
-    <!-- wall: outside face Γ1 on the left -->
-    <path d="M300,40 C282,140 318,230 296,320 C282,390 306,450 300,500 L400,500 L400,40 Z" fill="url(#external-convection-ph-hat2)" stroke="#444"/>
-    <rect x="400" y="40" width="40" height="460" fill="#f2d65c" stroke="#444"/>
-    <path d="M300,40 C282,140 318,230 296,320 C282,390 306,450 300,500" fill="none" stroke="#4D0DAB" stroke-width="5"/>
-    <text x="318" y="250" font-size="26" font-style="italic" fill="#4D0DAB">Γ<tspan font-size="17" dy="7">1</tspan></text>
+    <rect x="0" y="0" width="400" height="560" fill="none"/>
+    <g transform="translate(-162 23.5) scale(.913)">
+  <rect x="-60" y="500" width="566" height="60" fill="#c8b48f"/>
+  </g>
+    <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#external-convection-ph-hat)"/>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480" fill="none" stroke="#d1495b" stroke-width="3"/>
+    <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" fill="none" stroke="#4D0DAB" stroke-width="5"/>
+    <text x="128" y="252" font-size="24" font-style="italic" fill="#4D0DAB">Γ<tspan font-size="16" dy="7">1</tspan></text>
+    <g transform="translate(-162 23.5) scale(.913)">
     <!-- wind profile (power law) -->
     <g>
       <path d="M30,500 C33,420 60,300 80,40" fill="none" stroke="#2a7fb8" stroke-width="2" stroke-dasharray="5 4"/>
@@ -1200,24 +1165,28 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
       <text x="40" y="36" font-size="20" font-style="italic">y</text>
       <text x="120" y="440" font-size="21" fill="#2a7fb8" font-style="italic">v(y) ∝ y<tspan font-size="14" dy="-9">β</tspan></text>
     </g>
-    <text x="40" y="545" font-size="19" fill="#1f5c99">outside</text><text x="404" y="545" font-size="19" fill="#c0392b">inside</text>
+<text x="40" y="545" font-size="19" fill="#1f5c99">outside</text><text x="404" y="545" font-size="19" fill="#c0392b">inside</text>
+    </g>
   </svg>
-    <svg data-from="1" viewBox="0 0 480 560" font-family="CMU Sans Serif, Arial, sans-serif">
-    <!-- Slide 10, step 1: wind profile and radiation. Layers of this slide are stacked in parts/05-physical.html. Keep the transparent frame: it fixes the size of the drawing. -->
+    <svg data-from="1" viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
+    <!-- Slide 10: the wall is the one of slide 9 (same place), the boundary condition is drawn at its left; the drawing overflows to the left of the frame (the slide sets overflow: visible). Keep the transparent frame. -->
   <defs>
-      <pattern id="external-radiation-ph-hat2" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
+      <pattern id="external-radiation-ph-hat" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
       <marker id="external-radiation-ph-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2a7fb8"/></marker>
       <marker id="external-radiation-ph-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e0a800"/></marker>
       <marker id="external-radiation-ph-l" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/></marker>
       <marker id="external-radiation-ph-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
     </defs>
-    <rect x="0" y="0" width="480" height="560" fill="none"/>
-  <rect x="0" y="500" width="480" height="60" fill="#c8b48f"/>
-    <!-- wall: outside face Γ1 on the left -->
-    <path d="M300,40 C282,140 318,230 296,320 C282,390 306,450 300,500 L400,500 L400,40 Z" fill="url(#external-radiation-ph-hat2)" stroke="#444"/>
-    <rect x="400" y="40" width="40" height="460" fill="#f2d65c" stroke="#444"/>
-    <path d="M300,40 C282,140 318,230 296,320 C282,390 306,450 300,500" fill="none" stroke="#4D0DAB" stroke-width="5"/>
-    <text x="318" y="250" font-size="26" font-style="italic" fill="#4D0DAB">Γ<tspan font-size="17" dy="7">1</tspan></text>
+    <rect x="0" y="0" width="400" height="560" fill="none"/>
+    <g transform="translate(-162 23.5) scale(.913)">
+  <rect x="-60" y="500" width="566" height="60" fill="#c8b48f"/>
+  </g>
+    <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#external-radiation-ph-hat)"/>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480" fill="none" stroke="#d1495b" stroke-width="3"/>
+    <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" fill="none" stroke="#4D0DAB" stroke-width="5"/>
+    <text x="128" y="252" font-size="24" font-style="italic" fill="#4D0DAB">Γ<tspan font-size="16" dy="7">1</tspan></text>
+    <g transform="translate(-162 23.5) scale(.913)">
     <!-- wind profile (power law) -->
     <g>
       <path d="M30,500 C33,420 60,300 80,40" fill="none" stroke="#2a7fb8" stroke-width="2" stroke-dasharray="5 4"/>
@@ -1236,7 +1205,8 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
       <path d="M150,300 q12,-14 24,0 t24,0 t24,0 t24,0 t24,0" fill="none" stroke="#d1495b" stroke-width="3" marker-end="url(#external-radiation-ph-l)"/>
       <text x="156" y="392" font-size="21" font-weight="700" fill="#d1495b" font-style="italic">q<tspan font-size="14" dy="5">ℓw</tspan></text>
     </g>
-    <text x="40" y="545" font-size="19" fill="#1f5c99">outside</text><text x="404" y="545" font-size="19" fill="#c0392b">inside</text>
+<text x="40" y="545" font-size="19" fill="#1f5c99">outside</text><text x="404" y="545" font-size="19" fill="#c0392b">inside</text>
+    </g>
   </svg>
   </div>
 
@@ -1246,10 +1216,10 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
 <!-- ==== parts/05-physical/04-radiation.html ==== -->
 <!-- ================================================================ 4. short- and long-wave -->
 <style>
-.rad .fig{left:0;top:0;width:500px}
+.rad .fig{left:692px;top:0;width:500px}
 .rad .fig .img{position:relative;width:500px;height:392px}
 .rad .fig .img img{position:absolute;inset:0;width:100%;height:100%;border-radius:10px;box-shadow:0 4px 18px rgba(0,41,75,.16);transition:opacity .6s}
-.rad .eqs{left:530px;top:0;width:662px;gap:26px}
+.rad .eqs{left:0;top:0;width:660px;gap:26px}
 .rad .eq{font-size:19px}
 .rad .eq .katex-display{font-size:1.1em}
 .rad .eq.cLw .katex-display{font-size:1em}
@@ -1341,8 +1311,8 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
 <!-- ==== parts/05-physical/05-internal-bc.html ==== -->
 <!-- ================================================================ 5. inside, top and bottom -->
 <style>
-.inn .fig{left:0;top:-8px;width:540px;height:550px}
-.inn .eqs{left:566px;top:0;width:626px}
+.inn .fig{left:652px;top:-8px;width:540px;height:550px}
+.inn .eqs{left:0;top:0;width:610px}
 .inn[data-step="1"] .eq.cConv,.inn[data-step="2"] .eq.cConv,.inn[data-step="2"] .eq.cLw{opacity:.45}
 </style>
 <section data-src="parts/05-physical/05-internal-bc.html" class="slide ph inn" data-title="Internal, top and bottom boundary conditions" data-steps="2">
@@ -1670,18 +1640,18 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
   <div class="wall"><svg viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
     <!-- Slide 9, step 0: boundaries faint, no normals. Layers of this slide are stacked in parts/05-physical.html. Keep the transparent frame: it fixes the size of the drawing. -->
   <defs>
-      <pattern id="governing-boundaries-faint-ph-hat-3" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
-      <marker id="governing-boundaries-faint-ph-g-3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
-      <marker id="governing-boundaries-faint-ph-r-3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/></marker>
+      <pattern id="governing-boundaries-faint-ph-hat-2" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
+      <marker id="governing-boundaries-faint-ph-g-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
+      <marker id="governing-boundaries-faint-ph-r-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/></marker>
     </defs>
     <rect x="0" y="0" width="400" height="560" fill="none"/>
   <!-- Ω1 structural (outside), Ω2 insulation (inside), interface Γi -->
-    <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#governing-boundaries-faint-ph-hat-3)"/>
+    <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#governing-boundaries-faint-ph-hat-2)"/>
     <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
-    <text x="165" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
-    <text x="252" y="190" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
-    <text x="165" y="305" font-size="15" fill="#1d2733">structural</text>
-    <text x="250" y="215" font-size="15" fill="#1d2733">insulation</text>
+    <text x="158" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
+    <text x="236" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
+    <text x="155" y="305" font-size="15" fill="#1d2733">structural</text>
+    <text x="232" y="305" font-size="15" fill="#1d2733">insulation</text>
     <!-- boundaries -->
     <g fill="none" stroke="#4D0DAB" stroke-linecap="round">
       <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" stroke-width="4" opacity=".35"/>
@@ -1698,9 +1668,9 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
     <text x="20" y="110" font-size="19" fill="#1f5c99">outside</text><text x="310" y="110" font-size="19" fill="#c0392b">inside</text>
     <!-- axes, H, L -->
     <g stroke="#222" stroke-width="1.8" fill="none">
-      <line x1="30" y1="540" x2="30" y2="470" marker-end="url(#governing-boundaries-faint-ph-g-3)"/><line x1="30" y1="540" x2="100" y2="540" marker-end="url(#governing-boundaries-faint-ph-g-3)"/>
-      <line x1="372" y1="60" x2="372" y2="480" marker-start="url(#governing-boundaries-faint-ph-g-3)" marker-end="url(#governing-boundaries-faint-ph-g-3)"/>
-      <line x1="116" y1="530" x2="300" y2="530" marker-start="url(#governing-boundaries-faint-ph-g-3)" marker-end="url(#governing-boundaries-faint-ph-g-3)"/>
+      <line x1="30" y1="540" x2="30" y2="470" marker-end="url(#governing-boundaries-faint-ph-g-2)"/><line x1="30" y1="540" x2="100" y2="540" marker-end="url(#governing-boundaries-faint-ph-g-2)"/>
+      <line x1="372" y1="60" x2="372" y2="480" marker-start="url(#governing-boundaries-faint-ph-g-2)" marker-end="url(#governing-boundaries-faint-ph-g-2)"/>
+      <line x1="116" y1="530" x2="300" y2="530" marker-start="url(#governing-boundaries-faint-ph-g-2)" marker-end="url(#governing-boundaries-faint-ph-g-2)"/>
     </g>
     <g font-size="20" font-style="italic"><text x="38" y="480">y</text><text x="96" y="556">x</text><text x="380" y="276">H</text><text x="200" y="552">L</text></g>
   </svg></div>

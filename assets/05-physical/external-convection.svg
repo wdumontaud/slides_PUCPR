@@ -1,19 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 560" font-family="CMU Sans Serif, Arial, sans-serif">
-    <!-- Slide 10, step 0: wind profile only. Layers of this slide are stacked in parts/05-physical.html. Keep the transparent frame: it fixes the size of the drawing. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
+    <!-- Slide 10: the wall is the one of slide 9 (same place), the boundary condition is drawn at its left; the drawing overflows to the left of the frame (the slide sets overflow: visible). Keep the transparent frame. -->
   <defs>
-      <pattern id="external-convection-ph-hat2" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
+      <pattern id="external-convection-ph-hat" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
       <marker id="external-convection-ph-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2a7fb8"/></marker>
       <marker id="external-convection-ph-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e0a800"/></marker>
       <marker id="external-convection-ph-l" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/></marker>
       <marker id="external-convection-ph-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
     </defs>
-    <rect x="0" y="0" width="480" height="560" fill="none"/>
-  <rect x="0" y="500" width="480" height="60" fill="#c8b48f"/>
-    <!-- wall: outside face Γ1 on the left -->
-    <path d="M300,40 C282,140 318,230 296,320 C282,390 306,450 300,500 L400,500 L400,40 Z" fill="url(#external-convection-ph-hat2)" stroke="#444"/>
-    <rect x="400" y="40" width="40" height="460" fill="#f2d65c" stroke="#444"/>
-    <path d="M300,40 C282,140 318,230 296,320 C282,390 306,450 300,500" fill="none" stroke="#4D0DAB" stroke-width="5"/>
-    <text x="318" y="250" font-size="26" font-style="italic" fill="#4D0DAB">Γ<tspan font-size="17" dy="7">1</tspan></text>
+    <rect x="0" y="0" width="400" height="560" fill="none"/>
+    <g transform="translate(-162 23.5) scale(.913)">
+  <rect x="-60" y="500" width="566" height="60" fill="#c8b48f"/>
+  </g>
+    <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#external-convection-ph-hat)"/>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480" fill="none" stroke="#d1495b" stroke-width="3"/>
+    <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" fill="none" stroke="#4D0DAB" stroke-width="5"/>
+    <text x="128" y="252" font-size="24" font-style="italic" fill="#4D0DAB">Γ<tspan font-size="16" dy="7">1</tspan></text>
+    <g transform="translate(-162 23.5) scale(.913)">
     <!-- wind profile (power law) -->
     <g>
       <path d="M30,500 C33,420 60,300 80,40" fill="none" stroke="#2a7fb8" stroke-width="2" stroke-dasharray="5 4"/>
@@ -24,5 +27,6 @@
       <text x="40" y="36" font-size="20" font-style="italic">y</text>
       <text x="120" y="440" font-size="21" fill="#2a7fb8" font-style="italic">v(y) ∝ y<tspan font-size="14" dy="-9">β</tspan></text>
     </g>
-    <text x="40" y="545" font-size="19" fill="#1f5c99">outside</text><text x="404" y="545" font-size="19" fill="#c0392b">inside</text>
+<text x="40" y="545" font-size="19" fill="#1f5c99">outside</text><text x="404" y="545" font-size="19" fill="#c0392b">inside</text>
+    </g>
   </svg>

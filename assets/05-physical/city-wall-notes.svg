@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
+    <!-- Slide 8: notation of the deformed wall (same as slide 9), in four groups (classes gA to gD) shown one after the other by the CSS of the slide. Keep the transparent frame: it fixes the size of the drawing. -->
+  <defs>
+      <marker id="city-wall-notes-ph-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker><marker id="city-wall-notes-ph-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d1495b"/></marker>
+    </defs>
+    <rect x="0" y="0" width="400" height="560" fill="none"/>
+    <g class="gD"><g stroke="#222" stroke-width="1.8" fill="none">
+      <line x1="30" y1="540" x2="30" y2="470" marker-end="url(#city-wall-notes-ph-g)"/><line x1="30" y1="540" x2="100" y2="540" marker-end="url(#city-wall-notes-ph-g)"/>
+      <line x1="372" y1="60" x2="372" y2="480" marker-start="url(#city-wall-notes-ph-g)" marker-end="url(#city-wall-notes-ph-g)"/>
+      <line x1="116" y1="530" x2="300" y2="530" marker-start="url(#city-wall-notes-ph-g)" marker-end="url(#city-wall-notes-ph-g)"/>
+    </g><g font-size="20" font-style="italic"><text x="38" y="480">y</text><text x="96" y="556">x</text><text x="380" y="276">H</text><text x="200" y="552">L</text></g></g>
+    <g class="gA"><text x="20" y="110" font-size="19" fill="#1f5c99">outside</text><text x="310" y="110" font-size="19" fill="#c0392b">inside</text></g>
+    <g class="gB"><text x="158" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text><text x="236" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text><text x="155" y="305" font-size="15" fill="#1d2733">structural</text><text x="232" y="305" font-size="15" fill="#1d2733">insulation</text></g>
+    <g class="gC"><g font-size="25" font-style="italic" fill="#4D0DAB">
+      <text x="60" y="276">Γ<tspan font-size="16" dy="7">1</tspan></text><text x="312" y="276">Γ<tspan font-size="16" dy="7">3</tspan></text>
+      <text x="196" y="48">Γ<tspan font-size="16" dy="7">4</tspan></text><text x="196" y="512">Γ<tspan font-size="16" dy="7">2</tspan></text>
+    </g><text x="248" y="468" font-size="25" font-style="italic" fill="#d1495b">Γ<tspan font-size="16" dy="7">i</tspan></text></g>
+  </svg>

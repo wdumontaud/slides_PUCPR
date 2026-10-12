@@ -9,10 +9,10 @@
   <!-- Ω1 structural (outside), Ω2 insulation (inside), interface Γi -->
     <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#governing-boundaries-bold-ph-hat)"/>
     <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
-    <text x="165" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
-    <text x="252" y="190" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
-    <text x="165" y="305" font-size="15" fill="#1d2733">structural</text>
-    <text x="250" y="215" font-size="15" fill="#1d2733">insulation</text>
+    <text x="158" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">1</tspan></text>
+    <text x="236" y="275" font-size="30" font-style="italic" fill="#1d2733">Ω<tspan font-size="19" dy="8">2</tspan></text>
+    <text x="155" y="305" font-size="15" fill="#1d2733">structural</text>
+    <text x="232" y="305" font-size="15" fill="#1d2733">insulation</text>
     <!-- boundaries -->
     <g fill="none" stroke="#4D0DAB" stroke-linecap="round">
       <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" stroke-width="9" opacity="1"/>

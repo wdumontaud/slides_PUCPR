@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
+    <!-- Slide 8, last steps: the deformed wall of slide 9 (section only), at the same place as on slides 9 and 10. The notation is in city-wall-notes.svg. Keep the transparent frame: it fixes the size of the drawing. -->
+  <defs>
+      <pattern id="city-wall-shapes-ph-hat" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
+    </defs>
+    <rect x="0" y="0" width="400" height="560" fill="none"/>
+<path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#city-wall-shapes-ph-hat)"/>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
+    <g fill="none" stroke="#4D0DAB" stroke-linecap="round">
+      <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" stroke-width="4" opacity=".35"/>
+      <path d="M300,60 L300,480" stroke-width="4" opacity=".35"/>
+      <path d="M120,60 L300,60" stroke-width="4" opacity=".35"/>
+      <path d="M116,480 L300,480" stroke-width="4" opacity=".35"/>
+    </g>
+    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480" fill="none" stroke="#d1495b" stroke-width="3"/>
+  </svg>
