@@ -134,6 +134,11 @@ def include_svgs(html, used, warnings):
                 own[k] = f"{own[k]} {v}"
             else:
                 own.setdefault(k, v)
+        # PowerPoint / Illustrator exports have width/height but no viewBox: the drawing would then keep its pixel size and ignore the CSS box
+        if "viewBox" not in own and own.get("width", "").replace(".", "").isdigit() and own.get("height", "").replace(".", "").isdigit():
+            own["viewBox"] = f'0 0 {own["width"]} {own["height"]}'
+        if "viewBox" in own:
+            own.pop("width", None); own.pop("height", None)
         body = text[root.end():]
         if copies[rel] > 1:                                           # 2nd copy of the same drawing: its ids must not clash with the 1st
             body = unique_ids(body, f"-{copies[rel]}")

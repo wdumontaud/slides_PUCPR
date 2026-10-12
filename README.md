@@ -137,3 +137,6 @@ Shortcuts (`\x`, `\n` bold vectors, `\dd`) are defined in `math_render.py` (`MAC
 In the slides of the physical problem, an equation is `<div class="eq cX"><p class="intro"><b>Title.</b> a sentence</p> \[ ... \]</div>`:
 no box, the title in colour, then the display equation with its number (1), (2)... at the right margin. The numbers follow the order of the
 talk (set at load by a few lines of `parts/05-physical/00-style.html`), so adding an equation renumbers the next ones.
+
+### Editing the wall drawings in PowerPoint (slide 8)
+`city-wall-shapes.svg` and `city-wall-notes.svg` can be edited in `illustrations.pptx` and saved again as SVG: the build gives any SVG without `viewBox` (PowerPoint/Illustrator exports) a `viewBox` from its `width`/`height`, so it is scaled by the slide CSS. The notes are shown as ONE drawing from step 4 (the groups of the old version do not survive a PowerPoint export). The notes frame is its bounding box: if you move objects beyond the current extent, adjust `.city .nt{left;width}` in `parts/05-physical/01-city-to-wall.html` (the height must stay 582 px = same scale as the wall).

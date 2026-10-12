@@ -34,11 +34,10 @@
 .city[data-step="4"] .wsi,.city[data-step="5"] .wsi{transform:scaleX(1)}
 .city .shd{left:893px;top:56px;width:194px;height:22px;background:linear-gradient(rgba(0,0,0,.30),rgba(0,0,0,0));opacity:0;transition:opacity .8s}
 .city[data-step="4"] .shd,.city[data-step="5"] .shd{opacity:1}
-/* notation of the wall: four groups */
-.city .nt .gA,.city .nt .gB,.city .nt .gC,.city .nt .gD{opacity:0;transition:opacity .6s}
-.city[data-step="4"] .nt .gD,.city[data-step="5"] .nt .gD,.city[data-step="5"] .nt .gA,.city[data-step="5"] .nt .gB,.city[data-step="5"] .nt .gC{opacity:1}
-.city .nt .gA text:first-child{fill:#a9d1f5}   /* 'outside' and Gamma_1 sit on the dark part of the picture */
-.city .nt .gC g text:first-child{fill:#d6c6ff}
+/* notation of the wall: ONE drawing (city-wall-notes.svg, exported from PowerPoint as it is), shown as a whole from step 4.
+   Its frame is the bounding box of the PowerPoint objects: same scale as the wall (582 px high), 30.4 px wider on the left, 459 px wide */
+.city .nt{left:745.6px;width:459px;opacity:0;transition:opacity .6s}
+.city[data-step="4"] .nt,.city[data-step="5"] .nt{opacity:1}
 .city .note{left:1102px;top:532px;width:130px;font-size:15px;line-height:1.15;font-style:italic;color:#4b3b1f}
 </style>
 <section class="slide ph city" data-title="Physical problem: from the city to the wall" data-steps="5">
@@ -63,10 +62,8 @@
   <div class="lb ctx" style="left:656px;top:400px" data-from="2">open courtyard</div>
   <div class="lb s pu" style="left:1051px;top:2px" data-from="2">studied building</div>
   <div class="lb s pu" style="left:756px;top:196px" data-from="3" data-until="3">studied wall ▶</div>
-  <div class="lb s bl" style="left:767px;top:90px" data-from="4" data-until="4">outside ▶</div>
-  <div class="lb s rd" style="left:1098px;top:90px" data-from="4" data-until="4">inside</div>
 
-  <!-- the wall: section (steps 3 to 5), its notation (steps 4 and 5) -->
+  <!-- the wall: section (steps 3 to 5), its notation (steps 4 and 5; the pills 'outside' and 'inside' are part of the drawing) -->
   <div class="wb"><div class="wsh"><div class="wsi"><svg data-include="assets/05-physical/city-wall-shapes.svg"></svg></div></div></div>
   <div class="shd"></div>
   <div class="wb nt"><svg data-include="assets/05-physical/city-wall-notes.svg"></svg></div>
