@@ -1,16 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" font-family="CMU Sans Serif, Arial, sans-serif">
-    <!-- Slide 8, last steps: the deformed wall of slide 9 (section only), at the same place as on slides 9 and 10. The notation is in city-wall-notes.svg. Keep the transparent frame: it fixes the size of the drawing. -->
-  <defs>
-      <pattern id="city-wall-shapes-ph-hat" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#9aa3ad"/><line x1="0" y1="0" x2="0" y2="10" stroke="#8a929c" stroke-width="3"/></pattern>
-    </defs>
-    <rect x="0" y="0" width="400" height="560" fill="none"/>
-<path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480 L238,480 C262,420 196,330 236,250 C262,190 214,110 236,60 Z" fill="url(#city-wall-shapes-ph-hat)"/>
-    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480 L300,480 L300,60 Z" fill="#f2d65c"/>
-    <g fill="none" stroke="#4D0DAB" stroke-linecap="round">
-      <path d="M120,60 C100,150 140,230 112,300 C92,360 128,430 116,480" stroke-width="4" opacity=".35"/>
-      <path d="M300,60 L300,480" stroke-width="4" opacity=".35"/>
-      <path d="M120,60 L300,60" stroke-width="4" opacity=".35"/>
-      <path d="M116,480 L300,480" stroke-width="4" opacity=".35"/>
-    </g>
-    <path d="M236,60 C214,110 262,190 236,250 C196,330 262,420 238,480" fill="none" stroke="#d1495b" stroke-width="3"/>
-  </svg>
+<svg width="416" height="582" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" overflow="hidden"><g transform="translate(-53 -137) scale(0.316)"><path d="M550.253 627.5C343.918 792.5 794.104 1056.5 550.253 1254.5 175.098 1518.5 794.104 1815.5 569.011 2013.5L1150.5 2013.5 1150.5 627.5Z" stroke="#4D0DAB" stroke-width="13.2" stroke-miterlimit="8" stroke-opacity="0.34902" fill="#9AA3AD" fill-rule="evenodd"/><path d="M863.116 635C766.218 798.333 977.632 1059.67 863.116 1255.67 686.938 1517 977.632 1811 871.925 2007L1145 2007 1145 635Z" fill="#F2D65C" fill-rule="evenodd"/><path d="M863.03 635C766.276 798.333 977.376 1059.67 863.03 1255.67 687.113 1517 977.376 1811 871.826 2007" stroke="#D1495B" stroke-width="9.9" stroke-miterlimit="8" fill="none" fill-rule="evenodd"/></g></svg>
