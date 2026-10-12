@@ -87,9 +87,9 @@ the formatter is off for HTML (it would reflow the SVG); `Ctrl+K Z`/split editor
   `<div class="pp ...">`: `--yr` is its year, class `p` / `t` / `s` its type (parameters, topology, shape), `u` / `d` puts the label above or below.
   The dashed boxes are pictures still to add: save the figure in `assets/04-introduction/` (the name is written in the box) and replace
   the `<div class="slot">` of the box by an `<img>` like the one of Bruggi.
-* Slide 8 (city to wall), 5 steps: the video (`urban_context3.mp4`), the studied buildings (`canyon_street_1_01Jan_15h06.png`), the street with its labels,
+* Slide 8 (city to wall), 4 steps: the video (`urban_context3.mp4`), the studied buildings (`canyon_street_1_01Jan_15h06.png`), the street with its labels,
   then the vertical section opens the studied building (a plane sweeps the picture; the wall appears at its real thickness), the wall is inflated
-  into the deformed wall of slide 9 (thickness exaggerated, dimensions), and its notation arrives.
+  into the deformed wall of slide 9 (thickness exaggerated), and its notation arrives with it.
   The wall is the figure of slide 9 (same box: `assets/05-physical/city-wall-shapes.svg` + `city-wall-notes.svg`, 416 x 582 px at 776,-6 of the content box),
   and it does not move on slides 9 and 10 (`external-*.svg` redrawn on the same wall; they overflow to the left of their frame).
   `street_intact.jpg` and `street_cut.jpg` (2472 x 1144, shown 1236 x 572 from the left margin to the slide edge) are PLACEHOLDERS made from
